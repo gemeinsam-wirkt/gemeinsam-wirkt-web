@@ -1,0 +1,146 @@
+# Sveltia CMS – Redaktionskonfiguration „gemeinsam wirkt e.V."
+# ------------------------------------------------------------
+# Diese Datei muss zu den Astro Content Collections passen (src/content.config.ts).
+# Feldnamen sind bewusst identisch mit den Zod-Schemata (deutsch).
+
+# --- Anbindung ans Git-Repo (GitHub-Backend) ---
+backend:
+  name: github
+  repo: mithicinco/gemeinsam-wirkt-web
+  branch: main
+  # Login-Handshake über einen kleinen OAuth-Worker (CLAUDE.md, Abschnitt 2).
+  # Vor dem Produktivbetrieb die echte Worker-URL eintragen.
+  # Sobald GitHubs PKCE-Support nutzbar ist, entfällt dieser Schritt voraussichtlich.
+  base_url: https://auth.example.org
+  auth_endpoint: oauth
+
+# Lokaler Redaktions-Modus: `npx sveltia-cms-server` + ?npx im Dev.
+# Zum Testen ohne Login:  http://localhost:4321/admin/  bei laufendem `npm run dev`
+# und gestartetem Proxy `npx @sveltia/cms-server`.
+local_backend: true
+
+# --- Medien (Fallback global; pro Collection unten feiner gesetzt) ---
+media_folder: public/uploads
+public_folder: /uploads
+
+# --- Mehrsprachigkeit: DE jetzt, EN strukturell vorbereitet ---
+# Locales sind deklariert (i18n-fähig). Die feldweise Übersetzung wird erst
+# aktiviert, wenn EN-Inhalte geschrieben werden – bis dahin bleiben die
+# Markdown-Dateien flach (CLAUDE.md, Abschnitt 7).
+i18n:
+  structure: single_file
+  locales: [de, en]
+  default_locale: de
+
+collections:
+  # ---------------------------------------------------------------- Veranstaltungen
+  - name: veranstaltungen
+    label: Veranstaltungen
+    label_singular: Veranstaltung
+    folder: src/content/veranstaltungen
+    create: true
+    slug: '{{slug}}'
+    # Bilder relativ zur Datei → kompatibel mit Astros image()-Helper.
+    media_folder: ''
+    public_folder: ''
+    fields:
+      - { name: titel, label: Titel, widget: string }
+      - { name: start, label: Beginn, widget: datetime }
+      - { name: ende, label: Ende, widget: datetime, required: false }
+      - { name: ort, label: Ort, widget: string }
+      - { name: kurzbeschreibung, label: Kurzbeschreibung, widget: text }
+      - { name: anmeldungUrl, label: Anmelde-/Ticketlink, widget: string, required: false }
+      - { name: bild, label: Bild, widget: image, required: false }
+      - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
+      - { name: body, label: Beschreibung, widget: markdown }
+
+  # ---------------------------------------------------------------- News
+  - name: news
+    label: News
+    label_singular: News-Beitrag
+    folder: src/content/news
+    create: true
+    slug: '{{slug}}'
+    media_folder: ''
+    public_folder: ''
+    fields:
+      - { name: titel, label: Titel, widget: string }
+      - { name: datum, label: Datum, widget: datetime, time_format: false }
+      - { name: teaser, label: Teaser, widget: text }
+      - { name: bild, label: Bild, widget: image, required: false }
+      - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
+      - { name: body, label: Inhalt, widget: markdown }
+
+  # ---------------------------------------------------------------- Projekte
+  - name: projekte
+    label: Projekte
+    label_singular: Projekt
+    folder: src/content/projekte
+    create: true
+    slug: '{{slug}}'
+    media_folder: ''
+    public_folder: ''
+    fields:
+      - { name: titel, label: Titel, widget: string }
+      - { name: zusammenfassung, label: Zusammenfassung, widget: text }
+      - name: status
+        label: Status
+        widget: select
+        default: laufend
+        options: [geplant, laufend, abgeschlossen]
+      - name: partner
+        label: Partner
+        widget: relation
+        required: false
+        multiple: true
+        collection: partner
+        value_field: id
+        search_fields: [name]
+        display_fields: [name]
+      - { name: bild, label: Bild, widget: image, required: false }
+      - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
+      - { name: body, label: Inhalt, widget: markdown }
+
+  # ---------------------------------------------------------------- Podcast
+  - name: podcast
+    label: Podcast
+    label_singular: Folge
+    folder: src/content/podcast
+    create: true
+    slug: '{{slug}}'
+    media_folder: ''
+    public_folder: ''
+    fields:
+      - { name: titel, label: Titel, widget: string }
+      - { name: episodennummer, label: Folgennummer, widget: number, value_type: int }
+      - { name: datum, label: Datum, widget: datetime, time_format: false }
+      - { name: embedUrl, label: Player-Einbettung (URL), widget: string }
+      - { name: beschreibung, label: Beschreibung, widget: text }
+      - name: gaeste
+        label: Gäste
+        widget: list
+        required: false
+        field: { name: name, label: Name, widget: string }
+      - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
+      - { name: body, label: Transkript, widget: markdown, required: false }
+
+  # ---------------------------------------------------------------- Partner & Sponsoren
+  # Eine JSON-Datei pro Eintrag (Folder-Collection) – passt zum glob()-Loader und
+  # dient als Ziel der Projekt-Relation. Der Dateiname = id (kebab-case).
+  - name: partner
+    label: Partner & Sponsoren
+    label_singular: Eintrag
+    folder: src/data/partner
+    create: true
+    slug: '{{slug}}'
+    extension: json
+    format: json
+    identifier_field: name
+    fields:
+      - { name: name, label: Name, widget: string }
+      - name: typ
+        label: Typ
+        widget: select
+        options: [kooperationspartner, sponsor]
+      - { name: url, label: Website, widget: string, required: false }
+      - { name: logo, label: Logo (Pfad in /public), widget: string, required: false }

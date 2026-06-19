@@ -1,43 +1,59 @@
-# Astro Starter Kit: Minimal
+# gemeinsam wirkt e.V. – Website
 
-```sh
-npm create astro@latest -- --template minimal
+Statische, wartungsarme Vereins-Website auf Basis von **Astro**. Inhalte werden
+über **Sveltia CMS** (`/admin`) gepflegt, die Suche läuft clientseitig über
+**Pagefind** (wird erst nach Abnahme des Gerüsts eingebunden). Deutsch ist die
+Standardsprache, Englisch ist strukturell vorbereitet, aber noch nicht befüllt.
+
+> Verbindliche Projektkonventionen (Stack, Designsystem, Brand Voice, IA) stehen
+> in [`CLAUDE.md`](./CLAUDE.md). Diese Datei ist nur die Kurzanleitung.
+
+## Befehle
+
+| Befehl              | Wirkung                                          |
+| :------------------ | :----------------------------------------------- |
+| `npm install`       | Abhängigkeiten installieren                      |
+| `npm run dev`       | Dev-Server auf `localhost:4321`                  |
+| `npm run build`     | Produktions-Build nach `./dist/`                 |
+| `npm run preview`   | Build lokal ansehen                              |
+| `npx astro check`   | Typprüfung                                       |
+
+## Struktur
+
+```
+src/
+├─ components/   Tile, Header, Footer, Card, EventCard, NewsletterForm, …
+├─ layouts/      BaseLayout (head, Schriften, Header/Footer), PageLayout
+├─ pages/        Seitenbaum gemäß Informationsarchitektur (CLAUDE.md §3)
+├─ content.config.ts   Content Collections + Zod-Schemata
+├─ content/      veranstaltungen/ news/ projekte/ podcast/  (Markdown)
+├─ data/partner/ Partner & Sponsoren (eine JSON-Datei je Eintrag)
+├─ styles/       tokens.css (Design-Tokens) + global.css
+└─ i18n/         ui.ts (Strings), nav.ts (IA), utils.ts (Locale-Helfer)
+public/
+├─ admin/        Sveltia CMS (index.html + config.yml)
+└─ partner/      Logo-Platzhalter
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Inhalte pflegen
 
-## 🚀 Project Structure
+- **Veranstaltungen, News, Projekte, Podcast, Partner:** über `/admin` (Sveltia)
+  oder direkt als Datei im jeweiligen Ordner unter `src/`.
+- **Statische Seiten** (Zweck, Über uns, Spenden, Kontakt, Impressum,
+  Datenschutz): als `.astro`-Seiten unter `src/pages/` – ändern sich selten.
+- `draft: true` blendet einen Eintrag vom Build aus.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Schriften & DSGVO
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Hanken Grotesk (Display) und Atkinson Hyperlegible (Fließtext) werden über
+Fontsource **selbst gehostet** und in den Build gebündelt – kein Google-CDN. Die
+Seite ist statisch, cookiefrei und ohne Tracker.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Noch offen (vor Livegang)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Sveltia-OAuth-Worker einrichten und `base_url` in `public/admin/config.yml` setzen.
+- Newsletter-ESP wählen und das Formular in `NewsletterForm.astro` anbinden.
+- Pagefind-Suche und GitHub-Actions-Deployment (Hetzner) ergänzen.
+- Impressum/Datenschutz/Kontakt mit echten Angaben füllen, `site` in
+  `astro.config.mjs` auf die echte Domain setzen.
+- Platzhaltertexte und -logos durch finale Inhalte ersetzen.

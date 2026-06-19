@@ -1,0 +1,29 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Tile from '../../components/Tile.astro';
+import { mainNav } from '../../i18n/nav';
+
+const section = mainNav.find((i) => i.href === '/projekte-und-veranstaltungen')!;
+const variants = [2, 3, 4] as const;
+---
+
+<PageLayout
+  title="Projekte & Veranstaltungen"
+  lead="Woran wir arbeiten, wo du dabei sein kannst und was wir hörbar machen."
+>
+  <div class="tiles">
+    {
+      section.children?.map((child, i) => (
+        <Tile title={child.label} href={child.href} variant={variants[i % 3]} />
+      ))
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .tiles {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Card from '../../../components/Card.astro';
+import { ui } from '../../../i18n/ui';
+import { formatDate } from '../../../i18n/utils';
+
+const t = ui.de;
+const news = (await getCollection('news', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.datum.getTime() - a.data.datum.getTime(),
+);
+---
+
+<PageLayout
+  title="News"
+  lead="Was bei uns gerade passiert: kurze Nachrichten aus dem Verein und seinen Kooperationsräumen."
+>
+  {
+    news.length === 0 ? (
+      <p class="empty">{t['list.empty']}</p>
+    ) : (
+      <div class="cards">
+        {news.map((entry) => (
+          <Card
+            title={entry.data.titel}
+            href={`/der-verein/news/${entry.id}`}
+            meta={formatDate(entry.data.datum)}
+          >
+            {entry.data.teaser}
+          </Card>
+        ))}
+      </div>
+    )
+  }
+</PageLayout>
+
+<style>
+  .cards {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+  .empty {
+    color: var(--c-muted);
+  }
+</style>

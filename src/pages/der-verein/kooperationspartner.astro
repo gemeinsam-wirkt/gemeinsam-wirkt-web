@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { ui } from '../../i18n/ui';
+
+const partner = (await getCollection('partner')).filter(
+  (p) => p.data.typ === 'kooperationspartner',
+);
+const t = ui.de;
+---
+
+<PageLayout
+  title="Kooperationspartner"
+  lead="Allein wirkt niemand. Diese Partner gehen mit uns gemeinsame Wege – sie bringen Wissen, Reichweite und Erfahrung ein."
+>
+  {
+    partner.length === 0 ? (
+      <p class="empty">{t['list.empty']}</p>
+    ) : (
+      <ul class="partner-grid">
+        {partner.map(({ data }) => (
+          <li class="partner">
+            {data.logo && <img src={data.logo} alt="" width="120" height="60" />}
+            <span class="partner__name">{data.name}</span>
+            {data.url && (
+              <a href={data.url} rel="noopener">
+                Zur Website →
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  <p class="note">
+    Logos und Partner sind Platzhalter und werden vor dem Livegang ersetzt.
+  </p>
+</PageLayout>
+
+<style>
+  .partner-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  }
+  .partner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    text-align: center;
+    align-items: center;
+  }
+  .partner img {
+    object-fit: contain;
+    opacity: 0.9;
+  }
+  .partner__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-blue-900);
+  }
+  .partner a {
+    font-size: var(--fs-300);
+    text-decoration: none;
+  }
+  .empty {
+    color: var(--c-muted);
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Materialien & Veröffentlichungen"
+  lead="Hier teilen wir, was wir erarbeitet haben – zum Nachlesen, Mitnehmen und Weitergeben."
+>
+  <div class="prose flow">
+    <p>
+      Du suchst Handreichungen, Berichte oder Vorlagen aus unseren Kooperationsräumen?
+      An dieser Stelle stellen wir sie zum Download bereit.
+    </p>
+    <p>
+      Die Dateien liegen in unserer Nextcloud. Du brauchst kein Konto – ein Klick auf
+      den jeweiligen Link genügt.
+    </p>
+
+    <ul class="downloads">
+      <li>
+        <a href="https://www.example.org" rel="noopener">Praxisleitfaden Kooperation (PDF)</a>
+        <span>Platzhalter · folgt</span>
+      </li>
+      <li>
+        <a href="https://www.example.org" rel="noopener">Vorlage: Vereinbarung für Kooperationsräume (PDF)</a>
+        <span>Platzhalter · folgt</span>
+      </li>
+    </ul>
+
+    <p class="note">
+      Die Verlinkungen sind Platzhalter. Sobald Materialien vorliegen, verweisen sie auf
+      die öffentlichen Freigaben in der Nextcloud.
+    </p>
+  </div>
+</PageLayout>
+
+<style>
+  .downloads {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .downloads li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+  }
+  .downloads a {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .downloads span {
+    font-size: var(--fs-300);
+    color: var(--c-muted);
+  }
+</style>

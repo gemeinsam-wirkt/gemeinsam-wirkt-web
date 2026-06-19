@@ -1,0 +1,80 @@
+---
+/*
+  Schlichte Inhaltskarte für Listen (News, Projekte, Podcast).
+  Bewusst generisch gehalten; spezifische Felder kommen über die Slots/Props.
+*/
+interface Props {
+  title: string;
+  href: string;
+  meta?: string;
+  /** Status- oder Kategorie-Label (z. B. „laufend", „Folge 3"). */
+  badge?: string;
+}
+const { title, href, meta, badge } = Astro.props;
+---
+
+<article class="card">
+  {meta || badge ? (
+    <div class="card__meta">
+      {badge && <span class="card__badge">{badge}</span>}
+      {meta && <span>{meta}</span>}
+    </div>
+  ) : null}
+  <h3 class="card__title">
+    <a href={href}>{title}</a>
+  </h3>
+  <p class="card__text"><slot /></p>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-6);
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card:hover {
+      transform: none;
+    }
+  }
+
+  .card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--fs-300);
+    color: var(--c-muted);
+  }
+  .card__badge {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-green-700);
+    background: #e7f2ec;
+    padding: 0.1em 0.6em;
+    border-radius: 999px;
+  }
+  .card__title {
+    font-size: var(--fs-500);
+  }
+  .card__title a {
+    text-decoration: none;
+    color: var(--c-blue-900);
+  }
+  .card__title a:hover {
+    text-decoration: underline;
+  }
+  .card__text {
+    color: var(--c-ink);
+  }
+</style>

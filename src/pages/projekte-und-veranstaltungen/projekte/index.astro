@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Card from '../../../components/Card.astro';
+import { ui } from '../../../i18n/ui';
+
+const t = ui.de;
+const base = '/projekte-und-veranstaltungen/projekte';
+
+const statusLabel: Record<string, string> = {
+  geplant: 'geplant',
+  laufend: 'laufend',
+  abgeschlossen: 'abgeschlossen',
+};
+
+const projekte = await getCollection('projekte', ({ data }) => !data.draft);
+---
+
+<PageLayout
+  title="Projekte"
+  lead="In unseren Projekten erproben wir Zusammenarbeit dort, wo sie gebraucht wird – im Quartier, in Netzwerken, in der Praxis."
+>
+  {
+    projekte.length === 0 ? (
+      <p class="empty">{t['list.empty']}</p>
+    ) : (
+      <div class="cards">
+        {projekte.map((entry) => (
+          <Card
+            title={entry.data.titel}
+            href={`${base}/${entry.id}`}
+            badge={statusLabel[entry.data.status]}
+          >
+            {entry.data.zusammenfassung}
+          </Card>
+        ))}
+      </div>
+    )
+  }
+</PageLayout>
+
+<style>
+  .cards {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+  .empty {
+    color: var(--c-muted);
+  }
+</style>

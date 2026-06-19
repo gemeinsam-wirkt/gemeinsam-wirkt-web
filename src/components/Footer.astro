@@ -1,0 +1,114 @@
+---
+/*
+  Fußzeile: Newsletter-Anmeldung, Navigations-Kurzlinks, rechtliche Links.
+*/
+import { mainNav, legalNav } from '../i18n/nav';
+import { ui } from '../i18n/ui';
+import NewsletterForm from './NewsletterForm.astro';
+
+const t = ui.de;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <NewsletterForm />
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <p class="footer-wordmark">gemeinsam wirkt <span>e.V.</span></p>
+        <p class="footer-tagline">{t['site.tagline']}</p>
+      </div>
+
+      <nav class="footer-col" aria-label={t['footer.explore']}>
+        <h2 class="footer-heading">{t['footer.explore']}</h2>
+        <ul>
+          {mainNav.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label={t['footer.legal']}>
+        <h2 class="footer-heading">{t['footer.legal']}</h2>
+        <ul>
+          {legalNav.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+          <li><a href="/kontakt">{t['footer.contact']}</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="footer-copy">© {year} gemeinsam wirkt e.V. · {t['footer.rights']}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-24);
+    padding-block: var(--space-16);
+    background: var(--c-white);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-16);
+  }
+  @media (min-width: 48rem) {
+    .footer-grid {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-12);
+    }
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-500);
+    color: var(--c-blue-900);
+  }
+  .footer-wordmark span {
+    font-size: var(--fs-300);
+    color: var(--c-green-700);
+  }
+  .footer-tagline {
+    color: var(--c-muted);
+    margin-top: var(--space-2);
+    max-width: 40ch;
+  }
+
+  .footer-heading {
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-muted);
+    margin-bottom: var(--space-3);
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer-col a {
+    text-decoration: none;
+    color: var(--c-ink);
+  }
+  .footer-col a:hover {
+    color: var(--c-blue-900);
+    text-decoration: underline;
+  }
+
+  .footer-copy {
+    margin-top: var(--space-16);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--c-border);
+    font-size: var(--fs-300);
+    color: var(--c-muted);
+  }
+</style>

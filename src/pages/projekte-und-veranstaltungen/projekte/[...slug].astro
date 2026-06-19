@@ -1,0 +1,106 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { ui } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const projekte = await getCollection('projekte', ({ data }) => !data.draft);
+  return projekte.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const t = ui.de;
+const d = entry.data;
+
+const statusLabel: Record<string, string> = {
+  geplant: 'geplant',
+  laufend: 'laufend',
+  abgeschlossen: 'abgeschlossen',
+};
+
+// Referenzierte Partner auflösen (Namen + optionaler Link).
+const partner = d.partner
+  ? await Promise.all(d.partner.map((ref) => getEntry(ref)))
+  : [];
+---
+
+<BaseLayout title={d.titel} description={d.zusammenfassung}>
+  <article class="container article">
+    <p class="article__back">
+      <a href="/projekte-und-veranstaltungen/projekte">← {t['back']}</a>
+    </p>
+    <p class="article__status">{t['project.status']}: {statusLabel[d.status]}</p>
+    <h1>{d.titel}</h1>
+    <p class="article__teaser">{d.zusammenfassung}</p>
+
+    <div class="prose flow">
+      <Content />
+    </div>
+
+    {
+      partner.length > 0 && (
+        <section class="partner-list">
+          <h2>{t['project.partner']}</h2>
+          <ul>
+            {partner.map((p) =>
+              p ? (
+                <li>
+                  {p.data.url ? (
+                    <a href={p.data.url} rel="noopener">{p.data.name}</a>
+                  ) : (
+                    p.data.name
+                  )}
+                </li>
+              ) : null,
+            )}
+          </ul>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-block: var(--space-16);
+    max-width: var(--measure);
+  }
+  .article__back {
+    margin-bottom: var(--space-6);
+  }
+  .article__back a {
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .article__status {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-green-700);
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .article__teaser {
+    font-size: var(--fs-500);
+    color: var(--c-muted);
+    margin-block: var(--space-4) var(--space-8);
+  }
+  .partner-list {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--c-border);
+  }
+  .partner-list ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+  }
+</style>

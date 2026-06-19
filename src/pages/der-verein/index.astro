@@ -1,0 +1,29 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Tile from '../../components/Tile.astro';
+import { mainNav } from '../../i18n/nav';
+
+const section = mainNav.find((i) => i.href === '/der-verein')!;
+const variants = [1, 2, 3, 4] as const;
+---
+
+<PageLayout
+  title="Der Verein"
+  lead="Wofür wir stehen, wer dahintersteht und mit wem wir zusammenarbeiten."
+>
+  <div class="tiles">
+    {
+      section.children?.map((child, i) => (
+        <Tile title={child.label} href={child.href} variant={variants[i % 4]} />
+      ))
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .tiles {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+</style>

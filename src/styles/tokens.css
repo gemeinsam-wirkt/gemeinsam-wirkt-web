@@ -1,0 +1,71 @@
+/*
+  Design-Tokens „gemeinsam wirkt e.V."
+  ------------------------------------
+  Grün/Blau/Weiß mit genau EINEM warmen Akzent (nur für primäre CTAs).
+  Werte aus CLAUDE.md, Abschnitt 6. Beim Feinschliff hier zentral justieren.
+*/
+
+:root {
+  /* --- Marken-Basis: Blau & Grün --- */
+  --c-blue-900: #1e3a6e; /* Wortmarke, Headlines */
+  --c-blue-600: #2f6fb0; /* interaktiv, Links */
+  --c-green-700: #2e7d57; /* Sekundär, Bestätigung */
+  --c-green-500: #3e9b6e; /* Flächen, Akzentgrün */
+
+  /* --- Neutral --- */
+  --c-ink: #1c2b33; /* Fließtext */
+  --c-muted: #5b6b73; /* sekundärer Text */
+  --c-surface: #f6f8f7; /* Off-White-Hintergrund */
+  --c-white: #ffffff;
+  --c-border: #dde5e3; /* dezente Linien, Kartenränder */
+
+  /* --- EIN warmer Akzent – ausschließlich für primäre CTAs --- */
+  --c-accent: #e8833a;
+  --c-accent-ink: #7a3d11; /* dunkle Akzentschrift, wenn Kontrast nötig */
+
+  /* --- Tile-Abstufungen (statt bunter Mockup-Palette) --- */
+  --c-tile-1: #1e3a6e; /* Blau dunkel */
+  --c-tile-2: #2f6fb0; /* Blau hell */
+  --c-tile-3: #2e7d57; /* Grün dunkel */
+  --c-tile-4: #3e9b6e; /* Grün hell */
+
+  /* --- Typografie --- */
+  --font-display: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+
+  /* Modulare Skala (1.25), Basis 1rem */
+  --fs-300: 0.8rem;
+  --fs-400: 1rem;
+  --fs-500: 1.25rem;
+  --fs-600: 1.563rem;
+  --fs-700: 1.953rem;
+  --fs-800: 2.441rem;
+  --fs-900: 3.052rem;
+
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-body: 1.65;
+
+  /* --- Abstände (4px-Raster) --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* --- Layout --- */
+  --measure: 68ch; /* maximale Textbreite für Lesbarkeit */
+  --container: 72rem; /* maximale Seitenbreite */
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  /* --- Tiefe & Bewegung --- */
+  --shadow-sm: 0 1px 2px rgba(28, 43, 51, 0.06), 0 2px 6px rgba(28, 43, 51, 0.06);
+  --shadow-md: 0 4px 12px rgba(28, 43, 51, 0.1), 0 12px 28px rgba(28, 43, 51, 0.08);
+  --ring: 0 0 0 3px var(--c-white), 0 0 0 6px var(--c-blue-600);
+  --transition: 180ms ease;
+}

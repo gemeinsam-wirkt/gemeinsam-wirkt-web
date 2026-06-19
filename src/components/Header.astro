@@ -1,0 +1,294 @@
+---
+/*
+  Kopfzeile: Wortmarke + Hauptnavigation (aus mainNav) + Sprachumschalter.
+  - Desktop: Untermenüs öffnen per Hover UND :focus-within (tastaturbedienbar).
+  - Mobile: Ein-/Ausklappen über Button (kleines, progressiv ergänztes Skript;
+    ohne JS bleibt die Navigation als sichtbare Liste nutzbar).
+*/
+import { mainNav } from '../i18n/nav';
+import { ui } from '../i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+const t = ui.de;
+const path = Astro.url.pathname;
+
+/** Markiert den aktiven Bereich (auch für Unterseiten). */
+const isActive = (href: string) =>
+  path === href || (href !== '/' && path.startsWith(href + '/'));
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="wordmark" aria-label={`${t['site.name']} – Startseite`}>
+      <span class="wordmark__name">gemeinsam wirkt</span>
+      <span class="wordmark__suffix">e.V.</span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+    >
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span class="visually-hidden">{t['nav.menu']}</span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" aria-label={t['nav.menu']}>
+      <ul class="primary-nav__list">
+        {
+          mainNav.map((item) =>
+            item.children ? (
+              <li class="has-children">
+                <a
+                  href={item.href}
+                  class="nav-link"
+                  aria-current={isActive(item.href) ? 'true' : undefined}
+                >
+                  {item.label}
+                </a>
+                <ul class="submenu">
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        aria-current={isActive(child.href) ? 'true' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <a
+                  href={item.href}
+                  class="nav-link"
+                  aria-current={isActive(item.href) ? 'true' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )
+        }
+      </ul>
+
+      <div class="primary-nav__lang">
+        <LanguageSwitcher />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--c-white);
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    min-height: 4.5rem;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35ch;
+    font-family: var(--font-display);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .wordmark__name {
+    font-weight: 800;
+    font-size: var(--fs-500);
+    color: var(--c-blue-900);
+    letter-spacing: -0.01em;
+  }
+  .wordmark__suffix {
+    font-weight: 600;
+    font-size: var(--fs-300);
+    color: var(--c-green-700);
+  }
+
+  /* --- Mobile-Toggle --- */
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .nav-toggle__bars,
+  .nav-toggle__bars::before,
+  .nav-toggle__bars::after {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--c-blue-900);
+    position: relative;
+    transition: transform var(--transition), opacity var(--transition);
+  }
+  .nav-toggle__bars::before,
+  .nav-toggle__bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .nav-toggle__bars::before {
+    top: -6px;
+  }
+  .nav-toggle__bars::after {
+    top: 6px;
+  }
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bars {
+    background: transparent;
+  }
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bars::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bars::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .primary-nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-link {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--c-ink);
+  }
+  .nav-link[aria-current='true'] {
+    color: var(--c-blue-900);
+  }
+  .submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .submenu a {
+    display: block;
+    text-decoration: none;
+    color: var(--c-muted);
+  }
+  .submenu a:hover,
+  .submenu a[aria-current='true'] {
+    color: var(--c-blue-900);
+  }
+
+  /* ============ Mobile (Standard) ============ */
+  @media (max-width: 60rem) {
+    .primary-nav {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      background: var(--c-white);
+      border-bottom: 1px solid var(--c-border);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-4) var(--space-6) var(--space-8);
+    }
+    .primary-nav.is-open {
+      display: block;
+    }
+    .primary-nav__list > li {
+      border-bottom: 1px solid var(--c-border);
+    }
+    .nav-link {
+      display: block;
+      padding: var(--space-3) 0;
+      font-size: var(--fs-500);
+    }
+    .submenu {
+      padding: 0 0 var(--space-3) var(--space-4);
+    }
+    .submenu a {
+      padding: var(--space-2) 0;
+    }
+    .primary-nav__lang {
+      margin-top: var(--space-6);
+    }
+  }
+
+  /* ============ Desktop ============ */
+  @media (min-width: 60.0625rem) {
+    .nav-toggle {
+      display: none;
+    }
+    .primary-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .primary-nav__list {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .nav-link {
+      padding: var(--space-2) 0;
+    }
+    .has-children {
+      position: relative;
+    }
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: -0.75rem;
+      min-width: 14rem;
+      background: var(--c-white);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(4px);
+      transition:
+        opacity var(--transition),
+        transform var(--transition),
+        visibility var(--transition);
+    }
+    .has-children:hover .submenu,
+    .has-children:focus-within .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .submenu a {
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+    }
+    .submenu a:hover {
+      background: var(--c-surface);
+    }
+  }
+</style>
+
+<script>
+  // Progressiv: Mobile-Menü ein-/ausklappen. Ohne JS bleibt die Liste sichtbar.
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.querySelector<HTMLElement>('#primary-nav');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    nav?.classList.toggle('is-open', !open);
+  });
+</script>

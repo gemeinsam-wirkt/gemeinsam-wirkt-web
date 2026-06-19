@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { ui } from '../../../i18n/ui';
+import { formatDate } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news', ({ data }) => !data.draft);
+  return news.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const t = ui.de;
+---
+
+<BaseLayout title={entry.data.titel} description={entry.data.teaser}>
+  <article class="container article">
+    <p class="article__back"><a href="/der-verein/news">← {t['back']}</a></p>
+    <p class="article__date">{formatDate(entry.data.datum)}</p>
+    <h1>{entry.data.titel}</h1>
+    <p class="article__teaser">{entry.data.teaser}</p>
+    <div class="prose flow">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-block: var(--space-16);
+    max-width: var(--measure);
+  }
+  .article__back {
+    margin-bottom: var(--space-6);
+  }
+  .article__back a {
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .article__date {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-muted);
+    font-size: var(--fs-300);
+  }
+  .article h1 {
+    margin-top: var(--space-2);
+  }
+  .article__teaser {
+    margin-block: var(--space-4) var(--space-8);
+    font-size: var(--fs-500);
+    color: var(--c-muted);
+  }
+</style>

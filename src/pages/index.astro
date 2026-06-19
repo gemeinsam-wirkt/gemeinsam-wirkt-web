@@ -1,17 +1,135 @@
 ---
+/*
+  Startseite: ruhiger Einstieg + Kachel-Raster als EINES markantes Element.
+  Die Kacheln sind Eingänge in die Hauptbereiche (aus mainNav) – Kooperationsräume,
+  keine Dekoration. Darunter eine kleine Teaser-Reihe aktueller News.
+*/
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tile from '../components/Tile.astro';
+import Card from '../components/Card.astro';
+import { mainNav } from '../i18n/nav';
+import { ui } from '../i18n/ui';
+import { formatDate } from '../i18n/utils';
 
+const t = ui.de;
+
+// Kachel-Farben rotieren über die Grün-/Blau-Abstufungen.
+const variants = [1, 2, 3, 4] as const;
+
+const news = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.datum.getTime() - a.data.datum.getTime())
+  .slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={t['site.name']} description={t['site.tagline']}>
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">{t['site.tagline']}</p>
+      <h1 class="hero__title">{t['home.intro.title']}</h1>
+      <p class="hero__text">{t['home.intro.text']}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tiles-title">
+    <div class="container">
+      <h2 id="tiles-title" class="tiles__title">{t['home.tiles.title']}</h2>
+      <div class="tiles">
+        {
+          mainNav.map((item, i) => (
+            <Tile
+              title={item.label}
+              href={item.href}
+              description={item.beschreibung}
+              variant={variants[i % variants.length]}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    news.length > 0 && (
+      <section class="section section--surface" aria-labelledby="news-title">
+        <div class="container">
+          <div class="section-head">
+            <h2 id="news-title">Aktuelles</h2>
+            <a class="section-head__link" href="/der-verein/news">
+              Alle News →
+            </a>
+          </div>
+          <div class="cards">
+            {news.map((entry) => (
+              <Card
+                title={entry.data.titel}
+                href={`/der-verein/news/${entry.id}`}
+                meta={formatDate(entry.data.datum)}
+              >
+                {entry.data.teaser}
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-24) var(--space-16);
+    background: linear-gradient(180deg, var(--c-surface), var(--c-white));
+  }
+  .hero__eyebrow {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--fs-300);
+    color: var(--c-green-700);
+    margin-bottom: var(--space-4);
+  }
+  .hero__title {
+    font-size: var(--fs-900);
+    max-width: 18ch;
+  }
+  .hero__text {
+    margin-top: var(--space-6);
+    font-size: var(--fs-500);
+    color: var(--c-muted);
+    max-width: var(--measure);
+  }
+
+  .tiles__title {
+    margin-bottom: var(--space-8);
+  }
+  .tiles {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+
+  .section--surface {
+    background: var(--c-surface);
+    border-block: 1px solid var(--c-border);
+  }
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  .section-head__link {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .cards {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+/*
+  Kachel = Eingang in einen Kooperationsraum (CLAUDE.md, Abschnitt 6).
+  Das Kachel-Raster ist das EINE markante Element der Seite; alles andere ruhig.
+  Farbe kommt aus Grün-/Blau-Abstufungen (`variant`), nicht aus der bunten
+  Mockup-Palette. Hover-Interaktion dezent und reduced-motion-tauglich.
+*/
+interface Props {
+  title: string;
+  href: string;
+  description?: string;
+  /** 1–4 → Grün-/Blau-Abstufung der Kachel. */
+  variant?: 1 | 2 | 3 | 4;
+}
+const { title, href, description, variant = 1 } = Astro.props;
+---
+
+<a class={`tile tile--${variant}`} href={href}>
+  <span class="tile__body">
+    <span class="tile__title">{title}</span>
+    {description && <span class="tile__desc">{description}</span>}
+  </span>
+  <span class="tile__arrow" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-8);
+    min-height: 12rem;
+    padding: var(--space-6);
+    border-radius: var(--radius);
+    color: var(--c-white);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--transition),
+      box-shadow var(--transition);
+  }
+
+  .tile--1 {
+    background: var(--c-tile-1);
+  }
+  .tile--2 {
+    background: var(--c-tile-2);
+  }
+  .tile--3 {
+    background: var(--c-tile-3);
+  }
+  .tile--4 {
+    background: var(--c-tile-4);
+  }
+
+  .tile__title {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-600);
+    line-height: var(--lh-tight);
+  }
+  .tile__desc {
+    display: block;
+    margin-top: var(--space-3);
+    font-size: var(--fs-400);
+    line-height: var(--lh-snug);
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .tile__arrow {
+    align-self: flex-end;
+    font-size: var(--fs-600);
+    transition: transform var(--transition);
+  }
+
+  .tile:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    color: var(--c-white);
+  }
+  .tile:hover .tile__arrow {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile:hover {
+      transform: none;
+    }
+    .tile:hover .tile__arrow {
+      transform: none;
+    }
+  }
+</style>

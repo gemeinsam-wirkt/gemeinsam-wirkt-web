@@ -1,0 +1,51 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Kontakt"
+  narrow
+  lead="Du hast eine Frage, eine Idee oder möchtest mitmachen? Schreib uns – wir freuen uns auf den Austausch."
+>
+  <div class="prose flow">
+    <p>
+      Am liebsten kommen wir mit dir ins Gespräch. Erzähl uns, was dich beschäftigt,
+      und wir melden uns zurück.
+    </p>
+
+    <h2>So erreichst du uns</h2>
+    <dl class="contact">
+      <div>
+        <dt>E-Mail</dt>
+        <dd><a href="mailto:kontakt@example.org">kontakt@example.org</a></dd>
+      </div>
+      <div>
+        <dt>Post</dt>
+        <dd>gemeinsam wirkt e.V.<br />Musterstraße 1<br />12345 Musterstadt</dd>
+      </div>
+    </dl>
+
+    <p class="note">
+      Kontaktdaten sind Platzhalter und werden vor dem Livegang durch die echten Angaben
+      ersetzt. Ein Kontaktformular kann bei Bedarf später ergänzt werden.
+    </p>
+  </div>
+</PageLayout>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .contact dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-muted);
+  }
+  .contact dd {
+    margin: 0;
+  }
+</style>

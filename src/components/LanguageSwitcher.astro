@@ -1,0 +1,68 @@
+---
+/*
+  Sprachumschalter DE/EN (oben rechts).
+  Behält den aktuellen Pfad bei und wechselt nur das Sprach-Präfix.
+  EN ist strukturell vorbereitet, aber noch im Aufbau.
+*/
+import { languages, type Lang } from '../i18n/ui';
+import { getLangFromUrl, localizePath } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const langCodes = Object.keys(languages) as Lang[];
+---
+
+<nav class="lang" aria-label="Sprache wählen">
+  <ul>
+    {
+      langCodes.map((code) => {
+        const isCurrent = code === currentLang;
+        return (
+          <li>
+            <a
+              href={localizePath(Astro.url.pathname, code)}
+              hreflang={code}
+              lang={code}
+              aria-current={isCurrent ? 'true' : undefined}
+              class={isCurrent ? 'is-current' : undefined}
+            >
+              {code.toUpperCase()}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .lang ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .lang a {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-300);
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    color: var(--c-muted);
+  }
+
+  .lang a:hover {
+    color: var(--c-blue-900);
+    background: var(--c-surface);
+  }
+
+  .lang a.is-current {
+    color: var(--c-white);
+    background: var(--c-blue-600);
+  }
+</style>

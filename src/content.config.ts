@@ -2,7 +2,7 @@
 // (NICHT mehr src/content/config.ts – der alte Pfad wird ab Astro 6 nicht mehr unterstützt.)
 
 import { defineCollection, reference, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 
 /**
  * Hinweise:
@@ -73,12 +73,14 @@ const podcast = defineCollection({
   }),
 });
 
-// Kooperationspartner & Sponsoren — einfache Datenliste aus einer JSON-Datei
-// (src/data/partner.json: Array von Objekten mit den unten definierten Feldern)
+// Kooperationspartner & Sponsoren — eine JSON-Datei pro Eintrag.
+// Folder-Collection statt einer Sammeldatei: so lässt sich jeder Eintrag sauber
+// im CMS pflegen UND als Ziel der Projekt-Relation referenzieren (Reference = id =
+// Dateiname ohne Endung, z. B. src/data/partner/stadt-musterstadt.json → id
+// "stadt-musterstadt").
 const partner = defineCollection({
-  loader: file('src/data/partner.json'),
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/data/partner' }),
   schema: z.object({
-    id: z.string(),
     name: z.string(),
     typ: z.enum(['kooperationspartner', 'sponsor']),
     url: z.string().optional(),

@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { ui } from '../../../i18n/ui';
+import { formatDate } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const folgen = await getCollection('podcast', ({ data }) => !data.draft);
+  return folgen.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry); // Markdown-Body = Transkript
+const t = ui.de;
+const d = entry.data;
+---
+
+<BaseLayout title={d.titel} description={d.beschreibung}>
+  <article class="container article">
+    <p class="article__back">
+      <a href="/projekte-und-veranstaltungen/podcasts">← {t['back']}</a>
+    </p>
+    <p class="article__meta">
+      {t['podcast.episode']} {d.episodennummer} · {formatDate(d.datum)}
+    </p>
+    <h1>{d.titel}</h1>
+    <p class="article__teaser">{d.beschreibung}</p>
+
+    {
+      d.gaeste && d.gaeste.length > 0 && (
+        <p class="guests">
+          <span class="guests__label">{t['podcast.guests']}:</span> {d.gaeste.join(', ')}
+        </p>
+      )
+    }
+
+    <div class="player">
+      <iframe
+        src={d.embedUrl}
+        title={`Podcast-Player: ${d.titel}`}
+        loading="lazy"
+        allow="encrypted-media"
+      ></iframe>
+    </div>
+
+    <div class="prose flow transcript">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-block: var(--space-16);
+    max-width: var(--measure);
+  }
+  .article__back {
+    margin-bottom: var(--space-6);
+  }
+  .article__back a {
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .article__meta {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-muted);
+    font-size: var(--fs-300);
+  }
+  .article__teaser {
+    font-size: var(--fs-500);
+    color: var(--c-muted);
+    margin-block: var(--space-4) var(--space-6);
+  }
+  .guests {
+    margin-bottom: var(--space-6);
+  }
+  .guests__label {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .player {
+    aspect-ratio: 16 / 6;
+    margin-bottom: var(--space-8);
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .player iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .transcript {
+    margin-top: var(--space-8);
+  }
+</style>

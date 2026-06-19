@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EventCard from '../../../components/EventCard.astro';
+import { ui } from '../../../i18n/ui';
+
+const t = ui.de;
+const base = '/projekte-und-veranstaltungen/veranstaltungen';
+const now = new Date();
+
+const alle = (await getCollection('veranstaltungen', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.start.getTime() - b.data.start.getTime(),
+);
+const kommende = alle.filter((e) => (e.data.ende ?? e.data.start) >= now);
+const vergangene = alle
+  .filter((e) => (e.data.ende ?? e.data.start) < now)
+  .reverse();
+---
+
+<PageLayout
+  title="Veranstaltungen & Termine"
+  lead="Hier findest du unsere Praxislabore, offenen Abende und weitere Termine. Komm vorbei und erprobe Zusammenarbeit mit."
+>
+  <section aria-labelledby="kommend">
+    <h2 id="kommend" class="list-head">Kommende Termine</h2>
+    {
+      kommende.length === 0 ? (
+        <p class="empty">{t['list.empty']}</p>
+      ) : (
+        <div class="events">
+          {kommende.map((e) => (
+            <EventCard
+              titel={e.data.titel}
+              href={`${base}/${e.id}`}
+              start={e.data.start}
+              ort={e.data.ort}
+              kurzbeschreibung={e.data.kurzbeschreibung}
+              anmeldungUrl={e.data.anmeldungUrl}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  {
+    vergangene.length > 0 && (
+      <section aria-labelledby="vergangen" class="past">
+        <h2 id="vergangen" class="list-head">Vergangene Termine</h2>
+        <div class="events">
+          {vergangene.map((e) => (
+            <EventCard
+              titel={e.data.titel}
+              href={`${base}/${e.id}`}
+              start={e.data.start}
+              ort={e.data.ort}
+              kurzbeschreibung={e.data.kurzbeschreibung}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</PageLayout>
+
+<style>
+  .list-head {
+    margin-bottom: var(--space-6);
+  }
+  .events {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  }
+  .past {
+    margin-top: var(--space-16);
+  }
+  .empty {
+    color: var(--c-muted);
+  }
+</style>
