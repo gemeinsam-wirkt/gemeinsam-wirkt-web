@@ -1,0 +1,80 @@
+# Deployment: Astro-Build → Pagefind-Suchindex → Upload auf Hetzner Webhosting.
+# Ablauf gemäß CLAUDE.md, Abschnitt 10.
+#
+# Benötigte Repository-Secrets (Settings → Secrets and variables → Actions):
+#   SFTP_HOST         z. B. wXXXXXXX.kasserver.com  (Hetzner-SFTP-Host)
+#   SFTP_USER         SFTP-Benutzername
+#   SFTP_PASS         SFTP-Passwort  (alternativ Key-basiert, siehe Hinweis unten)
+#   SFTP_REMOTE_PATH  Zielverzeichnis im Webspace, z. B. /public_html  oder  /
+# Optionales Variable (Settings → Variables):
+#   SFTP_PORT         abweichender Port (Default 22)
+#
+# Hinweis Key-Login: Statt SFTP_PASS kann ein SSH-Key genutzt werden – dann den
+# lftp-Aufruf auf `set sftp:connect-program "ssh -i key -o ..."` umstellen.
+# Für Hetzner Webhosting ist Passwort-Login der Standard.
+
+name: Deploy → Hetzner
+
+on:
+  push:
+    branches: [main]
+  # Manueller Start über die Actions-Oberfläche möglich.
+  workflow_dispatch:
+
+# Überlappende Deployments verhindern: ein laufender Push wird bei einem neuen
+# nicht abgebrochen, aber der neue wartet, bis der alte fertig ist.
+concurrency:
+  group: deploy-hetzner
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Astro bauen
+        run: npm run build
+
+      # Clientseitiger Suchindex über die fertigen statischen Dateien (CLAUDE.md §2).
+      # Läuft nach dem Build; erzeugt dist/pagefind/ – kein Server nötig.
+      - name: Pagefind-Suchindex erzeugen
+        run: npx -y pagefind --site dist
+
+      - name: lftp installieren
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      # Upload per SFTP-Spiegelung.
+      #  --reverse  : lokal → remote
+      #  --delete   : entfernt auf dem Server Dateien, die lokal nicht (mehr) existieren
+      #               → das Zielverzeichnis enthält danach exakt den Build.
+      #  ACHTUNG: SFTP_REMOTE_PATH muss das Docroot DIESER Seite sein. Liegen dort
+      #  fremde Dateien, werden sie durch --delete gelöscht.
+      - name: Upload nach Hetzner (SFTP)
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASS: ${{ secrets.SFTP_PASS }}
+          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+          SFTP_PORT: ${{ vars.SFTP_PORT || '22' }}
+        run: |
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 3;
+            set net:timeout 20;
+            set net:reconnect-interval-base 5;
+            open -p ${SFTP_PORT} -u '${SFTP_USER}','${SFTP_PASS}' sftp://${SFTP_HOST};
+            mirror --reverse --delete --verbose --parallel=4 \
+              --exclude-glob .git*/ \
+              dist/ '${SFTP_REMOTE_PATH}';
+          "

@@ -2,5 +2,6 @@
   "name": "Hochschule der Region",
   "typ": "kooperationspartner",
   "url": "https://www.example.org",
-  "logo": "/partner/platzhalter.svg"
+  "logo": "/partner/platzhalter.svg",
+  "beschreibung": "Die Hochschule begleitet unsere Arbeit wissenschaftlich und bringt Studierende in die Kooperationsräume – so verbinden wir Forschung und Praxis."
 }

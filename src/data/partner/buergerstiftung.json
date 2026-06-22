@@ -2,5 +2,6 @@
   "name": "Bürgerstiftung vor Ort",
   "typ": "sponsor",
   "url": "https://www.example.org",
-  "logo": "/partner/platzhalter.svg"
+  "logo": "/partner/platzhalter.svg",
+  "beschreibung": "Die Bürgerstiftung fördert Projekte, die Menschen vor Ort zusammenbringen. Sie unterstützt unsere Praxislabore finanziell und mit lokalem Wissen."
 }

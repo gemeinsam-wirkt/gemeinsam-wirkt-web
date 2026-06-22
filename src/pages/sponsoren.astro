@@ -22,6 +22,9 @@ const t = ui.de;
           <li class="partner">
             {data.logo && <img src={data.logo} alt="" width="120" height="60" />}
             <span class="partner__name">{data.name}</span>
+            {data.beschreibung && (
+              <p class="partner__desc">{data.beschreibung}</p>
+            )}
             {data.url && (
               <a href={data.url} rel="noopener">
                 Zur Website →
@@ -73,6 +76,11 @@ const t = ui.de;
     font-family: var(--font-display);
     font-weight: 600;
     color: var(--c-blue-900);
+  }
+  .partner__desc {
+    margin: 0;
+    font-size: var(--fs-300);
+    color: var(--c-muted);
   }
   .partner a {
     font-size: var(--fs-300);

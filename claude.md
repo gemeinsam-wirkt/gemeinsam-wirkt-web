@@ -2,7 +2,7 @@
 
 **Zweck dieses Dokuments:** Vollständige technische und gestalterische Vorgabe für die Prototyp-Entwicklung über Claude Code. Dieses Dokument dient zugleich als Vorlage für die `CLAUDE.md` im Repository. Der finale Claude-Code-Startprompt steht in Abschnitt 11.
 
-**Stand:** Juni 2026 · **Repo-Org:** `mithicinco` · **Hosting:** Hetzner Webhosting
+**Stand:** Juni 2026 · **Repo-Org:** `gemeinsam-wirkt` · **Hosting:** Hetzner Webhosting
 
 ---
 
@@ -25,7 +25,7 @@ Wichtig für die Architekturentscheidungen: Es gibt **keine bezahlte technische 
 | Static Site Generator | **Astro** | Statisches HTML, Content Collections als sauberes Datenmodell, komponentenbasiert (Kachel-Design exakt umsetzbar), starke i18n, sehr gut für Claude Code |
 | Redaktion | **Sveltia CMS** | Git-basiert, aktiv gepflegter Decap-/Netlify-CMS-Nachfolger, Astro-kompatibel, gute i18n-Unterstützung, `/admin`-Web-UI |
 | Suche | **Pagefind** | Läuft nach dem Build über die statischen Dateien, vollständig clientseitig, kein Server nötig |
-| Versionierung | **GitHub** (`mithicinco`) | Inhalte versioniert, kein DB-Backup nötig |
+| Versionierung | **GitHub** (`gemeinsam-wirkt`) | Inhalte versioniert, kein DB-Backup nötig |
 | CI/CD | **GitHub Actions** | Build bei Push → Deployment per SFTP/rsync auf Hetzner |
 | Hosting | **Hetzner Webhosting** | Statisch, inkl. Mail, EU/DSGVO, ein Provider |
 | Dateien | **Nextcloud (Hetzner Storage Share)** | Material per Self-Service, öffentliche Share-Links |

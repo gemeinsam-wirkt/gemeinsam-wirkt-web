@@ -6,13 +6,13 @@
 # --- Anbindung ans Git-Repo (GitHub-Backend) ---
 backend:
   name: github
-  repo: mithicinco/gemeinsam-wirkt-web
+  repo: gemeinsam-wirkt/gemeinsam-wirkt-web
   branch: main
   # Login-Handshake über einen kleinen OAuth-Worker (CLAUDE.md, Abschnitt 2).
   # Vor dem Produktivbetrieb die echte Worker-URL eintragen.
   # Sobald GitHubs PKCE-Support nutzbar ist, entfällt dieser Schritt voraussichtlich.
-  base_url: https://auth.example.org
-  auth_endpoint: oauth
+  # base_url: https://auth.example.org   # erst mit echter Worker-URL aktivieren
+  # auth_endpoint: auth                  # Sveltia-Worker nutzt standardmäßig /auth (nicht 'oauth')
 
 # Lokaler Redaktions-Modus: `npx sveltia-cms-server` + ?npx im Dev.
 # Zum Testen ohne Login:  http://localhost:4321/admin/  bei laufendem `npm run dev`
@@ -94,7 +94,9 @@ collections:
         required: false
         multiple: true
         collection: partner
-        value_field: id
+        # Astro referenziert partner-Einträge über den Dateinamen (= slug),
+        # nicht über ein Feld „id“. Daher den Slug speichern.
+        value_field: '{{slug}}'
         search_fields: [name]
         display_fields: [name]
       - { name: bild, label: Bild, widget: image, required: false }
@@ -116,11 +118,8 @@ collections:
       - { name: datum, label: Datum, widget: datetime, time_format: false }
       - { name: embedUrl, label: Player-Einbettung (URL), widget: string }
       - { name: beschreibung, label: Beschreibung, widget: text }
-      - name: gaeste
-        label: Gäste
-        widget: list
-        required: false
-        field: { name: name, label: Name, widget: string }
+      # Reine String-Liste – passt zu z.array(z.string()) im Schema.
+      - { name: gaeste, label: Gäste, widget: list, required: false }
       - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
       - { name: body, label: Transkript, widget: markdown, required: false }
 
@@ -144,3 +143,5 @@ collections:
         options: [kooperationspartner, sponsor]
       - { name: url, label: Website, widget: string, required: false }
       - { name: logo, label: Logo (Pfad in /public), widget: string, required: false }
+      # Ergänzende Info: wer der Partner/Sponsor ist und was er macht.
+      - { name: beschreibung, label: Beschreibung, widget: text, required: false }

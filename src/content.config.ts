@@ -22,7 +22,10 @@ const veranstaltungen = defineCollection({
     z.object({
       titel: z.string(),
       start: z.coerce.date(),
-      ende: z.coerce.date().optional(),
+      // Sveltia schreibt ein leeres optionales Feld als "" – das ist kein gültiges
+      // Datum und würde den Build brechen. Leerstring vor der Prüfung zu undefined
+      // normalisieren, damit ein leeres „Ende"-Feld unproblematisch ist.
+      ende: z.preprocess((v) => (v === '' ? undefined : v), z.coerce.date().optional()),
       ort: z.string(),
       kurzbeschreibung: z.string(),
       anmeldungUrl: z.string().optional(), // externer Anmelde-/Ticketlink
@@ -85,6 +88,7 @@ const partner = defineCollection({
     typ: z.enum(['kooperationspartner', 'sponsor']),
     url: z.string().optional(),
     logo: z.string().optional(), // Pfad, z. B. /partner/logo-xy.svg in /public
+    beschreibung: z.string().optional(), // ergänzende Info: wer sie sind, was sie machen
   }),
 });
 
