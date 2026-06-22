@@ -5,9 +5,8 @@ import sitemap from '@astrojs/sitemap';
 // Astro 6 (stabil seit März 2026). Mindest-Node: ^22.12.0 || ^24.0.0
 // https://astro.build/config
 export default defineConfig({
-  // Domain des Vereins – VOR Livegang setzen.
-  // Wird für Sitemap, Canonical-URLs und absolute Links gebraucht.
-  site: 'https://gemeinsam-wirkt.example',
+  // Domain des Vereins. Wird für Sitemap, Canonical-URLs und absolute Links gebraucht.
+  site: 'https://gemeinsam-wirkt.net',
 
   // Statischer Output ist Default – passt exakt zum Hetzner Webhosting.
   output: 'static',
