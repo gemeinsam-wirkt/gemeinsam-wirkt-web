@@ -1,0 +1,101 @@
+---
+/*
+  Suchseite. Nutzt den von Pagefind nach dem Build erzeugten Index
+  (dist/pagefind/) samt mitgelieferter Default-UI – clientseitig, kein Server.
+
+  Hinweis: Die Pagefind-Assets (/pagefind/pagefind-ui.{js,css}) entstehen erst
+  durch `pagefind --site dist` NACH dem Astro-Build. Im `astro dev` bzw. direkt
+  nach `astro build` existieren sie noch nicht – das Init-Skript ist daher
+  defensiv (prüft auf window.PagefindUI). Lokal testbar mit:
+      npm run preview:search
+*/
+import PageLayout from '../layouts/PageLayout.astro';
+import { ui } from '../i18n/ui';
+
+const t = ui.de;
+
+// Deutsche Beschriftungen für die Pagefind-Default-UI.
+const pagefindTranslations = {
+  placeholder: t['search.placeholder'],
+  clear_search: t['search.clear'],
+  load_more: t['search.loadmore'],
+  search_label: t['search.label'],
+  zero_results: t['search.zero'],
+  one_result: t['search.one'],
+  many_results: t['search.many'],
+  searching: t['search.searching'],
+};
+---
+
+<PageLayout title={t['search.label']} lead={t['search.intro']}>
+  <div id="search" class="search-ui" data-pagefind-ignore></div>
+
+  <noscript>
+    <p class="search-noscript">
+      Für die Suche wird JavaScript benötigt. Du kannst die Bereiche aber auch
+      direkt über das Menü oben ansteuern.
+    </p>
+  </noscript>
+</PageLayout>
+
+<!--
+  Pagefind-Assets zur Laufzeit laden (absolute Pfade, KEINE Astro-Imports –
+  die Dateien existieren erst nach dem Pagefind-Lauf auf dem fertigen Build).
+-->
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+
+<script is:inline define:vars={{ translations: pagefindTranslations }}>
+  (function () {
+    if (typeof window.PagefindUI !== 'function') {
+      // Index/UI noch nicht gebaut (z. B. im Dev-Modus) – still überspringen.
+      return;
+    }
+
+    const search = new window.PagefindUI({
+      element: '#search',
+      showImages: false,
+      showSubResults: true,
+      resetStyles: false,
+      translations,
+    });
+
+    const input = document.querySelector('#search .pagefind-ui__search-input');
+
+    // Vorbelegung aus ?q= (z. B. vom Suchfeld im Header).
+    const query = new URLSearchParams(window.location.search).get('q');
+    if (query) {
+      if (input) input.value = query;
+      search.triggerSearch(query);
+    }
+
+    // Fokus auf das Suchfeld, sobald die Seite bereit ist.
+    if (input) input.focus();
+  })();
+</script>
+
+<style is:global>
+  /* Pagefind-Default-UI an die Marken-Tokens anpassen. */
+  .search-ui {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: var(--c-blue-600);
+    --pagefind-ui-text: var(--c-ink);
+    --pagefind-ui-background: var(--c-white);
+    --pagefind-ui-border: var(--c-border);
+    --pagefind-ui-tag: var(--c-surface);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: var(--radius-sm);
+    --pagefind-ui-font: var(--font-body);
+    max-width: var(--measure);
+  }
+
+  .search-ui .pagefind-ui__result-title a {
+    font-family: var(--font-display);
+    color: var(--c-blue-900);
+  }
+
+  .search-noscript {
+    max-width: var(--measure);
+    color: var(--c-muted);
+  }
+</style>

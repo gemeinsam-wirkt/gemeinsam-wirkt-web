@@ -9,6 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "search": "pagefind --site dist",
+    "build:search": "astro build && pagefind --site dist",
+    "preview:search": "npm run build:search && astro preview",
     "astro": "astro"
   },
   "dependencies": {
@@ -16,5 +19,8 @@
     "@fontsource-variable/hanken-grotesk": "^5.2.8",
     "@fontsource/atkinson-hyperlegible": "^5.2.8",
     "astro": "^6.4.7"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
   }
 }

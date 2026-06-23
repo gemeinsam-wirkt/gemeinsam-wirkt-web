@@ -75,6 +75,32 @@ const isActive = (href: string) =>
         }
       </ul>
 
+      <form class="header-search" role="search" action="/suche" method="get">
+        <label for="header-search-input" class="visually-hidden">
+          {t['search.label']}
+        </label>
+        <input
+          id="header-search-input"
+          class="header-search__input"
+          type="search"
+          name="q"
+          placeholder={t['search.placeholder']}
+          autocomplete="off"
+        />
+        <button class="header-search__submit" type="submit">
+          <span class="visually-hidden">{t['search.label']}</span>
+          <svg
+            class="header-search__icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </form>
+
       <div class="primary-nav__lang">
         <LanguageSwitcher />
       </div>
@@ -192,6 +218,48 @@ const isActive = (href: string) =>
     color: var(--c-blue-900);
   }
 
+  /* --- Suchfeld --- */
+  .header-search {
+    display: flex;
+    align-items: center;
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+  }
+  .header-search:focus-within {
+    border-color: var(--c-blue-600);
+  }
+  .header-search__input {
+    min-width: 0;
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--fs-300);
+    color: var(--c-ink);
+    background: transparent;
+    border: 0;
+  }
+  .header-search__input:focus {
+    outline: none;
+  }
+  .header-search__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2);
+    color: var(--c-muted);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+  .header-search__submit:hover {
+    color: var(--c-blue-900);
+  }
+  .header-search__icon {
+    display: block;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
   /* ============ Mobile (Standard) ============ */
   @media (max-width: 60rem) {
     .primary-nav {
@@ -221,6 +289,12 @@ const isActive = (href: string) =>
     }
     .submenu a {
       padding: var(--space-2) 0;
+    }
+    .header-search {
+      margin-top: var(--space-6);
+    }
+    .header-search__input {
+      flex: 1;
     }
     .primary-nav__lang {
       margin-top: var(--space-6);
@@ -278,6 +352,13 @@ const isActive = (href: string) =>
     }
     .submenu a:hover {
       background: var(--c-surface);
+    }
+    .header-search__input {
+      width: 8.5rem;
+      transition: width var(--transition);
+    }
+    .header-search:focus-within .header-search__input {
+      width: 11rem;
     }
   }
 </style>

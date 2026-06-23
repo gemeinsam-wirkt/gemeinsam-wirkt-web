@@ -49,7 +49,7 @@ jobs:
       # Clientseitiger Suchindex über die fertigen statischen Dateien (CLAUDE.md §2).
       # Läuft nach dem Build; erzeugt dist/pagefind/ – kein Server nötig.
       - name: Pagefind-Suchindex erzeugen
-        run: npx -y pagefind --site dist
+        run: npm run search
 
       - name: lftp installieren
         run: sudo apt-get update && sudo apt-get install -y lftp

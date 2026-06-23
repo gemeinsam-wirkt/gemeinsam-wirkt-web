@@ -50,6 +50,14 @@ export const ui = {
 
     'search.label': 'Suche',
     'search.placeholder': 'Website durchsuchen …',
+    'search.intro':
+      'Wonach suchst du? Durchsuche Veranstaltungen, News, Projekte und Seiten dieser Website.',
+    'search.clear': 'Suche zurücksetzen',
+    'search.loadmore': 'Mehr Ergebnisse anzeigen',
+    'search.searching': 'Wird gesucht …',
+    'search.zero': 'Dazu haben wir nichts gefunden. Versuch es mit einem anderen Begriff.',
+    'search.one': 'Ein Ergebnis für [SEARCH_TERM]',
+    'search.many': '[COUNT] Ergebnisse für [SEARCH_TERM]',
 
     'lang.notice':
       'Die englische Fassung wird gerade aufgebaut. Schau bald wieder vorbei.',
