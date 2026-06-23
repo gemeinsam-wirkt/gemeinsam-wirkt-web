@@ -2,8 +2,13 @@
 
 Kleiner PHP-Dienst, der **nur den GitHub-Login** für Sveltia CMS abwickelt –
 keine Inhalte. Läuft auf einer eigenen Subdomain im Hetzner-Webhosting,
-**getrennt** vom Astro-Deploy. Damit kann der `mirror --delete`-Deploy ihn nicht
-überschreiben oder löschen.
+**getrennt** vom Astro-Deploy.
+
+> **Hinweis zum Ablageort:** Das Hetzner-Webhosting-Panel legt Subdomains nur
+> *innerhalb* von `/public_html` an, ein Verzeichnis darüber ist nicht wählbar.
+> Der Vermittler liegt deshalb unter `/public_html/auth`. Damit der
+> `mirror --delete`-Deploy ihn nicht löscht, ist `auth/` in
+> `.github/workflows/deploy.yml` per `--exclude-glob auth/` ausgenommen.
 
 > Warum überhaupt nötig? GitHub-OAuth verlangt einen serverseitigen Tausch
 > „Code → Token“ mit einem geheimen Client-Secret. Das Secret darf nicht in den
@@ -38,10 +43,10 @@ Secret kopieren (wird nur einmal angezeigt).
 
 ### 2. Subdomain in konsoleH einrichten
 
-1. konsoleH → Domain `gemeinsam-wirkt.net` → **Subdomain anlegen:**
-   `auth.gemeinsam-wirkt.net`.
-2. Als **Dokumentenverzeichnis** einen Ordner **außerhalb** von `/public_html`
-   wählen, z. B. `/auth` (wichtig – so bleibt er vom Website-Deploy unberührt).
+1. Hetzner-Webhosting-Panel → **Neue Subdomain:** `auth.gemeinsam-wirkt.net`.
+2. Als **Zielverzeichnis** `/public_html/auth` (das Panel erlaubt nur Pfade
+   unter `/public_html`). Der Ordner ist im Deploy per `--exclude-glob auth/`
+   vor dem `--delete` geschützt, bleibt also unberührt. „www anlegen“ kann aus.
 3. Für diese Subdomain **PHP aktivieren** (aktuelle Version, z. B. PHP 8.x).
 4. DNS prüfen: Falls nicht automatisch angelegt, A-Record
    `auth` → `167.235.121.72` und AAAA → `2a01:4f8:1061:217b::2` setzen.

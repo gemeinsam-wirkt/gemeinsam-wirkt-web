@@ -60,6 +60,8 @@ jobs:
       #               → das Zielverzeichnis enthält danach exakt den Build.
       #  ACHTUNG: SFTP_REMOTE_PATH muss das Docroot DIESER Seite sein. Liegen dort
       #  fremde Dateien, werden sie durch --delete gelöscht.
+      #  Der OAuth-Vermittler liegt unter /public_html/auth (eigene Subdomain) und
+      #  ist daher per --exclude-glob auth/ vom Löschen ausgenommen.
       - name: Upload nach Hetzner (SFTP)
         env:
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
@@ -76,5 +78,6 @@ jobs:
             open -p ${SFTP_PORT} -u '${SFTP_USER}','${SFTP_PASS}' sftp://${SFTP_HOST};
             mirror --reverse --delete --verbose --parallel=4 \
               --exclude-glob .git*/ \
+              --exclude-glob auth/ \
               dist/ '${SFTP_REMOTE_PATH}';
           "
