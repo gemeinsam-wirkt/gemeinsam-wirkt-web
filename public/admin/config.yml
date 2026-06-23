@@ -8,11 +8,11 @@ backend:
   name: github
   repo: gemeinsam-wirkt/gemeinsam-wirkt-web
   branch: main
-  # Login-Handshake über einen kleinen OAuth-Worker (CLAUDE.md, Abschnitt 2).
-  # Vor dem Produktivbetrieb die echte Worker-URL eintragen.
+  # Login-Handshake über den eigenen PHP-OAuth-Vermittler (siehe oauth/README.md).
+  # Läuft auf einer eigenen Hetzner-Subdomain, getrennt vom Website-Deploy.
   # Sobald GitHubs PKCE-Support nutzbar ist, entfällt dieser Schritt voraussichtlich.
-  # base_url: https://auth.example.org   # erst mit echter Worker-URL aktivieren
-  # auth_endpoint: auth                  # Sveltia-Worker nutzt standardmäßig /auth (nicht 'oauth')
+  base_url: https://auth.gemeinsam-wirkt.net
+  # auth_endpoint bleibt auf dem Standard 'auth' → CMS ruft …/auth auf.
 
 # Lokaler Redaktions-Modus: `npx sveltia-cms-server` + ?npx im Dev.
 # Zum Testen ohne Login:  http://localhost:4321/admin/  bei laufendem `npm run dev`

@@ -1,0 +1,4 @@
+# Server-Dateien des OAuth-Vermittlers immer mit LF (laufen auf Linux/Apache).
+oauth/** text eol=lf
+*.php text eol=lf
+.htaccess text eol=lf

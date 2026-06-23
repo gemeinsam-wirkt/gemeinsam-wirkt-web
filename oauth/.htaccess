@@ -1,0 +1,16 @@
+# OAuth-Vermittler: alle Pfade (/auth, /callback, …) auf index.php leiten.
+DirectoryIndex index.php
+FallbackResource /index.php
+
+# Kein Verzeichnis-Listing.
+Options -Indexes
+
+# Konfiguration mit dem Secret niemals direkt ausliefern.
+<Files "config.php">
+  Require all denied
+</Files>
+
+# Falls FallbackResource nicht verfügbar ist, stattdessen mod_rewrite nutzen:
+# RewriteEngine On
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^ index.php [QSA,L]

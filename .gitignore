@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# OAuth-Vermittler: Secret-Konfiguration nur auf dem Server
+oauth/config.php
+
 # macOS-specific files
 .DS_Store
 
