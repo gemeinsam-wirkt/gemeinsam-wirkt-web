@@ -3,13 +3,15 @@ import PageLayout from '../layouts/PageLayout.astro';
 
 /*
   Spenden per Überweisung (Bankverbindung).
-  betterplace ist vorerst geparkt (Projekt-Verifizierung offen); zum Nachrüsten
-  den auskommentierten "Online spenden"-Abschnitt unten wieder aktivieren und
-  BETTERPLACE_URL setzen.
+  Wichtig: Der Verein ist NICHT gemeinnützig → keine steuerlich absetzbare
+  Spendenbescheinigung, und betterplace scheidet aus (setzt Gemeinnützigkeit voraus).
+  Mögliche Online-Ergänzung: goodcrowd.org (gut.org gAG, Berlin/DSGVO, auch für
+  nicht-gemeinnützige Initiativen, nur verlinkbare Projektseite, kein Widget).
+  Zum Nachrüsten Kampagne anlegen, GOODCROWD_URL setzen und den Block unten aktivieren.
 */
 
-// betterplace-Projektseite des Vereins (bei Aktivierung vollständige URL eintragen).
-// const BETTERPLACE_URL = 'https://www.betterplace.org/de/projects/PROJEKT-ID';
+// goodcrowd-Kampagnenseite des Vereins (bei Aktivierung vollständige URL eintragen).
+// const GOODCROWD_URL = 'https://www.goodcrowd.org/...';
 
 // Bankverbindung des Vereins.
 const bank = {
@@ -38,18 +40,17 @@ const bank = {
     </p>
 
     {/*
-      Online spenden – vorerst geparkt, bis das betterplace-Projekt verifiziert ist.
-      Zum Aktivieren BETTERPLACE_URL oben setzen und diesen Block einkommentieren.
+      Online spenden – geparkt, bis eine goodcrowd-Kampagne angelegt ist.
+      Zum Aktivieren GOODCROWD_URL oben setzen und diesen Block einkommentieren.
 
     <h2>Online spenden</h2>
     <p>
-      Am schnellsten geht es über betterplace, Deutschlands größter Spendenplattform.
-      Dort spendest du sicher per Überweisung, Lastschrift oder PayPal und bekommst auf
-      Wunsch direkt eine Spendenbescheinigung.
+      Lieber online? Über goodcrowd kannst du bequem per Karte, PayPal oder Lastschrift
+      beitragen.
     </p>
     <p>
-      <a class="btn btn--primary" href={BETTERPLACE_URL} rel="noopener" target="_blank">
-        Über betterplace spenden
+      <a class="btn btn--primary" href={GOODCROWD_URL} rel="noopener" target="_blank">
+        Über goodcrowd spenden
       </a>
     </p>
     */}
@@ -80,10 +81,6 @@ const bank = {
         <dd>{bank.zweck}</dd>
       </div>
     </dl>
-    <p>
-      Magst du eine Spendenbescheinigung? Schreib uns kurz deine Adresse dazu –
-      wir schicken sie dir zu.
-    </p>
   </div>
 </PageLayout>
 
