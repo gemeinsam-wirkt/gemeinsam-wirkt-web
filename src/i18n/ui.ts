@@ -34,14 +34,13 @@ export const ui = {
 
     'newsletter.title': 'Bleib in Verbindung',
     'newsletter.text':
-      'Wenn du wissen willst, woran wir gerade arbeiten und wann der nächste Kooperationsraum öffnet, trag dich in unseren Newsletter ein. Du entscheidest, du kannst dich jederzeit wieder abmelden.',
-    'newsletter.email': 'E-Mail-Adresse',
-    'newsletter.email.placeholder': 'name@beispiel.de',
+      'Wenn du wissen willst, woran wir gerade arbeiten und wann der nächste Kooperationsraum öffnet, melde dich für unseren Newsletter an. Du entscheidest, du kannst dich jederzeit wieder abmelden.',
     'newsletter.submit': 'Newsletter abonnieren',
     'newsletter.note':
-      'Anmeldung mit Bestätigungslink (Double-Opt-In). Der Versand läuft über einen EU-Dienst. Mehr dazu in der Datenschutzerklärung.',
-    'newsletter.placeholder':
-      'Hinweis (Entwurf): Hier wird das Anmeldeformular des Newsletter-Dienstes eingebunden. Der Anbieter steht noch nicht fest.',
+      'Ein Klick öffnet dein E-Mail-Programm mit einer vorbereiteten Nachricht. Sobald du sie absendest, bestätigen wir deine Anmeldung per E-Mail (Double-Opt-In). Zum Abmelden reicht später eine kurze Nachricht an dieselbe Adresse. Mehr dazu in der Datenschutzerklärung.',
+    'newsletter.mailto.subject': 'Newsletter-Anmeldung',
+    'newsletter.mailto.body':
+      'Hallo gemeinsam wirkt e.V.,\n\nich möchte euren Newsletter abonnieren. Bitte nehmt meine Absenderadresse in den Verteiler auf.\n\nViele Grüße',
 
     'footer.contact': 'Kontakt',
     'footer.legal': 'Rechtliches',
