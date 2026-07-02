@@ -117,6 +117,9 @@ const materialien = defineCollection({
     url: z.string(), // externer Link (YouTube/Vimeo, Nextcloud-Share, PDF …)
     quelle: z.string().optional(), // z. B. „YouTube", „Vimeo", Name der Quelle
     beschreibung: z.string().optional(),
+    // Nur falls der Link ein (öffentlich mitteilbares) Passwort verlangt,
+    // z. B. bei erzwungenem Passwortschutz einer Nextcloud-Freigabe.
+    passwort: z.string().optional(),
     // Steuert die Anzeige-Reihenfolge (kleinste zuerst).
     reihenfolge: z.number().default(99),
   }),

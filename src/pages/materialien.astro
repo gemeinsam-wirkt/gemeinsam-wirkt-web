@@ -49,7 +49,14 @@ const typLabel: Record<string, string> = {
               </a>
             </div>
             {data.beschreibung && <p class="material__desc">{data.beschreibung}</p>}
-            {data.quelle && <span class="material__quelle">Quelle: {data.quelle}</span>}
+            <div class="material__foot">
+              {data.quelle && <span class="material__quelle">Quelle: {data.quelle}</span>}
+              {data.passwort && (
+                <span class="material__pw">
+                  Zugang mit Passwort: <code>{data.passwort}</code>
+                </span>
+              )}
+            </div>
           </li>
         ))}
       </ul>
@@ -111,8 +118,19 @@ const typLabel: Record<string, string> = {
     margin: 0;
     color: var(--c-ink);
   }
-  .material__quelle {
+  .material__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
     font-size: var(--fs-300);
     color: var(--c-muted);
+  }
+  .material__pw code {
+    font-size: 0.95em;
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    padding: 0.05em 0.4em;
+    color: var(--c-ink);
   }
 </style>

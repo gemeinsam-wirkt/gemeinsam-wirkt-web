@@ -191,4 +191,8 @@ collections:
       - { name: url, label: 'Link (externe URL)', widget: string }
       - { name: quelle, label: 'Quelle (z. B. YouTube, Vimeo)', widget: string, required: false }
       - { name: beschreibung, label: Beschreibung, widget: text, required: false }
+      # Nur ausfüllen, wenn der Link ein Passwort verlangt (z. B. erzwungener
+      # Passwortschutz einer Nextcloud-Freigabe). Wird öffentlich angezeigt –
+      # also nur für ohnehin öffentliche Dateien und kein sensibles Passwort!
+      - { name: passwort, label: 'Passwort (falls Link geschützt)', widget: string, required: false }
       - { name: reihenfolge, label: Reihenfolge (kleinste zuerst), widget: number, value_type: int, default: 99 }
