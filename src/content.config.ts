@@ -92,4 +92,18 @@ const partner = defineCollection({
   }),
 });
 
-export const collections = { veranstaltungen, news, projekte, podcast, partner };
+// Vorstand — eine JSON-Datei pro Person (Folder-Collection wie partner).
+// Fotos liegen in public/team, im JSON steht der öffentliche Pfad (z. B. /team/xy.jpg).
+const vorstand = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/data/vorstand' }),
+  schema: z.object({
+    name: z.string(),
+    rolle: z.string(),
+    // Steuert die Anzeige-Reihenfolge auf der Über-uns-Seite (kleinste zuerst).
+    reihenfolge: z.number().default(99),
+    foto: z.string().optional(), // Pfad in /public, z. B. /team/michael-thiel.jpg
+    bio: z.string(),
+  }),
+});
+
+export const collections = { veranstaltungen, news, projekte, podcast, partner, vorstand };

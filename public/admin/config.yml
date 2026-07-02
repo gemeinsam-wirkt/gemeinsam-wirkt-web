@@ -123,6 +123,28 @@ collections:
       - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
       - { name: body, label: Transkript, widget: markdown, required: false }
 
+  # ---------------------------------------------------------------- Vorstand
+  # Eine JSON-Datei pro Person (Folder-Collection wie partner). Fotos werden
+  # über das Bild-Widget nach public/team hochgeladen; im JSON steht der Pfad
+  # /team/<datei> (public_folder). Reihenfolge steuert die Anzeige.
+  - name: vorstand
+    label: Vorstand
+    label_singular: Vorstandsmitglied
+    folder: src/data/vorstand
+    create: true
+    slug: '{{slug}}'
+    extension: json
+    format: json
+    identifier_field: name
+    media_folder: /public/team
+    public_folder: /team
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: rolle, label: Rolle, widget: string }
+      - { name: reihenfolge, label: Reihenfolge (kleinste zuerst), widget: number, value_type: int, default: 99 }
+      - { name: foto, label: Foto, widget: image, required: false }
+      - { name: bio, label: Kurzbiografie, widget: text }
+
   # ---------------------------------------------------------------- Partner & Sponsoren
   # Eine JSON-Datei pro Eintrag (Folder-Collection) – passt zum glob()-Loader und
   # dient als Ziel der Projekt-Relation. Der Dateiname = id (kebab-case).

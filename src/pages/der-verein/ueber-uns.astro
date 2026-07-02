@@ -1,11 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
+
+// Vorstand aus der pflegbaren Collection (Sveltia → src/data/vorstand/*.json).
+// Fotos liegen in public/team, im JSON steht der öffentliche Pfad.
+const vorstand = (await getCollection('vorstand')).sort(
+  (a, b) => a.data.reihenfolge - b.data.reihenfolge,
+);
 ---
 
 <PageLayout
   title="Über uns"
   narrow
-  lead="Hinter gemeinsam wirkt stehen Menschen, die selbst erlebt haben, wie schwer und wie lohnend Zusammenarbeit ist."
+  lead="Hinter gemeinsam wirkt stehen Menschen, die selbst erlebt haben, wie anspruchsvoll und wie lohnend Zusammenarbeit ist."
 >
   <div class="prose flow">
     <p>
@@ -19,15 +26,146 @@ import PageLayout from '../../layouts/PageLayout.astro';
       wir weiter.
     </p>
 
+    <details class="more">
+      <summary>Mehr</summary>
+      <div class="more__content flow">
+        <p>
+          Systematische Kooperationen benötigen ein hohes Maß an Koordination und
+          gegenseitigem Vertrauen, um aus verschiedenen Sektoren viele Akteure
+          zusammenzubringen und gemeinsames Handeln zu ermöglichen.
+        </p>
+        <p>
+          In unserer Praxis erleben wir häufig: Kooperationen scheitern selten an
+          mangelndem Willen. Oft sind es unterschiedliche Organisationskulturen,
+          Interessen und Arbeitsweisen sowie mangelnde Kooperationserfahrung, die den
+          Fortschritt blockieren – oder dazu führen, dass komplexe Probleme vorschnell
+          vereinfacht werden.
+        </p>
+        <p>
+          An dieser Stelle setzen wir an: Das Zentrum bietet einen co-kreativen Raum, in
+          dem Akteure und Professionelle ihre Erfahrungen im Feld Kollaboration
+          reflektieren, neue Lösungen entwickeln sowie Rückhalt und Unterstützung
+          bekommen.
+        </p>
+        <p>
+          Erfolgreiche Zusammenarbeit an konkreten Kooperationsprojekten entsteht nicht
+          nebenbei – sie braucht eine eigene Struktur, die plant, verbindet und den
+          Überblick behält. Wer koordiniert, wenn alle mit dem Tagesgeschäft beschäftigt
+          sind? Wir verstehen uns deshalb als Scharnier, das andere zusammenbringt und
+          zusammenhält – nicht als Akteur, sondern als Ermöglicher.
+        </p>
+      </div>
+    </details>
+
     <h2>Wer wir sind</h2>
     <p>
-      An dieser Stelle stellen wir bald den Vorstand und die Menschen vor, die den
-      Verein tragen. Wenn du wissen möchtest, wer hinter gemeinsam wirkt steht, melde
-      dich gern – wir lernen dich gern kennen.
-    </p>
-
-    <p class="note">
-      Platzhalter in der Markenstimme. Personen, Fotos und Rollen folgen vor dem Livegang.
+      Der Vorstand trägt den Verein und bringt Erfahrung aus Beratung, Wissenschaft,
+      Verwaltung und Zivilgesellschaft zusammen.
     </p>
   </div>
+
+  <ul class="team" role="list">
+    {vorstand.map(({ data }) => (
+      <li class="team__card">
+        {data.foto && (
+          <img
+            class="team__photo"
+            src={data.foto}
+            alt={`Porträt von ${data.name}`}
+            width="320"
+            height="320"
+            loading="lazy"
+          />
+        )}
+        <div class="team__body">
+          <h3 class="team__name">{data.name}</h3>
+          <p class="team__role">{data.rolle}</p>
+          <p class="team__bio">{data.bio}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
 </PageLayout>
+
+<style>
+  /* „Mehr“-Aufklapper – ohne JavaScript, per <details> */
+  .more {
+    margin-top: var(--space-6);
+  }
+  .more > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-blue-900);
+    cursor: pointer;
+    list-style: none;
+    width: max-content;
+  }
+  .more > summary::-webkit-details-marker {
+    display: none;
+  }
+  .more > summary::after {
+    content: '';
+    width: 0.5em;
+    height: 0.5em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--transition);
+  }
+  .more[open] > summary::after {
+    transform: rotate(-135deg);
+  }
+  .more > summary:hover {
+    color: var(--c-blue-600);
+  }
+  .more__content {
+    margin-top: var(--space-4);
+  }
+
+  /* Vorstands-Raster */
+  .team {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-10) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-8);
+  }
+  .team__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .team__photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background: var(--c-surface);
+  }
+  .team__name {
+    margin: 0;
+    font-size: var(--fs-500);
+  }
+  .team__role {
+    margin: var(--space-1) 0 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-green-700);
+  }
+  .team__bio {
+    margin: var(--space-3) 0 0;
+    color: var(--c-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .more > summary::after {
+      transition: none;
+    }
+  }
+</style>
