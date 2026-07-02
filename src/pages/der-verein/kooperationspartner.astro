@@ -1,12 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { ui } from '../../i18n/ui';
+import Placeholder from '../../components/Placeholder.astro';
 
 const partner = (await getCollection('partner')).filter(
   (p) => p.data.typ === 'kooperationspartner',
 );
-const t = ui.de;
 ---
 
 <PageLayout
@@ -15,7 +14,18 @@ const t = ui.de;
 >
   {
     partner.length === 0 ? (
-      <p class="empty">{t['list.empty']}</p>
+      <div class="partner-grid">
+        <Placeholder
+          icon="kooperation"
+          title="Kooperationspartner"
+          text="Hier ist Platz für Partner, die mit uns gemeinsame Wege gehen."
+        />
+        <Placeholder
+          icon="kooperation"
+          title="Kooperationspartner"
+          text="Deine Organisation möchte dabei sein? Sprich uns an – wir lernen dich gern kennen."
+        />
+      </div>
     ) : (
       <ul class="partner-grid">
         {partner.map(({ data }) => (
@@ -41,10 +51,6 @@ const t = ui.de;
       Partnerschaft interessiert ist.
     </p>
   </div>
-
-  <p class="note">
-    Logos und Partner sind Platzhalter und werden vor dem Livegang ersetzt.
-  </p>
 </PageLayout>
 
 <style>
