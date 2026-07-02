@@ -6,7 +6,7 @@
 */
 interface Props {
   /** Wählt das Symbol passend zum Bereich. */
-  icon: 'kooperation' | 'termin' | 'podcast';
+  icon: 'kooperation' | 'termin' | 'podcast' | 'foerderung';
   title: string;
   text: string;
 }
@@ -45,6 +45,13 @@ const { icon, title, text } = Astro.props;
           <path d="M12 22a12 12 0 0 0 24 0" />
           <line x1="24" y1="34" x2="24" y2="40" />
           <line x1="18" y1="40" x2="30" y2="40" />
+        </svg>
+      )
+    }
+    {
+      icon === 'foerderung' && (
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 38c-8.5-5.5-14-10.5-14-17a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 6.5-5.5 11.5-14 17Z" />
         </svg>
       )
     }

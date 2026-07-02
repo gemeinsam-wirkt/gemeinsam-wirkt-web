@@ -1,12 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
-import { ui } from '../i18n/ui';
+import Placeholder from '../components/Placeholder.astro';
 
 const sponsoren = (await getCollection('partner')).filter(
   (p) => p.data.typ === 'sponsor',
 );
-const t = ui.de;
 ---
 
 <PageLayout
@@ -15,7 +14,18 @@ const t = ui.de;
 >
   {
     sponsoren.length === 0 ? (
-      <p class="empty">{t['list.empty']}</p>
+      <div class="partner-grid">
+        <Placeholder
+          icon="foerderung"
+          title="Sponsor"
+          text="Hier ist Platz für Förderer, die unsere Kooperationsräume möglich machen."
+        />
+        <Placeholder
+          icon="foerderung"
+          title="Sponsor"
+          text="Auch dein Logo kann hier stehen. Lass uns über eine Förderung sprechen."
+        />
+      </div>
     ) : (
       <ul class="partner-grid">
         {sponsoren.map(({ data }) => (
@@ -44,8 +54,6 @@ const t = ui.de;
     </p>
     <a class="btn btn--secondary" href="/kontakt">Kontakt aufnehmen</a>
   </div>
-
-  <p class="note">Logos und Sponsoren sind Platzhalter und werden vor dem Livegang ersetzt.</p>
 </PageLayout>
 
 <style>
