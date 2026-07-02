@@ -11,7 +11,7 @@ const t = ui.de;
 
 <PageLayout
   title="Kooperationspartner"
-  lead="Allein wirkt niemand. Mit Partnern gehen wir gemeinsame Wege, sie bringen Wissen, Reichweite und Erfahrung ein. Nimm Kontakt zu uns auf, wenn deine Organisation an einer Partnerschaft interessiert ist."
+  lead="Allein wirkt niemand. Mit Partnern gehen wir gemeinsame Wege, sie bringen Wissen, Reichweite und Erfahrung ein."
 >
   {
     partner.length === 0 ? (
@@ -35,6 +35,13 @@ const t = ui.de;
       </ul>
     )
   }
+  <div class="prose flow cta-block">
+    <p>
+      <a href="/kontakt">Nimm Kontakt zu uns auf</a>, wenn deine Organisation an einer
+      Partnerschaft interessiert ist.
+    </p>
+  </div>
+
   <p class="note">
     Logos und Partner sind Platzhalter und werden vor dem Livegang ersetzt.
   </p>
@@ -80,5 +87,8 @@ const t = ui.de;
   }
   .empty {
     color: var(--c-muted);
+  }
+  .cta-block {
+    margin-top: var(--space-12);
   }
 </style>

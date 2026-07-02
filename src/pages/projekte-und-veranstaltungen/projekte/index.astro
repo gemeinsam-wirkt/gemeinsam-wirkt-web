@@ -2,9 +2,8 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import Card from '../../../components/Card.astro';
-import { ui } from '../../../i18n/ui';
+import Placeholder from '../../../components/Placeholder.astro';
 
-const t = ui.de;
 const base = '/projekte-und-veranstaltungen/projekte';
 
 const statusLabel: Record<string, string> = {
@@ -18,11 +17,22 @@ const projekte = await getCollection('projekte', ({ data }) => !data.draft);
 
 <PageLayout
   title="Projekte"
-  lead="In unseren Projekten erproben wir Zusammenarbeit dort, wo sie gebraucht wird – im Quartier, in Netzwerken, in der Praxis."
+  lead="In unseren Projekten erproben wir Zusammenarbeit dort, wo sie gebraucht wird – in Kommunen, in Netzwerken, in der Praxis."
 >
   {
     projekte.length === 0 ? (
-      <p class="empty">{t['list.empty']}</p>
+      <div class="cards">
+        <Placeholder
+          icon="kooperation"
+          title="Kooperationsprojekt"
+          text="Unser erstes Projekt entsteht gerade. Bald zeigen wir hier, woran wir arbeiten."
+        />
+        <Placeholder
+          icon="kooperation"
+          title="Kooperationsprojekt"
+          text="Hier ist Platz für das nächste. Du willst mit uns eins starten? Sprich uns an."
+        />
+      </div>
     ) : (
       <div class="cards">
         {projekte.map((entry) => (

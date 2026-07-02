@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import Card from '../../../components/Card.astro';
+import Placeholder from '../../../components/Placeholder.astro';
 import { ui } from '../../../i18n/ui';
 import { formatDate } from '../../../i18n/utils';
 
@@ -19,7 +20,13 @@ const folgen = (await getCollection('podcast', ({ data }) => !data.draft)).sort(
 >
   {
     folgen.length === 0 ? (
-      <p class="empty">{t['list.empty']}</p>
+      <div class="cards">
+        <Placeholder
+          icon="podcast"
+          title="Noch keine Folgen"
+          text="Unser Podcast ist in Vorbereitung. Bald hörst du hier Gespräche über gelingende Zusammenarbeit."
+        />
+      </div>
     ) : (
       <div class="cards">
         {folgen.map((entry) => (
