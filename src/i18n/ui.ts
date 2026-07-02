@@ -19,7 +19,7 @@ export const defaultLang: Lang = 'de';
 export const ui = {
   de: {
     'site.name': 'gemeinsam wirkt',
-    'site.tagline': 'Verein für Kooperation und gesellschaftliches Lernen',
+    'site.tagline': 'Centrum für Collaboration in Wirtschaft und Gesellschaft',
 
     'nav.skip': 'Zum Hauptinhalt springen',
     'nav.menu': 'Menü',
