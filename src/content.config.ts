@@ -106,4 +106,28 @@ const vorstand = defineCollection({
   }),
 });
 
-export const collections = { veranstaltungen, news, projekte, podcast, partner, vorstand };
+// Materialien & Veröffentlichungen — eine JSON-Datei pro Eintrag.
+// Nur Verweise auf EXTERNE Quellen (Videos, Nextcloud-Freigaben, Dokumente),
+// damit nichts auf dem eigenen Server gehostet werden muss.
+const materialien = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/data/materialien' }),
+  schema: z.object({
+    titel: z.string(),
+    typ: z.enum(['video', 'dokument', 'audio', 'link']).default('link'),
+    url: z.string(), // externer Link (YouTube/Vimeo, Nextcloud-Share, PDF …)
+    quelle: z.string().optional(), // z. B. „YouTube", „Vimeo", Name der Quelle
+    beschreibung: z.string().optional(),
+    // Steuert die Anzeige-Reihenfolge (kleinste zuerst).
+    reihenfolge: z.number().default(99),
+  }),
+});
+
+export const collections = {
+  veranstaltungen,
+  news,
+  projekte,
+  podcast,
+  partner,
+  vorstand,
+  materialien,
+};

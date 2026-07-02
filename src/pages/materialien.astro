@@ -1,63 +1,117 @@
 ---
+import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+
+const materialien = (await getCollection('materialien')).sort(
+  (a, b) => a.data.reihenfolge - b.data.reihenfolge,
+);
+
+const typLabel: Record<string, string> = {
+  video: 'Video',
+  dokument: 'Dokument',
+  audio: 'Audio',
+  link: 'Link',
+};
 ---
 
 <PageLayout
   title="Materialien & Veröffentlichungen"
-  lead="Hier teilen wir, was wir erarbeitet haben – zum Nachlesen, Mitnehmen und Weitergeben."
+  narrow
+  lead="Hier teilen wir, was wir erarbeitet haben – zum Nachlesen, Ansehen und Weitergeben."
 >
   <div class="prose flow">
     <p>
-      Du suchst Handreichungen, Berichte oder Vorlagen aus unseren Kooperationsräumen?
-      An dieser Stelle stellen wir sie zum Download bereit.
-    </p>
-    <p>
-      Die Dateien liegen in unserer Nextcloud. Du brauchst kein Konto – ein Klick auf
-      den jeweiligen Link genügt.
-    </p>
-
-    <ul class="downloads">
-      <li>
-        <a href="https://www.example.org" rel="noopener">Praxisleitfaden Kooperation (PDF)</a>
-        <span>Platzhalter · folgt</span>
-      </li>
-      <li>
-        <a href="https://www.example.org" rel="noopener">Vorlage: Vereinbarung für Kooperationsräume (PDF)</a>
-        <span>Platzhalter · folgt</span>
-      </li>
-    </ul>
-
-    <p class="note">
-      Die Verlinkungen sind Platzhalter. Sobald Materialien vorliegen, verweisen sie auf
-      die öffentlichen Freigaben in der Nextcloud.
+      Wir sammeln hier Videos, Dokumente und weitere Quellen rund um unsere
+      Kooperationsräume. Die Inhalte liegen bei externen Anbietern oder in unserer
+      Nextcloud – ein Klick auf den jeweiligen Link genügt, ein Konto brauchst du nicht.
     </p>
   </div>
+
+  {
+    materialien.length === 0 ? (
+      <div class="ph-grid">
+        <Placeholder
+          icon="medien"
+          title="Noch keine Materialien"
+          text="Hier verlinken wir bald Videos und Veröffentlichungen aus unserer Arbeit. Schau gern wieder vorbei."
+        />
+      </div>
+    ) : (
+      <ul class="materialien">
+        {materialien.map(({ data }) => (
+          <li class="material">
+            <div class="material__head">
+              <span class="material__typ">{typLabel[data.typ]}</span>
+              <a href={data.url} rel="noopener" target="_blank">
+                {data.titel}
+                <span aria-hidden="true"> →</span>
+              </a>
+            </div>
+            {data.beschreibung && <p class="material__desc">{data.beschreibung}</p>}
+            {data.quelle && <span class="material__quelle">Quelle: {data.quelle}</span>}
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </PageLayout>
 
 <style>
-  .downloads {
+  .ph-grid {
+    margin-top: var(--space-8);
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+
+  .materialien {
     list-style: none;
     padding: 0;
+    margin-top: var(--space-8);
     display: grid;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
-  .downloads li {
+  .material {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--space-4);
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
     background: var(--c-surface);
     border: 1px solid var(--c-border);
     border-radius: var(--radius-sm);
   }
-  .downloads a {
+  .material__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+  .material__typ {
+    font-family: var(--font-display);
+    font-size: var(--fs-300);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-green-700);
+    background: #e7f2ec;
+    padding: 0.1em 0.6em;
+    border-radius: 999px;
+  }
+  .material__head a {
     font-family: var(--font-display);
     font-weight: 600;
     text-decoration: none;
+    color: var(--c-blue-900);
   }
-  .downloads span {
+  .material__head a:hover {
+    text-decoration: underline;
+  }
+  .material__desc {
+    margin: 0;
+    color: var(--c-ink);
+  }
+  .material__quelle {
     font-size: var(--fs-300);
     color: var(--c-muted);
   }
