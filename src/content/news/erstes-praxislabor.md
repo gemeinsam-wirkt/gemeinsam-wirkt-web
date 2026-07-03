@@ -10,4 +10,4 @@ Wir reden nicht nur über Zusammenarbeit, wir erproben sie. Im September öffnet
 
 Du bringst eine eigene Fragestellung mit und arbeitest mit anderen daran, wie ihr konkret vorankommt. Wir begleiten den Prozess, ohne ihn dir aus der Hand zu nehmen.
 
-Die Plätze sind begrenzt. Die Anmeldung findest du auf der Seite der Veranstaltung.
+Die Anmeldung findest du auf der Seite der Veranstaltung.
