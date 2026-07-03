@@ -5,7 +5,7 @@ teaser: Im September probieren wir zum ersten Mal aus, was wir uns vorgenommen h
 draft: false
 ---
 
-Wir reden nicht nur über Zusammenarbeit, wir erproben sie. Im September öffnet unser erstes Praxislabor in Musterstadt.
+Wir reden nicht nur über Zusammenarbeit, wir erproben sie. Im September öffnet unser erstes Online Praxislabor.
 
 Du bringst eine eigene Fragestellung mit und arbeitest mit anderen daran, wie ihr konkret vorankommt. Wir begleiten den Prozess, ohne ihn dir aus der Hand zu nehmen.
 
