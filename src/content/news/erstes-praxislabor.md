@@ -2,7 +2,7 @@
 titel: PLATZHALTER Unser erstes Praxislabor öffnet im Herbst
 datum: 2026-06-30
 teaser: Im September probieren wir zum ersten Mal aus, was wir uns vorgenommen haben. Du bist herzlich eingeladen, dabei zu sein
-bild: images (2).jfif
+bild: erstes-praxislabor.jpg
 draft: false
 ---
 

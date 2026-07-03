@@ -25,6 +25,7 @@ const news = (await getCollection('news', ({ data }) => !data.draft)).sort(
             title={entry.data.titel}
             href={`/der-verein/news/${entry.id}`}
             meta={formatDate(entry.data.datum)}
+            image={entry.data.bild}
           >
             {entry.data.teaser}
           </Card>
