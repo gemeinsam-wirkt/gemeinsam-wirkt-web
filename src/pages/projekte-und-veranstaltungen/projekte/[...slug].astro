@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { ui } from '../../../i18n/ui';
 
@@ -36,6 +37,18 @@ const partner = d.partner
     <p class="article__status">{t['project.status']}: {statusLabel[d.status]}</p>
     <h1>{d.titel}</h1>
     <p class="article__teaser">{d.zusammenfassung}</p>
+    {
+      d.bild && (
+        <Image
+          class="article__image"
+          src={d.bild}
+          alt={d.titel}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 48rem) 42rem, 100vw"
+          loading="eager"
+        />
+      )
+    }
 
     <div class="prose flow">
       <Content />
@@ -89,6 +102,13 @@ const partner = d.partner
     font-size: var(--fs-500);
     color: var(--c-muted);
     margin-block: var(--space-4) var(--space-8);
+  }
+  .article__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: var(--space-8);
+    border-radius: var(--radius);
   }
   .partner-list {
     margin-top: var(--space-12);

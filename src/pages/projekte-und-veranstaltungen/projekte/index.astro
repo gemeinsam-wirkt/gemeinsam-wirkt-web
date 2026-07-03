@@ -40,6 +40,7 @@ const projekte = await getCollection('projekte', ({ data }) => !data.draft);
             title={entry.data.titel}
             href={`${base}/${entry.id}`}
             badge={statusLabel[entry.data.status]}
+            image={entry.data.bild}
           >
             {entry.data.zusammenfassung}
           </Card>

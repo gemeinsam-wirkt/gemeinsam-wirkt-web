@@ -50,7 +50,7 @@ collections:
       - { name: ort, label: Ort, widget: string }
       - { name: kurzbeschreibung, label: Kurzbeschreibung, widget: text }
       - { name: anmeldungUrl, label: Anmelde-/Ticketlink, widget: string, required: false }
-      - { name: bild, label: Bild, widget: image, required: false }
+      - { name: bild, label: Bild, widget: image, required: false, hint: 'Nur JPG, PNG, WebP, GIF, AVIF oder SVG – kein .jfif (wird sonst nicht angezeigt).' }
       - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
       - { name: body, label: Beschreibung, widget: markdown }
 
@@ -67,7 +67,7 @@ collections:
       - { name: titel, label: Titel, widget: string }
       - { name: datum, label: Datum, widget: datetime, time_format: false }
       - { name: teaser, label: Teaser, widget: text }
-      - { name: bild, label: Bild, widget: image, required: false }
+      - { name: bild, label: Bild, widget: image, required: false, hint: 'Nur JPG, PNG, WebP, GIF, AVIF oder SVG – kein .jfif (wird sonst nicht angezeigt).' }
       - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
       - { name: body, label: Inhalt, widget: markdown }
 
@@ -99,7 +99,7 @@ collections:
         value_field: '{{slug}}'
         search_fields: [name]
         display_fields: [name]
-      - { name: bild, label: Bild, widget: image, required: false }
+      - { name: bild, label: Bild, widget: image, required: false, hint: 'Nur JPG, PNG, WebP, GIF, AVIF oder SVG – kein .jfif (wird sonst nicht angezeigt).' }
       - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
       - { name: body, label: Inhalt, widget: markdown }
 
