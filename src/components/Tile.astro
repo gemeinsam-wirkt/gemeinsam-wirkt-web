@@ -59,6 +59,9 @@ const { title, href, description, variant = 1 } = Astro.props;
     font-weight: 700;
     font-size: var(--fs-600);
     line-height: var(--lh-tight);
+    /* Lange Komposita (z. B. „Kooperationspartner") sauber umbrechen statt an den Rand laufen. */
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
   .tile__desc {
     display: block;
