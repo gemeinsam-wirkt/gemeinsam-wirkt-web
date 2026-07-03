@@ -1,0 +1,170 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+/*
+  Statische Seite „Mitgliedschaft" (Bereich Der Verein).
+  Präsentation: sobald der Nextcloud-/Download-Link vorliegt, hier eintragen –
+  dann wird der Button unten automatisch angezeigt.
+*/
+const PRAESENTATION_URL = '';
+
+// Beitragsstaffeln (Stand: aktuelle Beitragsordnung).
+const beitraegeUnternehmen = [
+  { kriterium: 'Bis zu € 250.000', beitrag: '€ 200' },
+  { kriterium: 'Bis zu € 2 Mio.', beitrag: '€ 1.000' },
+  { kriterium: 'Bis zu € 10 Mio.', beitrag: '€ 2.500' },
+  { kriterium: 'Bis zu € 50 Mio.', beitrag: '€ 5.000' },
+  { kriterium: 'Mehr als € 50 Mio.', beitrag: '€ 7.500' },
+];
+
+const beitraegeKommunen = [
+  { kriterium: 'Bis zu 1.000 Einwohner:innen', beitrag: '€ 150' },
+  { kriterium: 'Bis zu 10.000 Einwohner:innen', beitrag: '€ 500' },
+  { kriterium: 'Bis zu 50.000 Einwohner:innen', beitrag: '€ 750' },
+  { kriterium: 'Bis zu 100.000 Einwohner:innen', beitrag: '€ 1.500' },
+  { kriterium: 'Mehr als 100.000 Einwohner:innen', beitrag: '€ 3.000' },
+];
+
+const beitraegeOrganisationen = [
+  { kriterium: 'NGOs, Universitäten, Institute', beitrag: '€ 350' },
+];
+---
+
+<PageLayout
+  title="Mitgliedschaft"
+  narrow
+  lead="Du möchtest mitwirken? Wir freuen uns über Menschen und Organisationen, die den Verein aktiv mitgestalten."
+>
+  <div class="prose flow">
+    <p>
+      Lass uns dazu ins Gespräch kommen – über deine Vorstellungen und unsere Bedarfe.
+      Wenn es zusammenpasst, bestätigt der Vereinsvorstand deinen Mitgliedsantrag.
+    </p>
+    <p>
+      Die Satzung senden wir dir gern auf Anfrage an
+      <a href="mailto:office@gemeinsam-wirkt.net">office@gemeinsam-wirkt.net</a> zu.
+    </p>
+
+    {
+      PRAESENTATION_URL && (
+        <p>
+          <a class="btn btn--primary" href={PRAESENTATION_URL} rel="noopener" target="_blank">
+            Präsentation ansehen
+          </a>
+        </p>
+      )
+    }
+
+    <h2>Aktuelle Mitgliedsbeiträge</h2>
+
+    <h3>Für Einzelmitglieder</h3>
+    <p>
+      € 100,00 für individuelle Mitgliedschaften von Einzelpersonen und Selbstständigen.
+    </p>
+
+    <h3>Für Unternehmen</h3>
+    <div class="table-wrap">
+      <table class="beitraege">
+        <thead>
+          <tr>
+            <th scope="col">Umsatz</th>
+            <th scope="col" class="num">Beitrag je 12 Monate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            beitraegeUnternehmen.map((z) => (
+              <tr>
+                <th scope="row">{z.kriterium}</th>
+                <td class="num">{z.beitrag}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Für Kommunen und Städte</h3>
+    <div class="table-wrap">
+      <table class="beitraege">
+        <thead>
+          <tr>
+            <th scope="col">Einwohner:innen</th>
+            <th scope="col" class="num">Beitrag je 12 Monate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            beitraegeKommunen.map((z) => (
+              <tr>
+                <th scope="row">{z.kriterium}</th>
+                <td class="num">{z.beitrag}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Für andere Organisationstypen</h3>
+    <div class="table-wrap">
+      <table class="beitraege">
+        <thead>
+          <tr>
+            <th scope="col">Organisationstyp</th>
+            <th scope="col" class="num">Beitrag je 12 Monate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            beitraegeOrganisationen.map((z) => (
+              <tr>
+                <th scope="row">{z.kriterium}</th>
+                <td class="num">{z.beitrag}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Institutionelle Mitglieder können mit bis zu drei Personen an
+      Mitgliederversammlungen teilnehmen und Mitgliedervergünstigungen in Anspruch nehmen.
+      Die Mitgliedsbeiträge werden für jeweils 12 Monate zum Termin des Eintrittsdatums erhoben.
+    </p>
+  </div>
+</PageLayout>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+  }
+  .beitraege {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-400);
+  }
+  .beitraege th,
+  .beitraege td {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .beitraege thead th {
+    font-family: var(--font-display);
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-muted);
+    border-bottom: 2px solid var(--c-border);
+  }
+  .beitraege tbody th {
+    font-weight: 500;
+  }
+  .beitraege .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+</style>

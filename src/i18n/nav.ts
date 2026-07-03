@@ -24,6 +24,7 @@ export const mainNav: NavItem[] = [
     children: [
       { label: 'Zweck', href: '/der-verein/zweck' },
       { label: 'Über uns', href: '/der-verein/ueber-uns' },
+      { label: 'Mitgliedschaft', href: '/der-verein/mitgliedschaft' },
       { label: 'Kooperationspartner', href: '/der-verein/kooperationspartner' },
       { label: 'News', href: '/der-verein/news' },
     ],
