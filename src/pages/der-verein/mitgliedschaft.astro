@@ -5,8 +5,11 @@ import PageLayout from '../../layouts/PageLayout.astro';
   Statische Seite „Mitgliedschaft" (Bereich Der Verein).
   Präsentation: sobald der Nextcloud-/Download-Link vorliegt, hier eintragen –
   dann wird der Button unten automatisch angezeigt.
+  Ist die Freigabe passwortgeschützt, das Passwort in PRAESENTATION_PW setzen;
+  es wird neben dem Button angezeigt (Nextcloud fragt es beim Öffnen ab).
 */
 const PRAESENTATION_URL = 'https://nx100333.your-storageshare.de/s/CQNaLstBdEws7Zf';
+const PRAESENTATION_PW = 'Z9qjoq7ma8';
 
 // Beitragsstaffeln (Stand: aktuelle Beitragsordnung).
 const beitraegeUnternehmen = [
@@ -58,10 +61,15 @@ const beitraegeOrganisationen = [
 
     {
       PRAESENTATION_URL && (
-        <p>
+        <p class="praesentation">
           <a class="btn btn--primary" href={PRAESENTATION_URL} rel="noopener" target="_blank">
             Präsentation ansehen
           </a>
+          {PRAESENTATION_PW && (
+            <span class="praesentation__pw">
+              Passwort: <code>{PRAESENTATION_PW}</code>
+            </span>
+          )}
         </p>
       )
     }
@@ -148,6 +156,24 @@ const beitraegeOrganisationen = [
 </PageLayout>
 
 <style>
+  .praesentation {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+  }
+  .praesentation__pw {
+    font-size: var(--fs-300);
+    color: var(--c-muted);
+  }
+  .praesentation__pw code {
+    font-size: 0.95em;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    padding: 0.05em 0.4em;
+    color: var(--c-ink);
+  }
   .table-wrap {
     overflow-x: auto;
   }
