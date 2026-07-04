@@ -9,7 +9,7 @@ Wer macht **was**, **wann**, **wo** und **wie**. Aufbauend auf dem
 
 | Rolle | Wer | Kann / darf |
 |---|---|---|
-| **Redaktion** | Vorstand / Geschäftsstelle (mehrere Personen) | Inhalte über `/admin` pflegen: Veranstaltungen, News, Projekte, Podcast, Partner |
+| **Redaktion** | Vorstand / Geschäftsstelle (mehrere Personen) | Inhalte über `/admin` pflegen: Veranstaltungen, News, Projekte, Podcast, Partner & Sponsoren, Vorstand, Materialien |
 | **Technischer Vorstand** | 1–2 technisch versierte Personen | Code, Design, Struktur, Deployment, Hosting, Zertifikate, Secrets |
 | **Datei-Pflege** | beliebiges Vorstandsmitglied | Material in den Storage Share laden, Links pflegen |
 | **Newsletter** | benannte Person | Versand & Empfänger beim externen Dienst (ESP) |
@@ -43,10 +43,16 @@ Nach dem Speichern ist die Änderung in **1–2 Minuten** automatisch live.
 | **Projekt pflegen** | Redaktion | bei Projektstart/-ende | `/admin` → „Projekte“ → Status auf laufend/abgeschlossen setzen |
 | **Podcast-Folge eintragen** | Redaktion | je neue Folge | `/admin` → „Podcast“ → Embed-URL + Beschreibung + ggf. Transkript |
 | **Partner/Sponsor ergänzen** | Redaktion | bei neuer Kooperation | `/admin` → „Partner & Sponsoren“ → Name, Typ, Logo, Link |
+| **Vorstand pflegen** | Redaktion | bei Personenwechsel | `/admin` → „Vorstand“ → Name, Rolle, Foto, Kurzbio, Reihenfolge (kleinste zuerst) |
+| **Material/Veröffentlichung eintragen** | Redaktion | bei neuem Link | `/admin` → „Materialien“ → Titel, Typ, externe URL (+ optional Passwort, falls der Link geschützt ist) |
 | **Entwurf zurückhalten** | Redaktion | wenn noch nicht öffentlich | Feld **„Entwurf“** anhaken → erscheint nicht auf der Website |
 
-> 💡 **Bilder:** direkt im Formular hochladen. **Inhalte versehentlich gelöscht?** Kein
-> Drama — der technische Vorstand kann über GitHub jeden früheren Stand wiederherstellen.
+> 💡 **Bilder:** direkt im Formular hochladen. **Nur die Formate JPG, PNG, WebP, GIF,
+> AVIF oder SVG verwenden** — kein `.jfif` (das speichern Windows/Outlook manchmal
+> automatisch). `.jfif`-Dateien verarbeitet die Website nicht: Das Bild bleibt unsichtbar
+> und kann sogar die Veröffentlichung blockieren. Im Zweifel das Bild vorher als JPG
+> speichern. **Inhalte versehentlich gelöscht?** Kein Drama — der technische Vorstand
+> kann über GitHub jeden früheren Stand wiederherstellen.
 
 ---
 
@@ -57,10 +63,13 @@ Nach dem Speichern ist die Änderung in **1–2 Minuten** automatisch live.
 | Was | Wer | Wann | Wie |
 |---|---|---|---|
 | **Material hochladen** | Datei-Pflege | bei neuem Dokument | In Nextcloud hochladen → „Teilen“ → öffentlichen Link kopieren |
-| **Link auf der Website ergänzen** | Redaktion | nach Upload | Auf der Materialien-Seite den Link eintragen (über `/admin` bzw. Repo) |
-| **Veraltetes Material entfernen** | Datei-Pflege | jährlich prüfen | In Nextcloud löschen + Link auf der Seite entfernen |
+| **Link auf der Website ergänzen** | Redaktion | nach Upload | `/admin` → „Materialien“ → neuer Eintrag mit Titel, Typ und der externen URL |
+| **Geschützten Link eintragen** | Redaktion | bei passwortgeschützter Freigabe | Im selben Formular das Feld **„Passwort“** ausfüllen — es wird öffentlich angezeigt, also nur für ohnehin öffentliche Dateien nutzen |
+| **Veraltetes Material entfernen** | Datei-Pflege | jährlich prüfen | In Nextcloud löschen + Eintrag unter „Materialien“ entfernen |
 
-> Vorteil: Neue Dateien brauchen **kein** Website-Deployment.
+> Vorteil: Neue Dateien brauchen **kein** Website-Deployment. Die „Materialien“
+> verweisen nur auf **externe** Links (Nextcloud, Video-Hoster, PDF) — es wird nichts
+> selbst gehostet.
 
 ---
 

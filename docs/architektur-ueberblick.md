@@ -124,9 +124,13 @@ Nimmt unsere Texte und das Design und erzeugt daraus fertige HTML-Seiten. Läuft
 dauerhaft, sondern nur beim „Backen“ (Build). Ergebnis ist ein Ordner mit fertigen Dateien.
 
 ### 🧑‍💻 Sveltia CMS – die Redaktions-Oberfläche (`/admin`)
-Deine Arbeitsumgebung. Hier legst du Veranstaltungen, News, Projekte und Podcast-Folgen an.
-Du arbeitest in Formularen, **ohne Code zu sehen**. Beim Speichern schreibt Sveltia deine
-Eingaben direkt nach GitHub.
+Deine Arbeitsumgebung. Hier legst du Veranstaltungen, News, Projekte, Podcast-Folgen,
+Partner & Sponsoren, den Vorstand und Materialien an. Du arbeitest in Formularen,
+**ohne Code zu sehen**. Beim Speichern schreibt Sveltia deine Eingaben direkt nach GitHub.
+
+> 🖼️ **Bilder** immer als **JPG, PNG oder WebP** hochladen — nicht als `.jfif`
+> (das speichern Windows/Outlook manchmal automatisch). `.jfif`-Bilder zeigt die
+> Website nicht an.
 
 ### 🔐 PHP-Login-Vermittler – der Türsteher
 Ein winziges Programm auf der Subdomain `auth.gemeinsam-wirkt.net`. Seine **einzige**

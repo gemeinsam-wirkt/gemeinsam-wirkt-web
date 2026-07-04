@@ -106,8 +106,16 @@ Datenmodell in `src/content.config.ts` mit **Zod-Schemata** definieren. Beispiel
 - `projekte` – Titel, Zusammenfassung, Status, Partner-Relation, Markdown, Bild, draft
 - `podcast` – Titel, Folgennummer, Datum, Embed-URL, Beschreibung, Gäste, Transkript
 - `partner` – Name, Typ, URL, Logo, Beschreibung (als JSON-Daten-Collection)
+- `vorstand` – Name, Rolle, Foto, Kurzbio, Reihenfolge (JSON, Fotos in `public/team`)
+- `materialien` – Titel, Typ, externe URL, optionales Passwort, Reihenfolge (JSON; nur Verweise auf externe Dateien, nichts selbst gehostet)
 
 Pro Collection 1–2 **Beispiel-Einträge** anlegen, damit die Struktur sichtbar ist.
+
+> **Bilder-Felder (`image`-Widget):** Felder wie `bild`, die über Astros `image()`-Helper
+> laufen (veranstaltungen, news, projekte), akzeptieren nur die von Astro unterstützten
+> Formate — **JPG, PNG, WebP, GIF, AVIF, SVG**. `foto`/`logo` (vorstand, partner) sind
+> dagegen einfache Pfad-Strings nach `public/` und damit formatunkritisch. Siehe
+> Stolperstein 8.
 
 ### B2. Sveltia CMS einbinden
 
@@ -302,3 +310,13 @@ Diese Punkte haben beim ersten Aufbau echte Zeit gekostet — beim nächsten Mal
 7. **Manuelle Server-Änderungen sind nur Stopgaps.**
    Was man per SFTP direkt hochlädt, wird beim nächsten Deploy überschrieben (außer
    in ausgenommenen Ordnern). Dauerhafte Änderungen gehören ins Repo → `main` → Deploy.
+
+8. **`.jfif`-Bilder brechen den Build der `image()`-Felder.**
+   Astros `image()`-Helper erkennt nur bekannte Bild-Endungen (jpg/jpeg/png/webp/gif/
+   avif/svg). Lädt die Redaktion ein `.jfif` hoch (Windows/Outlook erzeugen das gern),
+   behandelt Astro den Wert als **String** statt als Bild — die Seite zeigt nichts an,
+   und sobald das Feld im Template gerendert wird, **scheitert der Build**
+   (`local-image-used-wrongly`). Lösung: Datei in `.jpg` umbenennen (es ist ohnehin
+   JPEG) und das Frontmatter-Feld anpassen. Vorbeugend steht ein Format-Hinweis (`hint`)
+   an den Bild-Feldern in `config.yml`; `foto`/`logo` sind als reine Pfad-Strings nicht
+   betroffen.
