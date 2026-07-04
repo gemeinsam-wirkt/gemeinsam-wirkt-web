@@ -1,12 +1,19 @@
 ---
+import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 
 /*
   Statische Seite „Mitgliedschaft" (Bereich Der Verein).
-  Präsentation: sobald der Nextcloud-/Download-Link vorliegt, hier eintragen –
-  dann wird der Button unten automatisch angezeigt.
+  Der Link zur Vereins-Präsentation wird NICHT hier gepflegt, sondern kommt aus
+  dem Materialien-Eintrag „Präsentation gemeinsam wirkt e.V." (single source of
+  truth). Ändert sich der Nextcloud-Link, genügt eine Änderung im CMS unter
+  „Materialien". Fehlt der Eintrag, wird der Button unten einfach ausgeblendet.
 */
-const PRAESENTATION_URL = 'https://nx100333.your-storageshare.de/s/Mrd5867jnFCDJKi';
+const materialien = await getCollection('materialien');
+const praesentation = materialien.find((m) =>
+  m.data.titel.toLowerCase().startsWith('präsentation gemeinsam wirkt'),
+);
+const PRAESENTATION_URL = praesentation?.data.url ?? '';
 
 // Beitragsstaffeln (Stand: aktuelle Beitragsordnung).
 const beitraegeUnternehmen = [
