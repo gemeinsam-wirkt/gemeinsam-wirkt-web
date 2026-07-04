@@ -92,6 +92,7 @@ Nach dem Speichern ist die Änderung in **1–2 Minuten** automatisch live.
 | Was | Wann | Wie |
 |---|---|---|
 | **Design/Struktur ändern, neue Seitentypen** | bei Bedarf | Lokal entwickeln → Branch → Pull Request → Merge nach `main` → Deploy läuft automatisch |
+| **Im Code gepflegte Links ändern** | bei Bedarf | Einzelne Links stehen direkt im Seiten-Code, nicht im CMS. Beispiel: die Vereins-Präsentation auf der Mitgliedschaft-Seite → Konstante `PRAESENTATION_URL` oben in `src/pages/der-verein/mitgliedschaft.astro` anpassen → `main` → Deploy |
 | **Abhängigkeiten aktualisieren** | ~halbjährlich | `npm update` lokal, testen (`npm run build`), committen |
 | **Deploy überwachen** | bei jedem Push auf `main` | GitHub → Reiter **Actions** → grüner Haken = erfolgreich |
 | **SSL-Zertifikat prüfen** | jährlich (Let's Encrypt erneuert automatisch) | konsoleH → **SSL Manager**; im Browser auf Schloss-Symbol achten |
