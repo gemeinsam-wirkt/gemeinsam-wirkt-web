@@ -112,7 +112,7 @@ Leitidee, im Subjekt verankert: Das **Kachel-Raster** der Startseite steht für 
   --c-accent: #FF7D00;    /* Leuchtendes Orange */
   /* Kachel-Palette aus dem Marken-Mockup */
   --c-tile-1: #3F58A3;    /* Dunkelblau – heller Text */
-  --c-tile-2: #68C7E9;    /* Hellblau – dunkler Text */
+  --c-tile-2: #4B96D2;    /* Mittelblau – dunkler Text */
   --c-tile-3: #FF7D00;    /* Orange (= Akzent) – dunkler Text */
   --c-tile-4: #CBD500;    /* Gelbgrün – dunkler Text */
 }
