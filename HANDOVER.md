@@ -184,6 +184,28 @@ Die Vorschaubilder `og-default.png` und `logo.png` liegen als fertige Dateien in
 `public/`. Bei einem Rebranding neu erzeugen lassen (Markenfarben aus
 `src/styles/tokens.css`) und ersetzen.
 
+### Google Search Console (einmalig einrichten)
+
+Meldet die Website bei Google an, reicht die Sitemap ein und zeigt
+Indexierungs-/Fehlerberichte. Voraussetzung: ein **Google-Konto** – idealerweise
+ein **Vereinskonto** (übergebbar), nicht das private.
+
+1. **Property anlegen:** search.google.com/search-console → „Property hinzufügen"
+   → Typ **„Domain"** (nicht „URL-Präfix") → `gemeinsam-wirkt.net` eingeben.
+   Google zeigt einen **TXT-Wert** (`google-site-verification=…`) an.
+2. **Per DNS bestätigen** – in **Hetzner konsoleH** → Domain → *DNS-Einstellungen*
+   einen **TXT-Record** anlegen: Name/Host `@` (Root), Typ `TXT`, Wert = der
+   komplette `google-site-verification=…`-String. Speichern, kurz warten, dann in
+   der Search Console **„Bestätigen"**.
+3. **Sitemap einreichen:** links „Sitemaps" → `sitemap-index.xml` senden
+   (Achtung: **-index**, nicht nur `sitemap.xml`).
+4. Optional: Startseite über die **URL-Prüfung** zur Indexierung einreichen;
+   weitere Personen unter *Einstellungen → Nutzer und Berechtigungen* hinzufügen.
+
+> **Nicht die HTML-Datei-Methode nutzen.** Der Deploy räumt `public_html` per
+> `mirror --delete` auf – eine hochgeladene `googleXXXX.html` würde beim nächsten
+> Push gelöscht. Die DNS-Bestätigung ist davon unabhängig und bleibt bestehen.
+
 ---
 
 ## 7. Stolpersteine (aus der bisherigen Praxis)
