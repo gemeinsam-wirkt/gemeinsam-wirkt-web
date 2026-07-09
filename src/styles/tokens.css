@@ -14,20 +14,23 @@
 
   /* --- Neutral --- */
   --c-ink: #1c2b33; /* Fließtext */
+  --c-ink-strong: #10181c; /* kräftigeres Dunkel für Text auf hellen Kacheln (WCAG) */
   --c-muted: #5b6b73; /* sekundärer Text */
   --c-surface: #f6f8f7; /* Off-White-Hintergrund */
   --c-white: #ffffff;
   --c-border: #dde5e3; /* dezente Linien, Kartenränder */
 
   /* --- EIN warmer Akzent – ausschließlich für primäre CTAs --- */
-  --c-accent: #e8833a;
-  --c-accent-ink: #7a3d11; /* dunkle Akzentschrift, wenn Kontrast nötig */
+  --c-accent: #ffa827; /* Orange (Marken-Mockup) – heller Ton, braucht dunklen Text */
+  --c-accent-ink: #3a2600; /* dunkle Schrift auf Orange (Buttons), WCAG-konform */
 
-  /* --- Tile-Abstufungen (statt bunter Mockup-Palette) --- */
-  --c-tile-1: #1e3a6e; /* Blau dunkel */
-  --c-tile-2: #2f6fb0; /* Blau hell */
-  --c-tile-3: #2e7d57; /* Grün dunkel */
-  --c-tile-4: #3e9b6e; /* Grün hell */
+  /* --- Kachel-Palette (aus dem Marken-Mockup) ---
+     Zwei der vier Töne sind hell (Hellblau, Gelbgrün) und tragen daher dunklen
+     Text; Dunkelblau trägt weißen. Die Text-Zuordnung steckt in Tile.astro. */
+  --c-tile-1: #3f58a3; /* Dunkelblau – heller Text */
+  --c-tile-2: #68c7e9; /* Hellblau – dunkler Text */
+  --c-tile-3: #e56359; /* Koralle – dunkler Text */
+  --c-tile-4: #cbd500; /* Gelbgrün – dunkler Text */
 
   /* --- Typografie --- */
   --font-display: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, sans-serif;

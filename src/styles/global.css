@@ -187,15 +187,16 @@ a:hover {
     transform var(--transition);
 }
 
-/* Primärer CTA – der EINE warme Akzent */
+/* Primärer CTA – der EINE warme Akzent (Orange).
+   Heller Ton → dunkler Text für WCAG-Kontrast (weiß auf Orange reicht nicht). */
 .btn--primary {
   background-color: var(--c-accent);
-  color: var(--c-white);
+  color: var(--c-accent-ink);
 }
 
 .btn--primary:hover {
-  background-color: #d4732e;
-  color: var(--c-white);
+  background-color: #e8930f;
+  color: var(--c-accent-ink);
 }
 
 /* Sekundärer CTA – ruhig, in Markenblau */
