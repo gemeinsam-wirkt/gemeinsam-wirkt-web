@@ -109,11 +109,16 @@ Leitidee, im Subjekt verankert: Das **Kachel-Raster** der Startseite steht für 
   --c-surface: #F6F8F7;   /* Off-White-Hintergrund */
   --c-white: #FFFFFF;
   /* EIN warmer Akzent – ausschließlich für primäre CTAs */
-  --c-accent: #E8833A;
+  --c-accent: #FFA827;    /* Orange (Marken-Mockup) */
+  /* Kachel-Palette aus dem Marken-Mockup */
+  --c-tile-1: #3F58A3;    /* Dunkelblau – heller Text */
+  --c-tile-2: #68C7E9;    /* Hellblau – dunkler Text */
+  --c-tile-3: #E56359;    /* Koralle – dunkler Text */
+  --c-tile-4: #CBD500;    /* Gelbgrün – dunkler Text */
 }
 ```
 
-Die bunte Tile-Palette des Mockups (Orange/Koralle/Limette) wird **nicht** übernommen. Tiles erhalten Grün-/Blau-Abstufungen plus den einen warmen Akzent für die wichtigste Handlung.
+**Entscheidung (Juli 2026, Vorstand):** Die vier Kachelfarben und das CTA-Orange stammen aus dem Marken-Mockup (`Home_Website_GemeinsamWirkt`). Damit ist die frühere Vorgabe „Mockup-Palette nicht übernehmen" bewusst aufgehoben. **Barrierefreiheit bleibt bindend:** Die hellen Töne (Hellblau, Gelbgrün) und das Orange tragen **dunklen** Text, Dunkelblau trägt weißen – die Zuordnung steckt in `Tile.astro` bzw. `.btn--primary`. Die maßgeblichen Werte stehen in `src/styles/tokens.css`.
 
 **Typografie (open-source, selbst gehostet – DSGVO, kein Google-CDN):**
 
