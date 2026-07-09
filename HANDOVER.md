@@ -54,13 +54,33 @@ Du brauchst Git nicht selbst zu beherrschen – **Claude Code** übernimmt
 
 ### Weg A (empfohlen): Claude Code aus der Cloud – kein lokales Setup
 
-1. **claude.ai/code** öffnen und mit dem Repo
-   `gemeinsam-wirkt/gemeinsam-wirkt-web` verbinden.
-2. Änderung in normaler Sprache beschreiben („Ändere die Startseiten-Kachel …").
-3. Claude bearbeitet, committet und pusht; der Deploy läuft automatisch.
+Voraussetzung: ein **eigener Claude-Account mit Pro-, Max- oder Team-Plan**
+(Claude Code im Web ist derzeit für diese Pläne verfügbar) und dein
+**GitHub-Zugang** als Org-Owner. Kein Node, kein Git, keine Installation.
+Offizielle Anleitung: <https://code.claude.com/docs/en/web-quickstart>.
 
-Voraussetzung: nur der **GitHub-Zugang** (hast du als Org-Owner). Kein Node, kein
-Git, keine Installation.
+**Einmalig – GitHub verbinden:**
+
+1. **claude.ai/code** öffnen und mit dem eigenen Anthropic-Konto anmelden.
+2. Dem Prompt folgen, die **Claude-GitHub-App installieren** und ihr Zugriff
+   geben: Organisation **`gemeinsam-wirkt`** wählen und (gezielt) das Repo
+   **`gemeinsam-wirkt-web`** freigeben. Als Org-Owner bestätigst du das selbst.
+3. Zur **Cloud-Umgebung**: Defaults lassen (Netzzugang „Trusted" reicht für den
+   npm-Build) → **Create environment**. Node 22 ist in der Cloud-VM vorhanden.
+
+> Hinweis: Eine Session sieht jedes Repo, das dein GitHub-Konto sehen kann – die
+> App-Installation steuert v. a. die Auto-fix-Webhooks, nicht den Zugriff.
+
+**Pro Änderung:**
+
+4. Repo **`gemeinsam-wirkt/gemeinsam-wirkt-web`** und Branch (`main`) wählen.
+5. Modus wählen – **„Plan mode"** (Claude schlägt erst vor) ist am Anfang
+   konservativer als „Accept edits".
+6. Aufgabe **konkret** beschreiben (Datei/Funktion nennen). Claude klont das
+   Repo (dabei wird `CLAUDE.md` automatisch geladen → Brand Voice/Design greifen
+   von selbst), arbeitet und **pusht einen Branch**.
+7. **Diff** prüfen, ggf. Inline-Kommentare, dann **„Create PR"** → auf GitHub
+   **mergen**. Der Merge auf `main` löst den Deploy aus (~1 Min. bis live).
 
 ### Weg B: lokal auf dem eigenen Rechner
 
@@ -124,7 +144,49 @@ nach `dist/`), `npm run preview` (Build ansehen), `npx astro check` (Typprüfung
 
 ---
 
-## 6. Stolpersteine (aus der bisherigen Praxis)
+## 6. SEO & Auffindbarkeit
+
+Die technische SEO-Grundlage ist eingerichtet – sie läuft „set and forget" und
+braucht im Alltag keine Pflege. Was schon steckt:
+
+- **Sitemap** (`@astrojs/sitemap` in `astro.config.mjs`) → `sitemap-index.xml`,
+  automatisch bei jedem Build. **`public/robots.txt`** erlaubt Crawling und
+  verweist auf die Sitemap.
+- **Canonical-URLs**, saubere URL-Struktur (kein trailing slash) und das
+  `lang`-Attribut – zentral in `src/layouts/BaseLayout.astro`.
+- **Teilen-Vorschau (Open Graph / Twitter Cards):** Titel, Beschreibung und ein
+  gebrandetes Vorschaubild (`public/og-default.png`, 1200×630) für hübsche
+  Link-Vorschauen in WhatsApp/LinkedIn/Facebook/X. Pro Seite überschreibbar via
+  `image="/pfad.png"` an das Layout.
+- **Strukturierte Daten (JSON-LD, schema.org)** über `src/components/JsonLd.astro`:
+  - **Organization + WebSite** auf der Startseite (Basis fürs Google Knowledge Panel).
+  - **Event** auf jeder Veranstaltungs-Detailseite (Termine können als Rich Result
+    in der Google-Suche erscheinen).
+  - **NewsArticle** auf jeder News-Detailseite.
+  - Die Vereinsstammdaten dafür liegen zentral in **`src/data/site.ts`**
+    (Name, Adresse, E-Mail, Logo `public/logo.png`). Ändern sich diese, **nur dort**
+    anpassen.
+- **Schriften selbst gehostet** (kein Google-CDN) – gut für DSGVO *und* Ladezeit.
+
+**Was die Redaktion tun kann (optional, kein Muss):**
+
+- Aussagekräftige **Titel** und **Teaser/Kurzbeschreibungen** pflegen – sie werden
+  direkt als Suchergebnis-Text und Teilen-Beschreibung genutzt.
+- Beiträgen ein **Bild** geben – es wird automatisch zum Teilen-Vorschaubild.
+
+**Nach dem nächsten Deploy einmalig prüfen** (rein zur Kontrolle):
+
+- **Rich Results Test** (search.google.com/test/rich-results) mit einer News- und
+  einer Veranstaltungs-URL.
+- **Schema Markup Validator** (validator.schema.org) mit der Startseite.
+
+Die Vorschaubilder `og-default.png` und `logo.png` liegen als fertige Dateien in
+`public/`. Bei einem Rebranding neu erzeugen lassen (Markenfarben aus
+`src/styles/tokens.css`) und ersetzen.
+
+---
+
+## 7. Stolpersteine (aus der bisherigen Praxis)
 
 - **Deploy-Ziel niemals `/`**, immer `/public_html`. Mit `mirror --delete` nach
   `/` löscht man Hetzner-Systemdateien (`.bashrc`, `www_logs`) und das
@@ -143,7 +205,7 @@ nach `dist/`), `npm run preview` (Build ansehen), `npx astro check` (Typprüfung
 
 ---
 
-## 7. Geparkt / noch offen
+## 8. Geparkt / noch offen
 
 - **Podcast-Host = Letscast.fm** entschieden, Account erst bei der ersten Folge
   anlegen (kostet nach Probephase). Pro Folge nur `embedUrl` in der
@@ -157,10 +219,14 @@ nach `dist/`), `npm run preview` (Build ansehen), `npx astro check` (Typprüfung
 - **Newsletter** läuft per `mailto` an `newsletter@gemeinsam-wirkt.net` (kein
   ESP) – dokumentierte Einwilligung, Verein bestätigt per Antwort.
 - **Englisch** ist strukturell vorbereitet (`/en/`), aber noch nicht befüllt.
+- **Social-Profile fürs Knowledge Panel:** In `src/data/site.ts` ist das Feld
+  `sameAs` noch leer. Sobald der Verein öffentliche Profile hat (LinkedIn,
+  Instagram, YouTube …), dort die URLs eintragen – das stärkt die Verknüpfung
+  fürs Google Knowledge Panel spürbar.
 
 ---
 
-## 8. Konventionen (verbindlich)
+## 9. Konventionen (verbindlich)
 
 - **Brand Voice:** Du-Ansprache, Struktur Problem → Perspektive → Handlung;
   verbotene Begriffe (u. a. „nachhaltig", „Win-Win", „neue Wege gehen") meiden.

@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { ui } from '../../../i18n/ui';
 import { formatDateTime } from '../../../i18n/utils';
+import { site } from '../../../data/site.ts';
 
 export async function getStaticPaths() {
   const events = await getCollection('veranstaltungen', ({ data }) => !data.draft);
@@ -17,9 +18,28 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const t = ui.de;
 const d = entry.data;
+
+// Strukturierte Daten: Event. Ermöglicht Termin-Rich-Results in der Google-Suche.
+const eventUrl = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd: Record<string, unknown> = {
+  '@type': 'Event',
+  name: d.titel,
+  startDate: d.start.toISOString(),
+  ...(d.ende && { endDate: d.ende.toISOString() }),
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'Place', name: d.ort },
+  description: d.kurzbeschreibung,
+  url: eventUrl,
+  ...(d.bild && { image: new URL(d.bild.src, Astro.site).href }),
+  organizer: { '@type': 'Organization', name: site.name, url: site.url },
+  ...(d.anmeldungUrl && {
+    offers: { '@type': 'Offer', url: d.anmeldungUrl, availability: 'https://schema.org/InStock' },
+  }),
+};
 ---
 
-<BaseLayout title={d.titel} description={d.kurzbeschreibung}>
+<BaseLayout title={d.titel} description={d.kurzbeschreibung} jsonLd={jsonLd}>
   <article class="container article">
     <p class="article__back">
       <a href="/projekte-und-veranstaltungen/veranstaltungen">← {t['back']}</a>

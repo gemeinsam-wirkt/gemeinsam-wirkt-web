@@ -1,0 +1,22 @@
+---
+/*
+  Rendert strukturierte Daten (schema.org) als JSON-LD-Script.
+  Akzeptiert ein einzelnes Schema-Objekt oder ein Array. Der @context wird
+  automatisch ergänzt, damit die Aufrufer nur das eigentliche Schema übergeben.
+
+  set:html gibt das JSON unescaped aus – korrekt für <script>-Inhalte. Die Daten
+  stammen ausschließlich aus eigenem Content/Stammdaten, nicht aus Nutzereingaben.
+*/
+interface Props {
+  schema: Record<string, unknown> | Record<string, unknown>[];
+}
+const { schema } = Astro.props;
+
+const items = Array.isArray(schema) ? schema : [schema];
+const json = {
+  '@context': 'https://schema.org',
+  ...(items.length === 1 ? items[0] : { '@graph': items }),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(json)} is:inline />
