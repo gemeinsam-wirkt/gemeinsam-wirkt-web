@@ -113,12 +113,12 @@ Leitidee, im Subjekt verankert: Das **Kachel-Raster** der Startseite steht für 
   /* Kachel-Palette aus dem Marken-Mockup */
   --c-tile-1: #3F58A3;    /* Dunkelblau – heller Text */
   --c-tile-2: #68C7E9;    /* Hellblau – dunkler Text */
-  --c-tile-3: #E56359;    /* Koralle – dunkler Text */
+  --c-tile-3: #FFA827;    /* Orange (= Akzent) – dunkler Text */
   --c-tile-4: #CBD500;    /* Gelbgrün – dunkler Text */
 }
 ```
 
-**Entscheidung (Juli 2026, Vorstand):** Die vier Kachelfarben und das CTA-Orange stammen aus dem Marken-Mockup (`Home_Website_GemeinsamWirkt`). Damit ist die frühere Vorgabe „Mockup-Palette nicht übernehmen" bewusst aufgehoben. **Barrierefreiheit bleibt bindend:** Die hellen Töne (Hellblau, Gelbgrün) und das Orange tragen **dunklen** Text, Dunkelblau trägt weißen – die Zuordnung steckt in `Tile.astro` bzw. `.btn--primary`. Die maßgeblichen Werte stehen in `src/styles/tokens.css`.
+**Entscheidung (Juli 2026, Vorstand):** Die Kachelfarben und das CTA-Orange stammen aus dem Marken-Mockup (`Home_Website_GemeinsamWirkt`). Damit ist die frühere Vorgabe „Mockup-Palette nicht übernehmen" bewusst aufgehoben. Variante 3 nutzt bewusst das Akzent-Orange (`--c-accent`) – das hebt Kacheln wie „Materialien", „Mitgliedschaft" und „Veranstaltungen und Termine" hervor. **Barrierefreiheit bleibt bindend:** Die hellen Töne (Hellblau, Orange, Gelbgrün) tragen **dunklen** Text, Dunkelblau trägt weißen – die Zuordnung steckt in `Tile.astro` bzw. `.btn--primary`. Die maßgeblichen Werte stehen in `src/styles/tokens.css`.
 
 **Typografie (open-source, selbst gehostet – DSGVO, kein Google-CDN):**
 
