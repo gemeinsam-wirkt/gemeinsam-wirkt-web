@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { ui } from '../../../i18n/ui';
 import { formatDate } from '../../../i18n/utils';
+import { site } from '../../../data/site.ts';
 
 export async function getStaticPaths() {
   const news = await getCollection('news', ({ data }) => !data.draft);
@@ -16,9 +17,27 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const t = ui.de;
+const d = entry.data;
+
+// Strukturierte Daten: NewsArticle. Verein als Autor/Herausgeber inkl. Logo.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd: Record<string, unknown> = {
+  '@type': 'NewsArticle',
+  headline: d.titel,
+  datePublished: d.datum.toISOString(),
+  description: d.teaser,
+  mainEntityOfPage: pageUrl,
+  ...(d.bild && { image: new URL(d.bild.src, Astro.site).href }),
+  author: { '@type': 'Organization', name: site.name, url: site.url },
+  publisher: {
+    '@type': 'Organization',
+    name: site.name,
+    logo: { '@type': 'ImageObject', url: new URL(site.logo, Astro.site).href },
+  },
+};
 ---
 
-<BaseLayout title={entry.data.titel} description={entry.data.teaser}>
+<BaseLayout title={d.titel} description={d.teaser} jsonLd={jsonLd}>
   <article class="container article">
     <p class="article__back"><a href="/der-verein/news">← {t['back']}</a></p>
     <p class="article__date">{formatDate(entry.data.datum)}</p>

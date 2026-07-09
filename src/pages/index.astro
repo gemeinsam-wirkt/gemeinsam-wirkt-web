@@ -11,8 +11,23 @@ import Card from '../components/Card.astro';
 import { mainNav } from '../i18n/nav';
 import { ui } from '../i18n/ui';
 import { formatDate } from '../i18n/utils';
+import { site, organizationSchema } from '../data/site.ts';
 
 const t = ui.de;
+
+// Strukturierte Daten: Verein (Organization) + Website. Basis für Rich Results
+// und das Google Knowledge Panel.
+const jsonLd = [
+  organizationSchema(Astro.site!),
+  {
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    name: site.name,
+    url: site.url,
+    inLanguage: 'de-DE',
+    publisher: { '@id': `${site.url}/#organization` },
+  },
+];
 
 // Kachel-Farben rotieren über die Grün-/Blau-Abstufungen.
 const variants = [1, 2, 3, 4] as const;
@@ -22,7 +37,7 @@ const news = (await getCollection('news', ({ data }) => !data.draft))
   .slice(0, 3);
 ---
 
-<BaseLayout title={t['site.name']} description={t['site.tagline']}>
+<BaseLayout title={t['site.title']} description={t['site.tagline']} jsonLd={jsonLd}>
   <section class="hero">
     <div class="container">
       <p class="hero__eyebrow">{t['site.tagline']}</p>

@@ -20,6 +20,9 @@ export const ui = {
   de: {
     'site.name': 'gemeinsam wirkt',
     'site.tagline': 'Centrum für Collaboration in Wirtschaft und Gesellschaft',
+    // Vollständiger <title> der Startseite (SEO): trägt den Vereinsnamen samt
+    // beschreibendem Zusatz, statt nur der bloßen Wortmarke.
+    'site.title': 'gemeinsam wirkt e.V. – Räume für Kollaboration',
 
     'nav.skip': 'Zum Hauptinhalt springen',
     'nav.menu': 'Menü',
