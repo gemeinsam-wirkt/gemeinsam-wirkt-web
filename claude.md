@@ -112,13 +112,13 @@ Leitidee, im Subjekt verankert: Das **Kachel-Raster** der Startseite steht für 
   --c-accent: #FF7D00;    /* Leuchtendes Orange */
   /* Kachel-Palette aus dem Marken-Mockup */
   --c-tile-1: #3F58A3;    /* Dunkelblau – heller Text */
-  --c-tile-2: #4B96D2;    /* Mittelblau – dunkler Text */
+  --c-tile-2: #4B96D2;    /* Mittelblau – heller Text */
   --c-tile-3: #FF7D00;    /* Orange (= Akzent) – dunkler Text */
   --c-tile-4: #CBD500;    /* Gelbgrün – dunkler Text */
 }
 ```
 
-**Entscheidung (Juli 2026, Vorstand):** Die Kachelfarben und das CTA-Orange stammen aus dem Marken-Mockup (`Home_Website_GemeinsamWirkt`). Damit ist die frühere Vorgabe „Mockup-Palette nicht übernehmen" bewusst aufgehoben. Variante 3 nutzt bewusst das Akzent-Orange (`--c-accent`) – das hebt Kacheln wie „Materialien", „Mitgliedschaft" und „Veranstaltungen und Termine" hervor. **Barrierefreiheit bleibt bindend:** Die hellen Töne (Hellblau, Orange, Gelbgrün) tragen **dunklen** Text, Dunkelblau trägt weißen – die Zuordnung steckt in `Tile.astro` bzw. `.btn--primary`. Die maßgeblichen Werte stehen in `src/styles/tokens.css`.
+**Entscheidung (Juli 2026, Vorstand):** Die Kachelfarben und das CTA-Orange stammen aus dem Marken-Mockup (`Home_Website_GemeinsamWirkt`). Damit ist die frühere Vorgabe „Mockup-Palette nicht übernehmen" bewusst aufgehoben. Variante 3 nutzt bewusst das Akzent-Orange (`--c-accent`) – das hebt Kacheln wie „Materialien", „Mitgliedschaft" und „Veranstaltungen und Termine" hervor. **Barrierefreiheit:** Orange und Gelbgrün tragen **dunklen** Text, Dunkel- und Mittelblau tragen weißen – die Zuordnung steckt in `Tile.astro` bzw. `.btn--primary`. Die maßgeblichen Werte stehen in `src/styles/tokens.css`. **Bewusste Ausnahme (Vorstandswunsch):** Mittelblau (`--c-tile-2`, #4B96D2) trägt weißen Text; bei den zwei Startseiten-Kacheln mit Beschreibung liegt der kleine Text dadurch bei ~3,2:1 und damit unter AA (4,5:1) – die großen Titel erfüllen 3:1.
 
 **Typografie (open-source, selbst gehostet – DSGVO, kein Google-CDN):**
 
