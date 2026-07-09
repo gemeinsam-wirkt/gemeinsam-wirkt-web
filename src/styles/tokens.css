@@ -21,7 +21,7 @@
   --c-border: #dde5e3; /* dezente Linien, Kartenränder */
 
   /* --- EIN warmer Akzent – ausschließlich für primäre CTAs --- */
-  --c-accent: #ffa827; /* Orange (Marken-Mockup) – heller Ton, braucht dunklen Text */
+  --c-accent: #ff7d00; /* Leuchtendes Orange – heller Ton, braucht dunklen Text */
   --c-accent-ink: #3a2600; /* dunkle Schrift auf Orange (Buttons), WCAG-konform */
 
   /* --- Kachel-Palette (aus dem Marken-Mockup) ---
