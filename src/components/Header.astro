@@ -20,8 +20,7 @@ const isActive = (href: string) =>
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="wordmark" aria-label={`${t['site.name']} – Startseite`}>
-      <span class="wordmark__name">gemeinsam wirkt</span>
-      <span class="wordmark__suffix">e.V.</span>
+      <img src="/logo-header.svg" alt="" width="122" height="44" class="wordmark__img" />
     </a>
 
     <button
@@ -127,22 +126,19 @@ const isActive = (href: string) =>
 
   .wordmark {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.35ch;
-    font-family: var(--font-display);
+    align-items: center;
     text-decoration: none;
     line-height: 1;
   }
-  .wordmark__name {
-    font-weight: 800;
-    font-size: var(--fs-500);
-    color: var(--c-blue-900);
-    letter-spacing: -0.01em;
+  .wordmark__img {
+    display: block;
+    height: 2.75rem;
+    width: auto;
   }
-  .wordmark__suffix {
-    font-weight: 600;
-    font-size: var(--fs-300);
-    color: var(--c-green-700);
+  @media (max-width: 30rem) {
+    .wordmark__img {
+      height: 2.25rem;
+    }
   }
 
   /* --- Mobile-Toggle --- */
