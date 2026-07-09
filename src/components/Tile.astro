@@ -40,17 +40,22 @@ const { title, href, description, variant = 1 } = Astro.props;
       box-shadow var(--transition);
   }
 
+  /* Textfarbe folgt dem Hintergrund: helle Kacheln tragen dunklen Text
+     (WCAG-Kontrast), Dunkelblau trägt den weißen Standard aus .tile. */
   .tile--1 {
-    background: var(--c-tile-1);
+    background: var(--c-tile-1); /* Dunkelblau */
   }
   .tile--2 {
-    background: var(--c-tile-2);
+    background: var(--c-tile-2); /* Hellblau */
+    color: var(--c-ink-strong);
   }
   .tile--3 {
-    background: var(--c-tile-3);
+    background: var(--c-tile-3); /* Koralle */
+    color: var(--c-ink-strong);
   }
   .tile--4 {
-    background: var(--c-tile-4);
+    background: var(--c-tile-4); /* Gelbgrün */
+    color: var(--c-ink-strong);
   }
 
   .tile__title {
@@ -68,7 +73,9 @@ const { title, href, description, variant = 1 } = Astro.props;
     margin-top: var(--space-3);
     font-size: var(--fs-400);
     line-height: var(--lh-snug);
-    color: rgba(255, 255, 255, 0.92);
+    /* Folgt der Kachel-Textfarbe (hell oder dunkel), leicht gedämpft. */
+    color: inherit;
+    opacity: 0.9;
   }
   .tile__arrow {
     align-self: flex-end;
@@ -79,7 +86,6 @@ const { title, href, description, variant = 1 } = Astro.props;
   .tile:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-md);
-    color: var(--c-white);
   }
   .tile:hover .tile__arrow {
     transform: translateX(4px);
