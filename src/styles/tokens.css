@@ -25,10 +25,10 @@
   --c-accent-ink: #3a2600; /* dunkle Schrift auf Orange (Buttons), WCAG-konform */
 
   /* --- Kachel-Palette (aus dem Marken-Mockup) ---
-     Drei Töne sind hell (Hellblau, Orange, Gelbgrün) und tragen daher dunklen
-     Text; Dunkelblau trägt weißen. Die Text-Zuordnung steckt in Tile.astro. */
+     Drei Töne (Mittelblau, Orange, Gelbgrün) tragen dunklen Text; Dunkelblau
+     trägt weißen. Die Text-Zuordnung steckt in Tile.astro. */
   --c-tile-1: #3f58a3; /* Dunkelblau – heller Text */
-  --c-tile-2: #68c7e9; /* Hellblau – dunkler Text */
+  --c-tile-2: #4b96d2; /* Mittelblau – dunkler Text */
   --c-tile-3: var(--c-accent); /* Orange (Akzent) – dunkler Text */
   --c-tile-4: #cbd500; /* Gelbgrün – dunkler Text */
 
