@@ -32,7 +32,7 @@ export const ui = {
 
     'home.intro.title': 'Räume, in denen Zusammenarbeit gelingt',
     'home.intro.text':
-      'Viele gute Ideen scheitern nicht am Wollen, sondern am gemeinsamen Tun. Wir öffnen Kooperationsräume, in denen Menschen aus Verwaltung, Zivilgesellschaft und Wirtschaft das Zusammenarbeiten erproben – geschützt, konkret, auf Augenhöhe.',
+      'Viele gute Ideen scheitern nicht am Wollen, sondern am gemeinsamen Tun. Wir öffnen Kooperationsräume, in denen Menschen aus Verwaltung, Zivilgesellschaft und Wirtschaft gelingende Co-Kreation erproben – geschützt, konkret, auf Augenhöhe.',
     'home.tiles.title': 'Wo möchtest du beginnen?',
 
     'newsletter.title': 'Bleib in Verbindung',
