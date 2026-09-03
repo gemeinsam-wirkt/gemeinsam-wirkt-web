@@ -123,6 +123,17 @@ nach `dist/`), `npm run preview` (Build ansehen), `npx astro check` (Typprüfung
 - `draft: true` blendet einen Eintrag vom Build aus.
 - Bilder: nur **JPG, PNG, WebP, GIF, AVIF, SVG** – **kein `.jfif`** (wird sonst
   nicht angezeigt).
+- **Dateinamen ohne Umlaute, Leerzeichen und Sonderzeichen** – nur `a–z`,
+  `0–9`, `-` und `_`, also `portraet-robert-bautzmann.jpg` statt
+  `2J3A7039_PorträtRB.jpg`. Solche Namen laufen unverändert durch Git, den
+  SFTP-Upload und die URL. Ein Umlaut kann auf einer dieser Stationen kippen –
+  dann baut die Seite sauber, das Bild zeigt live aber ins Leere.
+- **Zwei Wege, ein Bild hochzuladen** – beide bauen, aber sie sind nicht gleich:
+  - über das **Bild-Feld des Beitrags**: die Datei landet neben dem Text, Astro
+    optimiert sie (WebP, passende Größen). **Das ist der bevorzugte Weg.**
+  - über die **globale Medienbibliothek**: die Datei landet in `public/uploads`
+    und wird unverändert ausgeliefert – funktioniert, ist aber größer und
+    langsamer.
 
 ---
 
@@ -218,6 +229,13 @@ ein **Vereinskonto** (übergebbar), nicht das private.
 - **CMS committet direkt auf `main`.** Wenn jemand parallel im CMS speichert,
   während du lokal arbeitest, ist dein `main` veraltet → **vor dem Weiterarbeiten
   immer `git fetch` + rebase/pull.**
+- **Bildpfade brechen den Build nicht mehr.** Früher stoppte ein Bild aus der
+  globalen Medienbibliothek (`/uploads/…`) den Build mit `[ImageNotFound]`, weil
+  Astros `image()`-Helfer nur Dateien auflösen kann, die neben dem Text liegen.
+  Seit Commit `959658d` nimmt das `bild`-Feld beide Pfadformen an;
+  `src/components/ContentImage.astro` entscheidet beim Rendern. Ein vertippter
+  Bildpfad führt jetzt zu einem fehlenden Bild statt zu einem fehlgeschlagenen
+  Deploy.
 - **Gelöschte CMS-Einträge bauen weiter?** Astro-Cache leeren:
   `rm -rf .astro dist node_modules/.astro`, dann neu bauen.
 - **Nextcloud (Storage Share) erzwingt Passwortschutz** für öffentliche Links.
