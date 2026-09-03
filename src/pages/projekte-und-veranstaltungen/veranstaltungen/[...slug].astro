@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Image } from 'astro:assets';
+import ContentImage from '../../../components/ContentImage.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { ui } from '../../../i18n/ui';
 import { formatDateTime } from '../../../i18n/utils';
@@ -31,7 +31,11 @@ const jsonLd: Record<string, unknown> = {
   location: { '@type': 'Place', name: d.ort },
   description: d.kurzbeschreibung,
   url: eventUrl,
-  ...(d.bild && { image: new URL(d.bild.src, Astro.site).href }),
+  // `bild` ist entweder ImageMetadata (optimiert) oder ein Pfad in public/ –
+  // fuer die absolute URL beide Faelle auf einen String bringen.
+  ...(d.bild && {
+    image: new URL(typeof d.bild === 'string' ? d.bild : d.bild.src, Astro.site).href,
+  }),
   organizer: { '@type': 'Organization', name: site.name, url: site.url },
   ...(d.anmeldungUrl && {
     offers: { '@type': 'Offer', url: d.anmeldungUrl, availability: 'https://schema.org/InStock' },
@@ -63,7 +67,7 @@ const jsonLd: Record<string, unknown> = {
     <p class="article__teaser">{d.kurzbeschreibung}</p>
     {
       d.bild && (
-        <Image
+        <ContentImage
           class="article__image"
           src={d.bild}
           alt={d.titel}

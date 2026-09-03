@@ -15,6 +15,26 @@ import { glob } from 'astro/loaders';
  * - draft: true blendet Einträge vom Build aus – praktisch für Vorschauen.
  */
 
+/**
+ * Bild-Feld für die per Sveltia gepflegten Collections.
+ *
+ * Es gibt im CMS zwei Wege, ein Bild zu setzen, und beide müssen bauen:
+ *  1. Über das Bild-Feld der Collection → die Datei landet NEBEN der Markdown-Datei
+ *     und wird als relativer Pfad geschrieben ("foto.jpg"). Diesen Fall übernimmt
+ *     Astros image()-Helfer: er optimiert das Bild und liefert ImageMetadata.
+ *  2. Über die globale Medienbibliothek → die Datei landet in public/uploads und
+ *     wird als absoluter Pfad geschrieben ("/uploads/foto.jpg"). Solche Dateien
+ *     kann image() NICHT auflösen (public/ wird unverändert ausgeliefert, nicht
+ *     gebündelt) – ein solcher Pfad hat den Build bisher abgebrochen.
+ *
+ * Deshalb: absolute Pfade zuerst als reinen String durchreichen, alles andere an
+ * image() geben. In den Templates unterscheidet <ContentImage> die beiden Fälle.
+ * Nebeneffekt (gewollt): ein Tippfehler im Pfad führt zu einem fehlenden Bild,
+ * nicht mehr zu einem fehlgeschlagenen Deployment.
+ */
+const bildFeld = (image: () => z.ZodType) =>
+  z.union([z.string().startsWith('/'), image()]).optional();
+
 // Veranstaltungen und Termine — per Sveltia pflegbar
 const veranstaltungen = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/veranstaltungen' }),
@@ -29,7 +49,7 @@ const veranstaltungen = defineCollection({
       ort: z.string(),
       kurzbeschreibung: z.string(),
       anmeldungUrl: z.string().optional(), // externer Anmelde-/Ticketlink
-      bild: image().optional(),
+      bild: bildFeld(image),
       draft: z.boolean().default(false),
     }),
 });
@@ -42,7 +62,7 @@ const news = defineCollection({
       titel: z.string(),
       datum: z.coerce.date(),
       teaser: z.string(),
-      bild: image().optional(),
+      bild: bildFeld(image),
       draft: z.boolean().default(false),
     }),
 });
@@ -57,7 +77,7 @@ const projekte = defineCollection({
       status: z.enum(['geplant', 'laufend', 'abgeschlossen']).default('laufend'),
       // Verknüpfung zur partner-Collection (über deren id):
       partner: z.array(reference('partner')).optional(),
-      bild: image().optional(),
+      bild: bildFeld(image),
       draft: z.boolean().default(false),
     }),
 });

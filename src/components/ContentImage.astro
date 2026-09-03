@@ -1,0 +1,42 @@
+---
+/*
+  Bild aus einer Content-Collection ausgeben.
+
+  Das `bild`-Feld liefert je nach Upload-Weg im CMS zwei verschiedene Dinge
+  (siehe Kommentar bei `bildFeld` in src/content.config.ts):
+   - ImageMetadata  → Bild liegt neben der Markdown-Datei, Astro optimiert es.
+   - string         → Bild liegt in public/ (z. B. "/uploads/foto.jpg") und wird
+                      unverändert ausgeliefert; <Image> kann damit nichts anfangen.
+
+  Diese Komponente kapselt die Unterscheidung, damit die Seiten sie nicht jedes
+  Mal wiederholen müssen.
+*/
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  /** Breiten für das optimierte Bild (nur bei ImageMetadata wirksam). */
+  widths?: number[];
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+}
+const { src, alt, widths, sizes, loading = 'lazy', class: className } = Astro.props;
+---
+
+{
+  typeof src === 'string' ? (
+    <img class={className} src={src} alt={alt} loading={loading} decoding="async" />
+  ) : (
+    <Image
+      class={className}
+      src={src}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      loading={loading}
+    />
+  )
+}

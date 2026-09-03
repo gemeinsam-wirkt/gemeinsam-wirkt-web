@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Image } from 'astro:assets';
+import ContentImage from '../../../components/ContentImage.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { ui } from '../../../i18n/ui';
 import { formatDate } from '../../../i18n/utils';
@@ -27,7 +27,11 @@ const jsonLd: Record<string, unknown> = {
   datePublished: d.datum.toISOString(),
   description: d.teaser,
   mainEntityOfPage: pageUrl,
-  ...(d.bild && { image: new URL(d.bild.src, Astro.site).href }),
+  // `bild` ist entweder ImageMetadata (optimiert) oder ein Pfad in public/ –
+  // fuer die absolute URL beide Faelle auf einen String bringen.
+  ...(d.bild && {
+    image: new URL(typeof d.bild === 'string' ? d.bild : d.bild.src, Astro.site).href,
+  }),
   author: { '@type': 'Organization', name: site.name, url: site.url },
   publisher: {
     '@type': 'Organization',
@@ -45,7 +49,7 @@ const jsonLd: Record<string, unknown> = {
     <p class="article__teaser">{entry.data.teaser}</p>
     {
       entry.data.bild && (
-        <Image
+        <ContentImage
           class="article__image"
           src={entry.data.bild}
           alt={entry.data.titel}

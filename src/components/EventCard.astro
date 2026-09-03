@@ -3,7 +3,7 @@
   Karte für eine Veranstaltung: Datum, Ort, Kurzbeschreibung, optionaler
   externer Anmeldelink (anmeldungUrl). Datum lokalisiert formatiert.
 */
-import { Image } from 'astro:assets';
+import ContentImage from './ContentImage.astro';
 import type { ImageMetadata } from 'astro';
 import { formatDateTime } from '../i18n/utils';
 import { ui } from '../i18n/ui';
@@ -16,7 +16,7 @@ interface Props {
   kurzbeschreibung: string;
   anmeldungUrl?: string;
   /** Optionales Vorschaubild (aus dem Content-`bild`-Feld). */
-  bild?: ImageMetadata;
+  bild?: ImageMetadata | string;
 }
 const { titel, href, start, ort, kurzbeschreibung, anmeldungUrl, bild } = Astro.props;
 const t = ui.de;
@@ -25,7 +25,7 @@ const t = ui.de;
 <article class="event">
   {bild && (
     <a class="event__media" href={href} tabindex="-1" aria-hidden="true">
-      <Image
+      <ContentImage
         src={bild}
         alt=""
         widths={[400, 800]}
