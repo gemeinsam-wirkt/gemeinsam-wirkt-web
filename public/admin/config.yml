@@ -32,6 +32,12 @@ i18n:
   locales: [de, en]
   default_locale: de
 
+# --- Dateinamen (Slugs) ---
+# Ohne identifier_field sucht das CMS ein Feld namens "title" und vergibt, wenn es
+# keins findet, eine Zufalls-ID als Dateinamen (z. B. cb2b3051f104.md) - die dann
+# auch in der oeffentlichen URL steht. Unsere Felder heissen "titel" bzw. "name",
+# deshalb ist identifier_field bei JEDER Collection gesetzt.
+
 collections:
   # ---------------------------------------------------------------- Veranstaltungen
   - name: veranstaltungen
@@ -40,6 +46,7 @@ collections:
     folder: src/content/veranstaltungen
     create: true
     slug: '{{slug}}'
+    identifier_field: titel
     # Bilder relativ zur Datei → kompatibel mit Astros image()-Helper.
     media_folder: ''
     public_folder: ''
@@ -61,6 +68,7 @@ collections:
     folder: src/content/news
     create: true
     slug: '{{slug}}'
+    identifier_field: titel
     media_folder: ''
     public_folder: ''
     fields:
@@ -78,6 +86,7 @@ collections:
     folder: src/content/projekte
     create: true
     slug: '{{slug}}'
+    identifier_field: titel
     media_folder: ''
     public_folder: ''
     fields:
@@ -110,6 +119,7 @@ collections:
     folder: src/content/podcast
     create: true
     slug: '{{slug}}'
+    identifier_field: titel
     media_folder: ''
     public_folder: ''
     fields:
