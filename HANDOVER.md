@@ -236,6 +236,24 @@ ein **Vereinskonto** (übergebbar), nicht das private.
   `src/components/ContentImage.astro` entscheidet beim Rendern. Ein vertippter
   Bildpfad führt jetzt zu einem fehlenden Bild statt zu einem fehlgeschlagenen
   Deploy.
+- **Ein im CMS gelöschtes Bild kann ein *anderes* Bild mitreißen.** Sveltia bietet
+  beim Löschen eines Beitrags an, dessen Bilder gleich mitzulöschen (Commit-Titel
+  endet dann auf `+1`). Wird dabei eine Datei entfernt, die noch woanders benutzt
+  wird, bricht ab da **jeder** Deploy mit `[ImageNotFound]` – und neue Inhalte
+  erscheinen nicht mehr, ohne dass jemand eine Fehlermeldung sieht. Passiert am
+  03.09.2026. Wiederherstellen mit
+  `git checkout <lösch-commit>^ -- <pfad/zur/datei>`.
+- **Erscheint ein CMS-Inhalt nicht auf der Website, ist fast immer der Deploy
+  fehlgeschlagen** – nicht die Seite kaputt. Erste Schritte: `git fetch`, dann
+  `gh run list --limit 5`. Ein roter Lauf meldet sich bei niemandem von selbst.
+- **Hochgeladene HTML-Seiten müssen bereinigt werden.** Eigenständige Seiten, die
+  aus dem Artifact-Viewer gespeichert und über das CMS nach `public/dokumente`
+  hochgeladen werden, bringen zwei unsichtbare Zugaben mit: Schriften von
+  Google-Servern (DSGVO) und einen `<!-- frame-runtime -->`-Block mit ~13 KB
+  fremdem JavaScript. Beides prüft `npm run pruefe` automatisch bei jedem Build
+  und stoppt ihn mit einer Anleitung, was zu tun ist. **Wichtig:** Ein erneuter
+  Upload derselben Quelldatei bringt beides zurück – deshalb die Quelldatei
+  bereinigen, nicht nur die Kopie im Repo.
 - **Gelöschte CMS-Einträge bauen weiter?** Astro-Cache leeren:
   `rm -rf .astro dist node_modules/.astro`, dann neu bauen.
 - **Nextcloud (Storage Share) erzwingt Passwortschutz** für öffentliche Links.

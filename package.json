@@ -7,12 +7,13 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run pruefe",
     "preview": "astro preview",
     "search": "pagefind --site dist",
-    "build:search": "astro build && pagefind --site dist",
+    "build:search": "npm run build && pagefind --site dist",
     "preview:search": "npm run build:search && astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "pruefe": "node scripts/pruefe-externe-ressourcen.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

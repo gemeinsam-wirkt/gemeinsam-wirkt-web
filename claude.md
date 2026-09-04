@@ -188,6 +188,8 @@ Secrets im Repo: `SFTP_HOST`, `SFTP_USER`, `SFTP_PASS` (oder Key), `SFTP_REMOTE_
 
 **DSGVO-Hinweise:** Schriften selbst hosten (kein Google-CDN-Hotlink), nur EU-Dienste, keine Tracker, cookiefrei per Default (statisch), Newsletter mit DOI + AVV beim ESP, Impressum/Datenschutz vor Livegang vollständig.
 
+**Automatische Prüfung:** `npm run build` ruft am Ende `scripts/pruefe-externe-ressourcen.mjs` auf. Das Skript durchsucht die fertige Website in `dist/` und bricht den Build ab, wenn eine Seite Schriften von `fonts.googleapis.com`/`fonts.gstatic.com` lädt oder einen `<!-- frame-runtime -->`-Block aus dem Artifact-Viewer enthält. Hintergrund: Eigenständige HTML-Seiten, die über das CMS nach `public/dokumente` hochgeladen werden, bringen beides regelmäßig mit, und man sieht es der Seite nicht an. Die Fehlermeldung nennt Datei, Zeile und die nötige Korrektur. Neue Regeln lassen sich im Array `VERBOTEN` ergänzen.
+
 ---
 
 ## 11. Claude-Code-Startprompt (Phase 1)
