@@ -134,7 +134,11 @@ const materialien = defineCollection({
   schema: z.object({
     titel: z.string(),
     typ: z.enum(['video', 'dokument', 'audio', 'link']).default('link'),
-    url: z.string(), // externer Link (YouTube/Vimeo, Nextcloud-Share, PDF …)
+    // Entweder ein externer Link ODER eine selbst hochgeladene Datei. Sveltia schreibt
+    // ein leeres optionales Feld als "" – deshalb vor der Pruefung zu undefined
+    // normalisieren, damit ein leer gelassenes Feld nicht als Wert zaehlt.
+    url: z.preprocess((v) => (v === '' ? undefined : v), z.string().optional()),
+    datei: z.preprocess((v) => (v === '' ? undefined : v), z.string().optional()),
     quelle: z.string().optional(), // z. B. „YouTube", „Vimeo", Name der Quelle
     beschreibung: z.string().optional(),
     // Nur falls der Link ein (öffentlich mitteilbares) Passwort verlangt,
@@ -142,7 +146,13 @@ const materialien = defineCollection({
     passwort: z.string().optional(),
     // Steuert die Anzeige-Reihenfolge (kleinste zuerst).
     reihenfolge: z.number().default(99),
-  }),
+  })
+    // Ohne Ziel waere der Eintrag ein toter Link – lieber der Build meckert
+    // frueh als dass auf der Website ein Titel ohne Verweis steht.
+    .refine((d) => Boolean(d.datei || d.url), {
+      message: 'Bitte entweder „Link (externe URL)“ oder „Eigene Datei hochladen“ ausfüllen.',
+      path: ['url'],
+    }),
 });
 
 export const collections = {

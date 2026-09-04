@@ -7,6 +7,8 @@ const materialien = (await getCollection('materialien')).sort(
   (a, b) => a.data.reihenfolge - b.data.reihenfolge,
 );
 
+// Ein Material verweist entweder auf eine fremde Seite (url) oder auf eine im CMS
+// hochgeladene eigene Datei (datei, liegt unter /dokumente). Die Datei hat Vorrang.
 const typLabel: Record<string, string> = {
   video: 'Video',
   dokument: 'Dokument',
@@ -43,7 +45,7 @@ const typLabel: Record<string, string> = {
           <li class="material">
             <div class="material__head">
               <span class="material__typ">{typLabel[data.typ]}</span>
-              <a href={data.url} rel="noopener" target="_blank">
+              <a href={data.datei ?? data.url} rel="noopener" target="_blank">
                 {data.titel}
                 <span aria-hidden="true"> →</span>
               </a>

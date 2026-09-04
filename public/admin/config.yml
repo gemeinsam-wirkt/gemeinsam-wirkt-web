@@ -198,7 +198,18 @@ collections:
         widget: select
         default: video
         options: [video, dokument, audio, link]
-      - { name: url, label: 'Link (externe URL)', widget: string }
+      # Genau EINES von beidem ausfuellen:
+      #  - url    -> verweist auf eine fremde Seite (YouTube, Nextcloud-Freigabe, ...)
+      #  - datei  -> laedt eine eigene Datei (PDF, HTML-Seite, Bild) nach public/dokumente
+      #              hoch; die Website verlinkt sie dann unter /dokumente/<dateiname>.
+      # Ist beides gefuellt, gewinnt die hochgeladene Datei.
+      - { name: url, label: 'Link (externe URL)', widget: string, required: false }
+      - name: datei
+        label: 'Eigene Datei hochladen (statt Link)'
+        widget: file
+        required: false
+        media_folder: /public/dokumente
+        public_folder: /dokumente
       - { name: quelle, label: 'Quelle (z. B. YouTube, Vimeo)', widget: string, required: false }
       - { name: beschreibung, label: Beschreibung, widget: text, required: false }
       # Nur ausfüllen, wenn der Link ein Passwort verlangt (z. B. erzwungener
