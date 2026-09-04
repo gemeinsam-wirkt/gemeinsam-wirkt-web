@@ -55,6 +55,18 @@ const partner = d.partner
     </div>
 
     {
+      d.dokument && (
+        <p class="article__doc">
+          <a class="btn btn--primary" href={d.dokument} target="_blank" rel="noopener">
+            Zur ausführlichen Projektseite
+            <span aria-hidden="true"> →</span>
+          </a>
+          <span class="article__doc-hint">Öffnet sich in einem neuen Tab</span>
+        </p>
+      )
+    }
+
+    {
       partner.length > 0 && (
         <section class="partner-list">
           <h2>{t['project.partner']}</h2>
@@ -109,6 +121,18 @@ const partner = d.partner
     height: auto;
     margin-bottom: var(--space-8);
     border-radius: var(--radius);
+  }
+  /* Verweis auf die ausfuehrliche Fassung (Feld „dokument"). */
+  .article__doc {
+    margin-top: var(--space-10);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+  }
+  .article__doc-hint {
+    color: var(--c-muted);
+    font-size: var(--fs-300);
   }
   .partner-list {
     margin-top: var(--space-12);

@@ -109,6 +109,16 @@ collections:
         search_fields: [name]
         display_fields: [name]
       - { name: bild, label: Bild, widget: image, required: false, hint: 'Nur JPG, PNG, WebP, GIF, AVIF oder SVG – kein .jfif (wird sonst nicht angezeigt).' }
+      # Optionale Langfassung (eigene Projektseite als HTML, Bericht als PDF …).
+      # Die Datei landet in public/dokumente; die Projektseite zeigt automatisch
+      # einen Button darauf. Einen Link IN den Inhalt zu schreiben bringt nichts –
+      # daraus wird nur eine anklickbare Zeile, keine eingebettete Seite.
+      - name: dokument
+        label: 'Ausführliche Fassung (Datei, optional)'
+        widget: file
+        required: false
+        media_folder: /public/dokumente
+        public_folder: /dokumente
       - { name: draft, label: Entwurf (nicht veröffentlichen), widget: boolean, default: false }
       - { name: body, label: Inhalt, widget: markdown }
 

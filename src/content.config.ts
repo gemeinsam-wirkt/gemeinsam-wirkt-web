@@ -78,6 +78,10 @@ const projekte = defineCollection({
       // Verknüpfung zur partner-Collection (über deren id):
       partner: z.array(reference('partner')).optional(),
       bild: bildFeld(image),
+      // Optionale Langfassung: eine eigenstaendige Seite oder ein PDF unter
+      // /dokumente. Ist das Feld gesetzt, zeigt die Projektseite dorthin einen
+      // Button. Leer lassen, wenn der Text auf der Projektseite selbst steht.
+      dokument: z.preprocess((v) => (v === '' ? undefined : v), z.string().optional()),
       draft: z.boolean().default(false),
     }),
 });
