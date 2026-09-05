@@ -299,12 +299,12 @@
       <p class="lead reveal in">Wasser ist kein Vorrat, den jeder für sich leert, sondern ein gemeinsames System: Was der eine entnimmt, verändert die Lage für alle anderen. Wenn niemand darüber spricht, kippt die Balance eines Tages.</p>
       <p class="reveal in">Ein Planspiel der Universität Stuttgart macht diese Wechselwirkungen erfahrbar. Methoden des Kooperationsmanagements machen aus Einsicht Zusammenarbeit. So entsteht eine gemeinsame Plattform, die die Gruppen zusammenbringt. Das ist eine Governance-Antwort, die die technische Seite ergänzt und umsetzbar macht.</p>
     </div>
-    <div class="diagram in" id="diagram" aria-label="Diagramm: sechs Nutzer und die Kommune um ein gemeinsames Wasser, durch Linien verbunden.">
+    <div class="diagram in" id="diagram" aria-label="Diagramm: sechs Nutzer und die Kommune um ein gemeinsames Wasser, durch Linien verbunden. Alle sieben sind gleich dargestellt.">
       <svg viewBox="0 0 300 300">
-        <g id="links"><line class="link" x1="150" y1="150" x2="150.0" y2="38.0"></line><line class="link" x1="150" y1="150" x2="247.0" y2="94.0"></line><line class="link" x1="150" y1="150" x2="247.0" y2="206.0"></line><line class="link" x1="150" y1="150" x2="150.0" y2="262.0"></line><line class="link" x1="150" y1="150" x2="53.0" y2="206.0"></line><line class="link" x1="150" y1="150" x2="53.0" y2="94.0"></line></g>
+        <g id="links"></g>
         <circle cx="150" cy="150" r="30" fill="var(--water)"></circle>
         <path d="M150 132 c0 0 -12 13 -12 21 a12 12 0 0 0 24 0 c0 -8 -12 -21 -12 -21z" fill="var(--surface)" opacity=".85"></path>
-        <g id="dots"><circle cx="150.0" cy="38.0" r="15" fill="var(--ns)"></circle><circle cx="247.0" cy="94.0" r="15" fill="var(--to)"></circle><circle cx="247.0" cy="206.0" r="15" fill="var(--wv)"></circle><circle cx="150.0" cy="262.0" r="15" fill="var(--in)"></circle><circle cx="53.0" cy="206.0" r="15" fill="var(--lw)"></circle><rect x="39.0" y="80.0" width="28" height="28" rx="6" fill="var(--reg)"></rect></g>
+        <g id="dots"></g>
       </svg>
     </div>
   </div>
@@ -446,15 +446,16 @@
 
   // idea diagram: place dots + draw links
   var dots=document.getElementById('dots'), links=document.getElementById('links');
-  var cast=[['var(--ns)',1],['var(--to)',1],['var(--wv)',1],['var(--ph)',1],['var(--in)',1],['var(--lw)',1],['var(--reg)',0]];
+  // Erst leeren: wird die Seite aus dem Browser gespeichert, stehen die fertig
+  // gezeichneten Punkte im HTML und wuerden sonst ein zweites Mal dazukommen.
+  dots.textContent=''; links.textContent='';
+  var cast=['var(--ns)','var(--to)','var(--wv)','var(--ph)','var(--in)','var(--lw)','var(--reg)'];
   var cx=150,cy=150,R=112;
-  cast.forEach(function(c,i){
+  cast.forEach(function(farbe,i){
     var a=-Math.PI/2 + i*(2*Math.PI/cast.length);
     var x=cx+Math.cos(a)*R, y=cy+Math.sin(a)*R;
     links.insertAdjacentHTML('beforeend','<line class="link" x1="'+cx+'" y1="'+cy+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'"/>');
-    var shape = c[1] ? '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="15" fill="'+c[0]+'"/>'
-                     : '<rect x="'+(x-14).toFixed(1)+'" y="'+(y-14).toFixed(1)+'" width="28" height="28" rx="6" fill="'+c[0]+'"/>';
-    dots.insertAdjacentHTML('beforeend',shape);
+    dots.insertAdjacentHTML('beforeend','<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="15" fill="'+farbe+'"/>');
   });
   var dg=document.getElementById('diagram');
   var dio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');dio.unobserve(e.target);}});},{threshold:.4});
