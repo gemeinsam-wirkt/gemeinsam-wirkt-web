@@ -207,7 +207,7 @@
       <p class="lede">Wir bringen die Wassernutzer der Region an einen Tisch – bevor aus Knappheit Streit wird.</p>
     </div>
 
-    <div class="stage" aria-label="Animation: Eine Waage aus fünf Wassernutzern über einem gemeinsamen Wasser kippt und wird wieder ausbalanciert.">
+    <div class="stage" aria-label="Animation: Eine Waage aus fünf Wassernutzern und der Kommune über einem gemeinsamen Wasser kippt und wird wieder ausbalanciert. Am Drehpunkt zeigt ein runder Tisch die Köpfe aller Beteiligten.">
       <svg viewBox="0 0 800 470" role="img">
         <defs>
           <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
@@ -230,20 +230,25 @@
         </g>
         <!-- fulcrum -->
         <path d="M378 320 L422 320 L400 208 Z" fill="var(--line)"></path>
-        <!-- regulator (Kommune) at fulcrum, does not tilt -->
+        <!-- runder Tisch am Drehpunkt: die Köpfe aller, die auf dem Balken stehen -->
         <g>
-          <rect x="391" y="292" width="18" height="26" rx="4" fill="var(--reg)"></rect>
-          <circle cx="400" cy="286" r="8" fill="var(--reg)"></circle>
-          <text x="400" y="337" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="var(--reg)" text-anchor="middle">Kommune · reguliert</text>
+          <circle cx="400" cy="291" r="27" fill="var(--surface)" stroke="var(--reg)" stroke-width="2"></circle>
+          <circle cx="400" cy="275.5" r="5" fill="var(--ns)"></circle>
+          <circle cx="413.4" cy="283.3" r="5" fill="var(--to)"></circle>
+          <circle cx="413.4" cy="298.7" r="5" fill="var(--wv)"></circle>
+          <circle cx="400" cy="306.5" r="5" fill="var(--in)"></circle>
+          <circle cx="386.6" cy="298.7" r="5" fill="var(--lw)"></circle>
+          <circle cx="386.6" cy="283.3" r="5" fill="var(--reg)"></circle>
         </g>
-        <!-- beam + five users -->
+        <!-- beam + five users + Kommune -->
         <g id="beamGroup">
           <rect x="120" y="203" width="560" height="10" rx="5" fill="var(--ink)"></rect>
-          <!-- NS --><g><rect x="163" y="176" width="16" height="24" rx="7" fill="var(--ns)"></rect><circle cx="171" cy="170" r="8" fill="var(--ns)"></circle></g>
-          <!-- TO --><g><rect x="277" y="176" width="16" height="24" rx="7" fill="var(--to)"></rect><circle cx="285" cy="170" r="8" fill="var(--to)"></circle></g>
-          <!-- WV --><g><rect x="392" y="176" width="16" height="24" rx="7" fill="var(--wv)"></rect><circle cx="400" cy="170" r="8" fill="var(--wv)"></circle></g>
-          <!-- IN --><g><rect x="507" y="176" width="16" height="24" rx="7" fill="var(--in)"></rect><circle cx="515" cy="170" r="8" fill="var(--in)"></circle></g>
-          <!-- LW --><g><rect x="621" y="176" width="16" height="24" rx="7" fill="var(--lw)"></rect><circle cx="629" cy="170" r="8" fill="var(--lw)"></circle></g>
+          <!-- NS --><g><rect x="142" y="176" width="16" height="24" rx="7" fill="var(--ns)"></rect><circle cx="150" cy="170" r="8" fill="var(--ns)"></circle></g>
+          <!-- TO --><g><rect x="242" y="176" width="16" height="24" rx="7" fill="var(--to)"></rect><circle cx="250" cy="170" r="8" fill="var(--to)"></circle></g>
+          <!-- WV --><g><rect x="342" y="176" width="16" height="24" rx="7" fill="var(--wv)"></rect><circle cx="350" cy="170" r="8" fill="var(--wv)"></circle></g>
+          <!-- KO --><g><rect x="442" y="176" width="16" height="24" rx="7" fill="var(--reg)"></rect><circle cx="450" cy="170" r="8" fill="var(--reg)"></circle></g>
+          <!-- IN --><g><rect x="542" y="176" width="16" height="24" rx="7" fill="var(--in)"></rect><circle cx="550" cy="170" r="8" fill="var(--in)"></circle></g>
+          <!-- LW --><g><rect x="642" y="176" width="16" height="24" rx="7" fill="var(--lw)"></rect><circle cx="650" cy="170" r="8" fill="var(--lw)"></circle></g>
         </g>
       </svg>
     </div>
@@ -254,7 +259,7 @@
       <span><i style="background:var(--wv)"></i>Wasserversorgung</span>
       <span><i style="background:var(--to)"></i>Tourismus</span>
       <span><i style="background:var(--ns)"></i>Naturschutz</span>
-      <span><i class="sq" style="background:var(--reg)"></i>Kommune (Regulator)</span>
+      <span><i style="background:var(--reg)"></i>Kommune</span>
     </div>
   </div>
 </section>
