@@ -125,7 +125,9 @@
   @media(max-width:720px){.fgrid{grid-template-columns:1fr;gap:26px}}
   footer h4{font-family:var(--sans);font-size:13px;text-transform:none;color:var(--muted);font-weight:600;margin:0 0 8px}
   footer .fin{color:var(--muted);font-size:14px;margin-top:26px;max-width:70ch;border-top:1px solid var(--line);padding-top:20px}
-  footer .refs{color:var(--muted);font-size:12.5px;margin-top:16px;line-height:1.5}
+  /* Foerderhinweis steht ueber den Spalten: Trennlinie darunter statt darueber. */
+  footer .fin--lead{margin-top:0;margin-bottom:28px;border-top:0;border-bottom:1px solid var(--line);padding-top:0;padding-bottom:22px}
+  footer .refs{color:var(--muted);font-size:12.5px;margin-top:26px;line-height:1.5;border-top:1px solid var(--line);padding-top:18px}
 
   .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
   .js .reveal.in{opacity:1;transform:none}
@@ -387,6 +389,7 @@
 
 <footer>
   <div class="wrap">
+    <p class="fin fin--lead">Für das Hauptprojekt wird eine Förderung aus dem Innovationsfonds Klima- und Wasserschutz der badenova AG &amp; Co. KG beantragt. Die Projektpartner bringen einen erheblichen Eigenanteil in Form personeller Eigenleistung ein; die Landkreise Breisgau-Hochschwarzwald und Lörrach wirken mit personeller Eigenleistung, Fachkompetenz und der Bereitstellung von Räumlichkeiten mit.</p>
     <div class="fgrid">
       <div>
         <h4>Herausgeber</h4>
@@ -405,7 +408,6 @@
         <span class="muted">Stand: September 2026</span>
       </div>
     </div>
-    <p class="fin">Für das Hauptprojekt wird eine Förderung aus dem Innovationsfonds Klima- und Wasserschutz der badenova AG &amp; Co. KG beantragt. Die Projektpartner bringen einen erheblichen Eigenanteil in Form personeller Eigenleistung ein; die Landkreise Breisgau-Hochschwarzwald und Lörrach wirken mit personeller Eigenleistung, Fachkompetenz und der Bereitstellung von Räumlichkeiten mit.</p>
     <p class="refs">Quellen: Riedl, M. (2025): Streit um das Allgemeingut Wasser. ThWIC / BMBF. — Sommerhäuser, M. et al. (2025): Sachbericht KliMaWerk (WaX). — Landesweite Untersuchung zur Angebots- und Bedarfssituation der Wasserversorgung (LUBW, 2026).</p>
   </div>
 </footer>
