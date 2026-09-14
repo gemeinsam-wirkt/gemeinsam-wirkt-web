@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="de" class="js"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wasserplanspiel – Wer braucht hier eigentlich was?</title>
+<meta name="description" content="Ein kurzes Planspiel zur Wassernutzung: eine Rolle übernehmen, drei Entscheidungen treffen und sehen, wie sie auf alle anderen wirken.">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;💧&lt;/text&gt;&lt;/svg&gt;">
+<!-- Keine fremden Ressourcen: keine Google-Fonts, keine CDN-Skripte, keine
+     extern verlinkten Bilder. Die Datei laeuft offline und laesst sich als
+     Anhang weitergeben. Farben und Schriftstacks sind dieselben wie auf
+     wassernutzer-im-dialog.html. -->
+<style>
+  :root{
+    --bg:#EEF4FA; --surface:#FBFDFF; --ink:#182734; --muted:#5A6E7C; --line:#D3E0EB;
+    --accent:#1F5C8B; --accent2:#1A6E7E; --water:#7FB2D9;
+    --lw:#8A6B14; --in:#545E68; --wv:#1A6E7E; --ns:#356E43; --reg:#3E5C76;
+    --neg:#A8403A; --pos:#2F7044;
+    --serif:'Spectral',Georgia,'Times New Roman',serif;
+    --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --maxw:760px;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0D1922; --surface:#12222E; --ink:#E6EEF4; --muted:#9CB1C0; --line:#20384A;
+    --accent:#6FB3E0; --accent2:#4FB8CC; --water:#2C557A;
+    --lw:#D9B457; --in:#9FAAB6; --wv:#4FB8CC; --ns:#7CBB8B; --reg:#86A4C4;
+    --neg:#E9908A; --pos:#7FC79A;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0D1922; --surface:#12222E; --ink:#E6EEF4; --muted:#9CB1C0; --line:#20384A;
+    --accent:#6FB3E0; --accent2:#4FB8CC; --water:#2C557A;
+    --lw:#D9B457; --in:#9FAAB6; --wv:#4FB8CC; --ns:#7CBB8B; --reg:#86A4C4;
+    --neg:#E9908A; --pos:#7FC79A;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.16;letter-spacing:-.01em;margin:0}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .muted{color:var(--muted)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+  .skip{position:absolute;left:-9999px;top:0;background:var(--surface);color:var(--ink);
+    padding:10px 16px;border:1px solid var(--line);border-radius:0 0 8px 0;z-index:100}
+  .skip:focus{left:0}
+
+  /* Kopfzeile */
+  header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+    background:color-mix(in srgb,var(--bg) 84%,transparent);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px}
+  .brand{display:flex;align-items:center;gap:9px}
+  .brand svg{width:20px;height:20px;flex:0 0 auto}
+  h1{font-size:1.12rem;font-family:var(--serif);font-weight:600}
+  .navright{display:flex;align-items:center;gap:12px}
+  .chip{display:inline-flex;align-items:center;gap:7px;padding:3px 11px;border-radius:999px;
+    border:1px solid var(--line);font-size:13.5px;font-weight:600}
+  .ttoggle{background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;
+    width:34px;height:34px;cursor:pointer;font-size:15px;display:grid;place-items:center;flex:0 0 auto}
+
+  main{padding:34px 0 60px}
+  .karte{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .zentriert{text-align:center}
+
+  /* Schaltflaechen */
+  .btn{font:inherit;font-weight:600;cursor:pointer;border:1px solid var(--accent);
+    background:var(--accent);color:var(--bg);border-radius:10px;padding:13px 28px}
+  .btn:hover{filter:brightness(1.08)}
+  .btn--still{background:none;color:var(--ink);border-color:var(--line);font-weight:500}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .btnzeile{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
+
+  /* Startbild */
+  .start .drop{font-size:44px;line-height:1;margin-bottom:10px}
+  .start h2{font-size:clamp(1.5rem,4vw,2.1rem);margin-bottom:8px}
+  .start .unter{color:var(--accent2);font-size:1.12rem;margin-bottom:24px}
+  .start .karte{text-align:left;max-width:520px;margin:0 auto}
+  .meta{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:14.5px}
+
+  /* Rollenwahl */
+  .rollen{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:22px 0}
+  .rolle{font:inherit;text-align:left;cursor:pointer;background:var(--surface);color:var(--ink);
+    border:2px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:6px}
+  .rolle:hover{border-color:color-mix(in srgb,var(--rf) 55%,var(--line))}
+  .rolle[aria-pressed="true"]{border-color:var(--rf);background:color-mix(in srgb,var(--rf) 10%,var(--surface))}
+  .rolle .sym{font-size:26px;line-height:1}
+  .rolle b{font-family:var(--serif);font-size:1.05rem;font-weight:600}
+  .rolle span.titel{font-size:13.5px;color:var(--muted);line-height:1.4}
+  .profil{border-left:3px solid var(--rf)}
+  .profil h3{font-size:1.1rem;margin-bottom:8px}
+  .zeile{display:grid;gap:8px;margin-top:12px}
+  .zeile div{font-size:14.5px;background:color-mix(in srgb,var(--line) 35%,var(--surface));
+    border-radius:8px;padding:9px 13px}
+  .zeile b{font-weight:600}
+
+  /* Szenario */
+  .fortschritt{display:flex;align-items:center;gap:7px;justify-content:center;margin-bottom:20px;
+    color:var(--muted);font-size:13.5px}
+  .fortschritt i{display:block;width:10px;height:10px;border-radius:5px;background:var(--line)}
+  .fortschritt i.an{width:30px;background:var(--accent)}
+  .szene{text-align:center}
+  .szene .sym{font-size:30px;line-height:1}
+  .szene h2{font-size:clamp(1.25rem,3vw,1.6rem);margin:6px 0 10px}
+  .szene p{color:var(--muted);margin:0}
+  .erinnerung{display:flex;align-items:center;gap:9px;margin:18px 0 14px;padding:9px 14px;
+    border-radius:10px;background:color-mix(in srgb,var(--rf) 12%,var(--surface));
+    border:1px solid color-mix(in srgb,var(--rf) 30%,var(--line));font-size:14.5px;font-weight:600}
+  .frage{font-family:var(--serif);font-size:1.2rem;font-weight:600;margin:0 0 14px}
+  .wahlen{display:grid;gap:10px}
+  .wahl{font:inherit;text-align:left;cursor:pointer;background:var(--surface);color:var(--ink);
+    border:2px solid var(--line);border-radius:12px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start}
+  .wahl:hover{border-color:color-mix(in srgb,var(--rf) 55%,var(--line))}
+  .wahl[aria-pressed="true"]{border-color:var(--rf);background:color-mix(in srgb,var(--rf) 10%,var(--surface));font-weight:600}
+  .wahl .kennung{flex:0 0 auto;width:24px;height:24px;border-radius:12px;display:grid;place-items:center;
+    background:var(--line);color:var(--muted);font-size:12.5px;font-weight:700}
+  .wahl[aria-pressed="true"] .kennung{background:var(--rf);color:var(--surface)}
+  .wahl.aus{opacity:.5}
+
+  /* Auswirkungen */
+  .folgen{display:grid;gap:10px;margin:6px 0 0}
+  .folge{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .folge.selbst{border-color:color-mix(in srgb,var(--rf) 45%,var(--line));
+    background:color-mix(in srgb,var(--rf) 7%,var(--surface))}
+  .folge .kopf{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .folge .wer{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px;color:var(--rf)}
+  .folge p{font-size:14.5px;color:var(--muted);margin:5px 0 0}
+  .balken{display:inline-flex;align-items:center;gap:8px}
+  .balken .spur{width:96px;height:8px;border-radius:4px;background:var(--line);position:relative;overflow:hidden}
+  .balken .fuell{position:absolute;top:0;height:100%;border-radius:4px;transition:width .6s ease}
+  .balken .zahl{font-size:13px;font-weight:700;min-width:26px;text-align:right}
+  .nachdenken{background:color-mix(in srgb,var(--accent2) 10%,var(--surface));
+    border:1px solid color-mix(in srgb,var(--accent2) 30%,var(--line));
+    border-radius:12px;padding:16px 18px;margin-top:20px}
+  .nachdenken b{display:block;font-size:14px;color:var(--accent2);margin-bottom:4px}
+  .nachdenken p{margin:0;font-style:italic}
+  .abschnitt{margin-top:26px}
+  .abschnitt h3{font-size:1.15rem;margin-bottom:12px}
+
+  /* Ergebnis */
+  .bilanz{display:grid;gap:4px}
+  .rang{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px}
+  .rang.selbst{background:color-mix(in srgb,var(--rf) 10%,var(--surface))}
+  .rang .platz{font-size:13px;font-weight:700;color:var(--muted);min-width:16px}
+  .rang .sym{font-size:19px}
+  .rang .mitte{flex:1;min-width:0}
+  .rang .name{display:block;font-size:14.5px;font-weight:600;color:var(--rf)}
+  .rang .spur{display:block;height:6px;border-radius:3px;margin-top:4px;background:var(--line);position:relative;overflow:hidden}
+  .rang .fuell{position:absolute;top:0;left:0;height:100%;border-radius:3px;transition:width .8s ease}
+  .rang .summe{font-weight:700;font-size:17px;min-width:38px;text-align:right}
+  .erkenntnis{margin-top:22px;border-left:3px solid var(--accent)}
+  .erkenntnis h3{font-size:1.15rem;margin-bottom:10px}
+  .erkenntnis p:last-child{margin-bottom:0;color:var(--accent);font-weight:600}
+
+  @media (prefers-reduced-motion:reduce){
+    .balken .fuell,.rang .fuell{transition:none}
+  }
+
+  footer{border-top:1px solid var(--line);background:var(--surface);padding:34px 0;font-size:14.5px}
+  footer h2{font-family:var(--sans);font-size:13px;color:var(--muted);font-weight:600;margin:0 0 6px}
+  .fgrid{display:grid;grid-template-columns:1.3fr 1fr;gap:26px}
+  @media(max-width:640px){.fgrid{grid-template-columns:1fr;gap:20px}}
+  footer .zurueck{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Zum Inhalt springen</a>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C12 2 4 11 4 16a8 8 0 0 0 16 0c0-5-8-14-8-14z" fill="var(--accent)"></path></svg>
+      <h1>Wasserplanspiel</h1>
+    </div>
+    <div class="navright">
+      <span class="chip" id="rollenchip" hidden></span>
+      <button class="ttoggle" id="tt" type="button" title="Hell/Dunkel" aria-label="Hell/Dunkel umschalten">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="wrap" id="buehne"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h2>Herausgeber</h2>
+        gemeinsam wirkt e.V. – Centrum für Collaboration, Müllheim<br>
+        cinco.systems – Lakoni &amp; Thiel GbR, Müllheim
+      </div>
+      <div>
+        <h2>Im Netz</h2>
+        <a href="https://gemeinsam-wirkt.net">gemeinsam-wirkt.net</a><br>
+        <a href="https://cinco-systems.de">cinco-systems.de</a>
+      </div>
+    </div>
+    <p class="zurueck">Das Planspiel gehört zum Vorhaben <a href="wassernutzer-im-dialog.html">Wassernutzer im Dialog</a>. Rollen, Szenarien und Zahlen sind vereinfacht und dienen der Veranschaulichung; sie bilden keine konkrete Genehmigungslage ab.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- Hell/Dunkel, wie auf der Projektseite ---------- */
+  var tt=document.getElementById('tt');
+  try{var saved=localStorage.getItem('wnd-theme'); if(saved)document.documentElement.setAttribute('data-theme',saved);}catch(e){}
+  tt.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var mq=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    var next = cur? (cur==='dark'?'light':'dark') : (mq?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('wnd-theme',next);}catch(e){}
+  });
+
+  /* ---------- Daten ---------- */
+  var ROLLEN=[
+    {id:'landwirtschaft',name:'Landwirtschaft',sym:'🌾',ton:'--lw',
+     titel:'LandwirtIn Schäfer',
+     text:'Bewirtschaftet 120 ha im Oberrheingraben. Mais, Weizen, Gemüse. Abhängig von Bewässerung im Sommer.',
+     prio:'Ertragssicherung durch verlässliche Bewässerung',
+     sorge:'Ernteverluste durch Wasserrestriktionen',
+     haltung:'Wasser ist Produktionsgrundlage – ohne Wasser kein Essen für die Region.'},
+    {id:'trinkwasser',name:'Trinkwasser',sym:'🚰',ton:'--wv',
+     titel:'GeschäftsführerIn der Stadtwerke',
+     text:'Versorgt 85.000 EinwohnerInnen. Grundwasserbrunnen, steigende Nachfrage im Sommer.',
+     prio:'Sichere Trinkwasserversorgung – an jedem Tag im Jahr',
+     sorge:'Sinkende Grundwasserspiegel gefährden die Versorgung',
+     haltung:'Trinkwasser hat Vorrang – das ist gesetzlich verankert und nicht verhandelbar.'},
+    {id:'industrie',name:'Industrie',sym:'🏭',ton:'--in',
+     titel:'BetriebsleiterIn Chemiewerk',
+     text:'500 Arbeitsplätze. Braucht Kühlwasser und Prozesswasser. Hat bereits in Kreislaufsysteme investiert.',
+     prio:'Planbare Wasserentnahme für eine kontinuierliche Produktion',
+     sorge:'Regulierung ohne Rücksicht auf bereits getätigte Investitionen',
+     haltung:'Wir haben schon viel getan – pauschale Einschränkungen sind ungerecht.'},
+    {id:'oekologie',name:'Ökologie',sym:'🐸',ton:'--ns',
+     titel:'GewässerökologIn beim Naturschutzverband',
+     text:'Betreut Feuchtgebiete und Fließgewässer. Dokumentiert den Rückgang von Arten seit 15 Jahren.',
+     prio:'Ökologischer Mindestwasserstand in den Gewässern',
+     sorge:'Naturschutz wird immer als Letztes berücksichtigt',
+     haltung:'Gewässer sind Lebensraum – nicht nur Ressource. Ohne intakte Ökosysteme kippt alles.'},
+    {id:'kommune',name:'Kommune',sym:'🏛️',ton:'--reg',
+     titel:'DezernentIn für Umwelt und Planung',
+     text:'Zuständig für Genehmigungen, Flächenplanung und Interessenausgleich. Politisch unter Druck.',
+     prio:'Tragfähige Kompromisse ohne eskalierte Konflikte',
+     sorge:'Zwischen allen Stühlen zu sitzen und es niemandem recht zu machen',
+     haltung:'Alle haben berechtigte Ansprüche – aber wir müssen Prioritäten setzen.'}
+  ];
+
+  var SZENARIEN=[
+    {titel:'Hitzesommer – Wasser wird knapp',sym:'🌡️',
+     lage:'Juli, 38 °C seit zwei Wochen. Der Grundwasserspiegel ist auf dem niedrigsten Stand seit 20 Jahren, der Fluss führt Niedrigwasser. Alle brauchen jetzt mehr Wasser als sonst.',
+     frage:'Der Landkreis muss entscheiden: Wer bekommt wie viel Wasser?',
+     wahlen:[
+      {id:'a',text:'Landwirtschaftliche Bewässerung um 50 % kürzen',folgen:{
+        landwirtschaft:[-3,'Existenzbedrohend: Ernteausfälle bis zu 60 %, Betriebe sind gefährdet.'],
+        trinkwasser:[2,'Entlastet die Grundwasserreserven spürbar.'],
+        industrie:[1,'Keine direkten Auswirkungen, aber der Präzedenzfall beunruhigt.'],
+        oekologie:[1,'Leichte Erholung der Gewässerpegel.'],
+        kommune:[-1,'Proteste aus der Landwirtschaft, politischer Gegenwind.']}},
+      {id:'b',text:'Industrielle Entnahme um 30 % drosseln',folgen:{
+        landwirtschaft:[1,'Keine Einschränkung, aber wachsende Sorge um die Fairness.'],
+        trinkwasser:[1,'Moderate Entlastung.'],
+        industrie:[-3,'Produktionsausfälle. Kurzarbeit droht, 500 Arbeitsplätze sind gefährdet.'],
+        oekologie:[1,'Geringer positiver Effekt auf den Wasserhaushalt.'],
+        kommune:[-2,'Die Wirtschaftsförderung protestiert, Gewerkschaften mobilisieren.']}},
+      {id:'c',text:'Ökologischen Mindestabfluss vorübergehend senken',folgen:{
+        landwirtschaft:[2,'Mehr Wasser verfügbar, die Ernte ist gerettet.'],
+        trinkwasser:[1,'Kurzfristig mehr Spielraum.'],
+        industrie:[1,'Die Produktion ist gesichert.'],
+        oekologie:[-3,'Fischsterben, irreversibler Artenverlust, Feuchtgebiete trocknen aus.'],
+        kommune:[0,'Kurzfristig sind alle zufrieden, aber die EU-Wasserrahmenrichtlinie ist verletzt.']}},
+      {id:'d',text:'Alle Nutzungen gleichmäßig um 20 % reduzieren',folgen:{
+        landwirtschaft:[-1,'Spürbar, aber verkraftbar – wenn es alle trifft.'],
+        trinkwasser:[-1,'Schwierig, aber die Notreserven überbrücken.'],
+        industrie:[-1,'Planbar, aber: „Wir haben schon investiert – warum werden wir gleich behandelt?“'],
+        oekologie:[-1,'Nicht genug – Ökosysteme brauchen Mindestwassermengen, keine Prozentregeln.'],
+        kommune:[1,'Das Fairness-Argument hält politisch – vorerst.']}}
+     ],
+     nachdenken:'Haben Sie bemerkt, wie jede Entscheidung Gewinner und Verlierer erzeugt?'},
+
+    {titel:'Neues Gewerbegebiet – Flächenkonflikt',sym:'🏗️',
+     lage:'Ein großes Unternehmen will sich ansiedeln: 200 neue Arbeitsplätze, aber auf einer Fläche nahe dem Wasserschutzgebiet. Der Bebauungsplan liegt vor.',
+     frage:'Wie soll die Gemeinde entscheiden?',
+     wahlen:[
+      {id:'a',text:'Ansiedlung genehmigen – die Wirtschaft hat Vorrang',folgen:{
+        landwirtschaft:[-2,'Verliert fruchtbares Ackerland, der Flächenfraß setzt sich fort.'],
+        trinkwasser:[-2,'Das Verschmutzungsrisiko im Einzugsgebiet der Brunnen steigt massiv.'],
+        industrie:[3,'Signal: Die Region ist wirtschaftsfreundlich. Das stärkt den Standort.'],
+        oekologie:[-2,'Versiegelung, Habitatverlust, gestörter Wasserhaushalt.'],
+        kommune:[1,'Gewerbesteuer und Arbeitsplätze – gute Nachrichten vor der Wahl.']}},
+      {id:'b',text:'Ablehnen – der Wasserschutz geht vor',folgen:{
+        landwirtschaft:[1,'Die Fläche bleibt landwirtschaftlich nutzbar.'],
+        trinkwasser:[3,'Das Schutzgebiet bleibt intakt, Vorsorge funktioniert.'],
+        industrie:[-2,'Das Vertrauen der Investoren sinkt: „Hier kann man nicht planen.“'],
+        oekologie:[2,'Lebensraum geschützt, Grundwasserneubildung gesichert.'],
+        kommune:[-2,'200 Arbeitsplätze verloren. Die Opposition nutzt es im Wahlkampf.']}},
+      {id:'c',text:'Alternativstandort anbieten – einen Kompromiss suchen',folgen:{
+        landwirtschaft:[0,'Hängt vom Alternativstandort ab – die Unsicherheit bleibt.'],
+        trinkwasser:[1,'Das Schutzgebiet bleibt verschont.'],
+        industrie:[0,'Verzögerung, aber im Grundsatz akzeptabel.'],
+        oekologie:[0,'Verlagert das Problem nur, wenn keine ökologische Prüfung folgt.'],
+        kommune:[-1,'Langwierig, teuer, der Ausgang ist ungewiss.']}}
+     ],
+     nachdenken:'In der Wirklichkeit sitzen all diese Personen am selben Tisch – mit genau diesen unterschiedlichen Reaktionen.'},
+
+    {titel:'Wer zahlt für die Zukunft?',sym:'💰',
+     lage:'Eine regionale Wasserstrategie soll erarbeitet werden. Es braucht ein Monitoring-System, neue Kooperationsstrukturen und Investitionen in die Infrastruktur. Gesamtkosten: 2,5 Mio. Euro über fünf Jahre.',
+     frage:'Wer soll die Kosten tragen?',
+     wahlen:[
+      {id:'a',text:'Verursacherprinzip: Die größten Nutzungen zahlen am meisten',folgen:{
+        landwirtschaft:[-3,'Als Hauptverbraucher überproportional belastet. Die Betriebe können das nicht stemmen.'],
+        trinkwasser:[-1,'Höhere Kosten werden an die Verbraucher weitergegeben.'],
+        industrie:[-2,'Hohe Zusatzkosten, Standortnachteil im internationalen Vergleich.'],
+        oekologie:[2,'Das richtige Signal: Wer viel entnimmt, trägt mehr Verantwortung.'],
+        kommune:[0,'Juristisch sauber, aber politisch explosiv in der Umsetzung.']}},
+      {id:'b',text:'Solidarmodell: Alle zahlen gleichmäßig über eine Umlage',folgen:{
+        landwirtschaft:[1,'Faire Verteilung, tragbar.'],
+        trinkwasser:[0,'Akzeptabel, aber: Warum sollen sparsame Nutzungen gleich viel zahlen?'],
+        industrie:[1,'Planbar und überschaubar.'],
+        oekologie:[-1,'Kein Anreiz zum Sparen, belohnt Verschwendung.'],
+        kommune:[2,'Einfach umzusetzen und politisch vermittelbar.']}},
+      {id:'c',text:'Öffentliche Hand: Land und EU-Fördermittel',folgen:{
+        landwirtschaft:[2,'Keine Zusatzbelastung. Endlich einmal Unterstützung.'],
+        trinkwasser:[2,'Die Infrastruktur wird besser, ohne Mehrkosten.'],
+        industrie:[2,'Gut – aber es entsteht eine Abhängigkeit von politischen Zyklen.'],
+        oekologie:[0,'Gut, solange es fließt. Förderung ist aber nicht dauerhaft gesichert.'],
+        kommune:[-2,'Langwierige Antragsverfahren, unsichere Zusagen, kein planbarer Zeitrahmen.']}}
+     ],
+     nachdenken:'Was wäre, wenn Sie eine andere Rolle gespielt hätten – hätten Sie anders entschieden?'}
+  ];
+
+  /* ---------- Zustand ---------- */
+  var buehne=document.getElementById('buehne');
+  var chip=document.getElementById('rollenchip');
+  var rolle=null, nr=0, entscheidungen=[];
+
+  function finde(id){ for(var i=0;i<ROLLEN.length;i++){ if(ROLLEN[i].id===id) return ROLLEN[i]; } return null; }
+  function sicher(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function kopfzeile(){
+    if(!rolle){ chip.hidden=true; return; }
+    var r=finde(rolle);
+    chip.hidden=false;
+    chip.style.color='var('+r.ton+')';
+    chip.style.borderColor='color-mix(in srgb,var('+r.ton+') 45%,var(--line))';
+    chip.innerHTML='<span aria-hidden="true">'+r.sym+'</span>'+sicher(r.name);
+  }
+
+  function zeige(html){
+    buehne.innerHTML=html;
+    kopfzeile();
+    window.scrollTo(0,0);
+    var ziel=buehne.querySelector('h2');
+    if(ziel){ ziel.setAttribute('tabindex','-1'); ziel.focus({preventScroll:true}); }
+  }
+
+  function balken(wert,ton){
+    var breite=Math.min(Math.abs(wert)*33,100);
+    var neg=wert<0;
+    return '<span class="balken"><span class="spur">'+
+      '<span class="fuell" style="'+(neg?'right':'left')+':0;width:'+breite+'%;background:'+(neg?'var(--neg)':'var('+ton+')')+'"></span>'+
+      '</span><span class="zahl" style="color:'+(neg?'var(--neg)':'var(--pos)')+'">'+(wert>0?'+':'')+wert+'</span></span>';
+  }
+
+  /* ---------- Startbild ---------- */
+  function start(){
+    rolle=null; nr=0; entscheidungen=[];
+    zeige(
+      '<div class="start zentriert">'+
+        '<div class="drop" aria-hidden="true">💧</div>'+
+        '<h2>Wer braucht hier eigentlich was?</h2>'+
+        '<p class="unter">Fünf Beteiligte, ein Wasservorrat, widersprüchliche Ansprüche</p>'+
+        '<div class="karte">'+
+          '<p>In diesem kurzen Planspiel übernehmen Sie eine Rolle und treffen drei Entscheidungen. '+
+          'Nach jeder Entscheidung sehen Sie, wie sie auf alle anderen wirkt – und warum einfache Lösungen selten für alle funktionieren.</p>'+
+          '<p class="meta">Rund zehn Minuten · eine Rolle · drei Szenarien</p>'+
+        '</div>'+
+        '<div class="btnzeile"><button class="btn" type="button" id="losgehts">Planspiel starten</button></div>'+
+      '</div>');
+    document.getElementById('losgehts').addEventListener('click',rollenwahl);
+  }
+
+  /* ---------- Rollenwahl ---------- */
+  function rollenwahl(){
+    nr=0; entscheidungen=[]; rolle=null;
+    var html='<h2>Wählen Sie Ihre Rolle</h2>'+
+      '<p class="muted">Versetzen Sie sich in eine der fünf Sichtweisen auf das Wasser.</p>'+
+      '<div class="rollen">';
+    ROLLEN.forEach(function(r){
+      html+='<button class="rolle" type="button" aria-pressed="false" data-id="'+r.id+'" style="--rf:var('+r.ton+')">'+
+        '<span class="sym" aria-hidden="true">'+r.sym+'</span>'+
+        '<b>'+sicher(r.name)+'</b><span class="titel">'+sicher(r.titel)+'</span></button>';
+    });
+    html+='</div><div id="profil"></div>';
+    zeige(html);
+
+    var knoepfe=[].slice.call(buehne.querySelectorAll('.rolle'));
+    knoepfe.forEach(function(b){
+      b.addEventListener('click',function(){
+        knoepfe.forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); });
+        profil(b.getAttribute('data-id'));
+      });
+    });
+  }
+
+  function profil(id){
+    var r=finde(id);
+    var kasten=document.getElementById('profil');
+    kasten.innerHTML='<div class="karte profil" style="--rf:var('+r.ton+')">'+
+      '<h3>'+sicher(r.titel)+'</h3>'+
+      '<p>'+sicher(r.text)+'</p>'+
+      '<div class="zeile">'+
+        '<div><b>Priorität:</b> '+sicher(r.prio)+'</div>'+
+        '<div><b>Sorge:</b> '+sicher(r.sorge)+'</div>'+
+        '<div><b>Haltung:</b> „'+sicher(r.haltung)+'“</div>'+
+      '</div></div>'+
+      '<div class="btnzeile"><button class="btn" type="button" id="spielen" style="background:var('+r.ton+');border-color:var('+r.ton+')">Als '+sicher(r.name)+' spielen</button></div>';
+    document.getElementById('spielen').addEventListener('click',function(){
+      rolle=id; nr=0; entscheidungen=[]; szenario();
+    });
+  }
+
+  /* ---------- Szenario ---------- */
+  function szenario(){
+    var s=SZENARIEN[nr], r=finde(rolle), gewaehlt=null;
+    var punkte='';
+    for(var i=0;i<SZENARIEN.length;i++){ punkte+='<i class="'+(i<=nr?'an':'')+'"></i>'; }
+
+    var html='<div style="--rf:var('+r.ton+')">'+
+      '<div class="fortschritt" aria-label="Szenario '+(nr+1)+' von '+SZENARIEN.length+'">'+punkte+
+        '<span>Szenario '+(nr+1)+'/'+SZENARIEN.length+'</span></div>'+
+      '<div class="karte szene">'+
+        '<div class="sym" aria-hidden="true">'+s.sym+'</div>'+
+        '<h2>'+sicher(s.titel)+'</h2><p>'+sicher(s.lage)+'</p></div>'+
+      '<div class="erinnerung" style="color:var('+r.ton+')"><span aria-hidden="true">'+r.sym+'</span>'+
+        'Sie entscheiden als '+sicher(r.titel)+'</div>'+
+      '<p class="frage">'+sicher(s.frage)+'</p>'+
+      '<div class="wahlen">';
+    s.wahlen.forEach(function(w){
+      html+='<button class="wahl" type="button" aria-pressed="false" data-id="'+w.id+'">'+
+        '<span class="kennung" aria-hidden="true">'+w.id.toUpperCase()+'</span>'+
+        '<span>'+sicher(w.text)+'</span></button>';
+    });
+    html+='</div><div class="btnzeile"><button class="btn" type="button" id="entscheiden" disabled>Entscheidung treffen</button></div>'+
+      '<div id="auswirkung"></div></div>';
+    zeige(html);
+
+    var knoepfe=[].slice.call(buehne.querySelectorAll('.wahl'));
+    var los=document.getElementById('entscheiden');
+    knoepfe.forEach(function(b){
+      b.addEventListener('click',function(){
+        gewaehlt=b.getAttribute('data-id');
+        knoepfe.forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); });
+        los.disabled=false;
+      });
+    });
+    los.addEventListener('click',function(){
+      if(!gewaehlt) return;
+      knoepfe.forEach(function(x){ x.disabled=true; if(x.getAttribute('data-id')!==gewaehlt) x.classList.add('aus'); });
+      los.parentNode.removeChild(los);
+      auswirkung(gewaehlt);
+    });
+  }
+
+  function auswirkung(wahlId){
+    var s=SZENARIEN[nr], r=finde(rolle), w=null;
+    s.wahlen.forEach(function(x){ if(x.id===wahlId) w=x; });
+
+    var html='<div class="abschnitt"><h3>Was Ihre Entscheidung auslöst</h3><div class="folgen">';
+    ROLLEN.forEach(function(o){
+      var f=w.folgen[o.id];
+      html+='<div class="folge'+(o.id===rolle?' selbst':'')+'" style="--rf:var('+o.ton+')">'+
+        '<div class="kopf"><span class="wer"><span aria-hidden="true">'+o.sym+'</span>'+
+          sicher(o.name)+(o.id===rolle?' (Ihre Rolle)':'')+'</span>'+balken(f[0],o.ton)+'</div>'+
+        '<p>'+sicher(f[1])+'</p></div>';
+    });
+    html+='</div><div class="nachdenken"><b>Zum Nachdenken</b><p>'+sicher(s.nachdenken)+'</p></div>'+
+      '<div class="btnzeile"><button class="btn" type="button" id="weiter" style="background:var('+r.ton+');border-color:var('+r.ton+')">'+
+      (nr<SZENARIEN.length-1?'Weiter zum nächsten Szenario':'Zum Ergebnis')+'</button></div></div>';
+
+    var ziel=document.getElementById('auswirkung');
+    ziel.innerHTML=html;
+    var ueber=ziel.querySelector('h3');
+    ueber.setAttribute('tabindex','-1');
+    ueber.focus({preventScroll:true});
+    ueber.scrollIntoView({block:'start'});
+
+    document.getElementById('weiter').addEventListener('click',function(){
+      entscheidungen.push(wahlId);
+      if(nr<SZENARIEN.length-1){ nr++; szenario(); } else { ergebnis(); }
+    });
+  }
+
+  /* ---------- Ergebnis ---------- */
+  function ergebnis(){
+    var r=finde(rolle), summen={};
+    ROLLEN.forEach(function(o){ summen[o.id]=0; });
+    entscheidungen.forEach(function(id,i){
+      var w=null;
+      SZENARIEN[i].wahlen.forEach(function(x){ if(x.id===id) w=x; });
+      ROLLEN.forEach(function(o){ summen[o.id]+=w.folgen[o.id][0]; });
+    });
+    var sortiert=ROLLEN.slice().sort(function(a,b){ return summen[b.id]-summen[a.id]; });
+
+    var html='<div class="zentriert"><h2>Ihre Bilanz als '+sicher(r.name)+'</h2>'+
+      '<p class="muted">So haben Ihre drei Entscheidungen auf alle Beteiligten gewirkt.</p></div>'+
+      '<div class="karte"><div class="bilanz">';
+    sortiert.forEach(function(o,i){
+      var summe=summen[o.id], breite=Math.min(Math.abs(summe)*15,100);
+      html+='<div class="rang'+(o.id===rolle?' selbst':'')+'" style="--rf:var('+o.ton+')">'+
+        '<span class="platz">'+(i+1)+'.</span><span class="sym" aria-hidden="true">'+o.sym+'</span>'+
+        '<span class="mitte"><span class="name">'+sicher(o.name)+(o.id===rolle?' – Ihre Rolle':'')+'</span>'+
+        '<span class="spur"><span class="fuell" style="width:'+breite+'%;background:'+(summe<0?'var(--neg)':'var('+o.ton+')')+'"></span></span></span>'+
+        '<span class="summe" style="color:'+(summe<0?'var(--neg)':'var(--pos)')+'">'+(summe>0?'+':'')+summe+'</span></div>';
+    });
+    html+='</div></div>'+
+      '<div class="karte erkenntnis">'+
+        '<h3>Was das zeigt</h3>'+
+        '<p>Es gibt keine Entscheidung, die alle gleichermaßen zufriedenstellt. Jede Maßnahme erzeugt Gewinner und Verlierer – und jede Rolle bewertet dieselbe Entscheidung anders.</p>'+
+        '<p>Genau deshalb braucht es Räume, in denen diese Sichtweisen sichtbar werden, <b>bevor</b> Entscheidungen fallen.</p>'+
+        '<p>Das Vorhaben „Wassernutzer im Dialog“ schafft solche Räume – durch Simulation, Dialog und gemeinsames Lernen.</p>'+
+      '</div>'+
+      '<div class="btnzeile">'+
+        '<button class="btn" type="button" id="andere">Andere Rolle ausprobieren</button>'+
+        '<button class="btn btn--still" type="button" id="neu">Von vorne beginnen</button>'+
+      '</div>'+
+      '<p class="zentriert" style="margin-top:20px"><a href="wassernutzer-im-dialog.html">Zum Vorhaben „Wassernutzer im Dialog“</a></p>';
+    zeige(html);
+
+    document.getElementById('andere').addEventListener('click',rollenwahl);
+    document.getElementById('neu').addEventListener('click',start);
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
