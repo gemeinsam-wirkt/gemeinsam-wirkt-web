@@ -80,6 +80,12 @@
   .stat .lab{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.4}
   .src{font-size:12.5px;color:var(--muted);margin-top:6px}
 
+  /* Verweis auf das Planspiel */
+  .more{display:inline-block;font-weight:600;
+    border-bottom:1px solid color-mix(in srgb,var(--accent) 45%,transparent);padding-bottom:1px}
+  .more:hover{border-bottom-color:var(--accent)}
+  .more:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
   /* idea diagram */
   .diagram{width:100%;max-width:380px;margin:0 auto}
   .diagram svg{width:100%;height:auto}
@@ -301,7 +307,8 @@
       <div class="eyebrow reveal in">Die Idee</div>
       <h2 class="reveal in">Jede Entnahme wirkt auf alle</h2>
       <p class="lead reveal in">Wasser ist kein Vorrat, den jeder für sich leert, sondern ein gemeinsames System: Was der eine entnimmt, verändert die Lage für alle anderen. Wenn niemand darüber spricht, kippt die Balance eines Tages.</p>
-      <p class="reveal in">Ein Planspiel der Universität Stuttgart macht diese Wechselwirkungen erfahrbar. Methoden des Kooperationsmanagements machen aus Einsicht Zusammenarbeit. So entsteht eine gemeinsame Plattform, die die Gruppen zusammenbringt. Das ist eine Governance-Antwort, die die technische Seite ergänzt und umsetzbar macht.</p>
+      <p class="reveal in">Ein Planspiel macht diese Wechselwirkungen erfahrbar. Methoden des Kooperationsmanagements machen aus Einsicht Zusammenarbeit. So entsteht eine gemeinsame Plattform, die die Gruppen zusammenbringt. Das ist eine Governance-Antwort, die die technische Seite ergänzt und umsetzbar macht.</p>
+      <p class="reveal in"><a class="more" href="https://claude.ai/code/artifact/740b32ac-9d33-4bdf-befa-315b1ca11968" target="_blank" rel="noopener">Erprobe in diesem Planspiel an einem vereinfachten Beispiel die Wechselwirkungen verschiedener Wassernutzungsstrategien →</a></p>
     </div>
     <div class="diagram in" id="diagram" aria-label="Diagramm: sechs Nutzer und die Kommune um ein gemeinsames Wasser, durch Linien verbunden. Alle sieben sind gleich dargestellt.">
       <svg viewBox="0 0 300 300">
