@@ -251,7 +251,7 @@
   var SZENARIEN=[
     {titel:'Hitzesommer – Wasser wird knapp',sym:'🌡️',
      lage:'Juli, 38 °C seit zwei Wochen. Der Grundwasserspiegel ist auf dem niedrigsten Stand seit 20 Jahren, der Fluss führt Niedrigwasser. Alle brauchen jetzt mehr Wasser als sonst.',
-     frage:'Der Landkreis muss entscheiden: Wer bekommt wie viel Wasser?',
+     frage:'…der Landkreis folgendermaßen entscheidet:',
      wahlen:[
       {id:'a',text:'Landwirtschaftliche Bewässerung um 50 % kürzen',folgen:{
         landwirtschaft:[-3,'Existenzbedrohend: Ernteausfälle bis zu 60 %, Betriebe sind gefährdet.'],
@@ -282,7 +282,7 @@
 
     {titel:'Neues Gewerbegebiet – Flächenkonflikt',sym:'🏗️',
      lage:'Ein großes Unternehmen will sich ansiedeln: 200 neue Arbeitsplätze, aber auf einer Fläche nahe dem Wasserschutzgebiet. Der Bebauungsplan liegt vor.',
-     frage:'Wie soll die Gemeinde entscheiden?',
+     frage:'…die Gemeinde folgendermaßen entscheidet:',
      wahlen:[
       {id:'a',text:'Ansiedlung genehmigen – die Wirtschaft hat Vorrang',folgen:{
         landwirtschaft:[-2,'Verliert fruchtbares Ackerland, der Flächenfraß setzt sich fort.'],
@@ -307,7 +307,7 @@
 
     {titel:'Wer zahlt für die Zukunft?',sym:'💶',
      lage:'Eine regionale Wasserstrategie soll erarbeitet werden. Es braucht ein Monitoring-System, neue Kooperationsstrukturen und Investitionen in die Infrastruktur. Gesamtkosten: 2,5 Mio. Euro über fünf Jahre.',
-     frage:'Wer soll die Kosten tragen?',
+     frage:'…die Kosten folgendermaßen getragen werden:',
      wahlen:[
       {id:'a',text:'Verursacherprinzip: Die größten Nutzungen zahlen am meisten',folgen:{
         landwirtschaft:[-3,'Als Hauptverbraucher überproportional belastet. Die Betriebe können das nicht stemmen.'],
@@ -435,7 +435,7 @@
         '<div class="sym" aria-hidden="true">'+s.sym+'</div>'+
         '<h2>'+sicher(s.titel)+'</h2><p>'+sicher(s.lage)+'</p></div>'+
       '<div class="erinnerung" style="color:var('+r.ton+')"><span aria-hidden="true">'+r.sym+'</span>'+
-        'Sie entscheiden als '+sicher(r.titel)+'</div>'+
+        'Aus der Perspektive '+sicher(r.titel)+' möchten Sie, dass</div>'+
       '<p class="frage">'+sicher(s.frage)+'</p>'+
       '<div class="wahlen">';
     s.wahlen.forEach(function(w){
@@ -519,7 +519,7 @@
       '<div class="karte erkenntnis">'+
         '<h3>Die zentrale Erkenntnis</h3>'+
         '<p>Dies war ein stark vereinfachtes Beispiel, um das Prinzip zu verdeutlichen. Die Wirklichkeit – und ein Planspiel für eine konkrete Region – ist weitaus komplexer. Aber auch hier zeigt sich schon: Es gibt keine Einzelentscheidung, die alle gleichermaßen zufriedenstellt. Isolierte Maßnahmen erzeugen Gewinner und Verlierer, und jeder Akteur bewertet dieselbe Entscheidung völlig anders.</p>'+
-        '<p>Genau deshalb braucht es Räume, in denen diese unterschiedlichen Perspektiven und die Wechselwirkungen einzelner Maßnahmen sichtbar werden, <b>bevor</b> Entscheidungen fallen. Das schafft die Grundlage für die Entwicklung miteinander abgestimmter Lösungen, die für alle tragbar sind.</p>'+
+        '<p>Genau deshalb braucht es Räume, in denen diese unterschiedlichen Perspektiven und die Wechselwirkungen einzelner Maßnahmen sichtbar werden, <b>bevor</b> Entscheidungen fallen. Das schafft die Grundlage für die Entwicklung miteinander abgestimmter Lösungen und Maßnahmen, die über reine Verteilungsfragen hinausgehen.</p>'+
         '<p>Das Projekt „Wassernutzer im Dialog“ schafft genau solche Räume – durch Simulation, Dialog und gemeinsames Lernen.</p>'+
       '</div>'+
       '<div class="btnzeile">'+
