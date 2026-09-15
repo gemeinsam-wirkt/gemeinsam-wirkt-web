@@ -2,7 +2,7 @@
 <html lang="de" class="js"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wasserplanspiel – Wer braucht hier eigentlich was?</title>
-<meta name="description" content="Ein kurzes Planspiel zur Wassernutzung: eine Rolle übernehmen, drei Entscheidungen treffen und sehen, wie sie auf alle anderen wirken.">
+<meta name="description" content="Ein kurzes Planspiel zur Wassernutzung: eine Rolle übernehmen, drei Wünsche festlegen und sehen, wie sie auf alle anderen wirken.">
 <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;💧&lt;/text&gt;&lt;/svg&gt;">
 <!-- Keine fremden Ressourcen: keine Google-Fonts, keine CDN-Skripte, keine
      extern verlinkten Bilder. Die Datei laeuft offline und laesst sich als
@@ -373,8 +373,8 @@
         '<h2>Wer braucht hier eigentlich was?</h2>'+
         '<p class="unter">Fünf Beteiligte, ein Wasservorrat, widersprüchliche Ansprüche</p>'+
         '<div class="karte">'+
-          '<p>In diesem kurzen Planspiel übernehmen Sie eine Rolle und treffen drei Entscheidungen. '+
-          'Nach jeder Entscheidung sehen Sie, wie sie auf alle anderen wirkt – und warum einfache Lösungen selten für alle funktionieren.</p>'+
+          '<p>In diesem kurzen Planspiel übernehmen Sie eine Rolle und legen dreimal fest, was Sie sich wünschen. '+
+          'Nach jedem Wunsch sehen Sie, wie er auf alle anderen wirkt – und warum einfache Lösungen selten für alle funktionieren.</p>'+
           '<p class="meta">Rund zehn Minuten · eine Rolle · drei Szenarien</p>'+
         '</div>'+
         '<div class="btnzeile"><button class="btn" type="button" id="losgehts">Planspiel starten</button></div>'+
@@ -443,7 +443,7 @@
         '<span class="kennung" aria-hidden="true">'+w.id.toUpperCase()+'</span>'+
         '<span>'+sicher(w.text)+'</span></button>';
     });
-    html+='</div><div class="btnzeile"><button class="btn" type="button" id="entscheiden" disabled>Entscheidung treffen</button></div>'+
+    html+='</div><div class="btnzeile"><button class="btn" type="button" id="entscheiden" disabled>Wunsch festlegen</button></div>'+
       '<div id="auswirkung"></div></div>';
     zeige(html);
 
@@ -468,7 +468,7 @@
     var s=SZENARIEN[nr], r=finde(rolle), w=null;
     s.wahlen.forEach(function(x){ if(x.id===wahlId) w=x; });
 
-    var html='<div class="abschnitt"><h3>Was Ihre Entscheidung auslöst</h3><div class="folgen">';
+    var html='<div class="abschnitt"><h3>Was Ihr Wunsch auslöst</h3><div class="folgen">';
     ROLLEN.forEach(function(o){
       var f=w.folgen[o.id];
       html+='<div class="folge'+(o.id===rolle?' selbst':'')+'" style="--rf:var('+o.ton+')">'+
@@ -505,7 +505,7 @@
     var sortiert=ROLLEN.slice().sort(function(a,b){ return summen[b.id]-summen[a.id]; });
 
     var html='<div class="zentriert"><h2>Ihre Bilanz als '+sicher(r.name)+'</h2>'+
-      '<p class="muted">So haben Ihre drei Entscheidungen auf alle Beteiligten gewirkt.</p></div>'+
+      '<p class="muted">So hätten Ihre drei Wünsche auf alle Beteiligten gewirkt.</p></div>'+
       '<div class="karte"><div class="bilanz">';
     sortiert.forEach(function(o,i){
       var summe=summen[o.id], breite=Math.min(Math.abs(summe)*15,100);
