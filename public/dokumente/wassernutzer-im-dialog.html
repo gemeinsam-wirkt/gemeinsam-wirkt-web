@@ -174,16 +174,16 @@
 
   /* hero animation */
   @keyframes tilt{
-    0%,20%{transform:rotate(0deg)} 36%{transform:rotate(9deg)} 48%{transform:rotate(-11deg)}
-    60%,68%{transform:rotate(15deg)} 82%,100%{transform:rotate(0deg)}
+    0%{transform:rotate(0deg)} 20%{transform:rotate(9deg)} 35%{transform:rotate(-11deg)}
+    50%,60%{transform:rotate(15deg)} 78%,100%{transform:rotate(0deg)}
   }
   @keyframes sink{
-    0%,20%{transform:translateY(0)} 36%{transform:translateY(6px)} 60%,68%{transform:translateY(15px)}
-    82%,100%{transform:translateY(0)}
+    0%{transform:translateY(0)} 20%{transform:translateY(6px)} 50%,60%{transform:translateY(15px)}
+    78%,100%{transform:translateY(0)}
   }
   @keyframes sunpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-  #beamGroup{transform-box:view-box;transform-origin:400px 208px;animation:tilt 15s ease-in-out infinite}
-  #waterGroup{transform-box:view-box;transform-origin:center;animation:sink 15s ease-in-out infinite}
+  #beamGroup{transform-box:view-box;transform-origin:400px 208px;animation:tilt 26s ease-in-out infinite}
+  #waterGroup{transform-box:view-box;transform-origin:center;animation:sink 26s ease-in-out infinite}
   #sun{transform-box:view-box;transform-origin:648px 74px;animation:sunpulse 6s ease-in-out infinite}
   @media (prefers-reduced-motion:reduce){
     #beamGroup,#waterGroup,#sun{animation:none}
