@@ -81,10 +81,14 @@
   .src{font-size:12.5px;color:var(--muted);margin-top:6px}
 
   /* Verweis auf das Planspiel */
-  .more{display:inline-block;font-weight:600;
-    border-bottom:1px solid color-mix(in srgb,var(--accent) 45%,transparent);padding-bottom:1px}
-  .more:hover{border-bottom-color:var(--accent)}
-  .more:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+  .btn{display:inline-block;font-family:var(--sans);font-weight:600;font-size:16px;line-height:1.3;
+    background:var(--accent);color:var(--bg);border:1px solid var(--accent);border-radius:10px;
+    padding:14px 28px;box-shadow:0 2px 12px color-mix(in srgb,var(--accent) 24%,transparent);
+    transition:filter .2s ease,transform .2s ease}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){.btn{transition:none}.btn:hover{transform:none}}
+  .btnzeile{margin-top:22px}
 
   /* idea diagram */
   .diagram{width:100%;max-width:380px;margin:0 auto}
@@ -308,7 +312,8 @@
       <h2 class="reveal in">Jede Entnahme wirkt auf alle</h2>
       <p class="lead reveal in">Wasser ist kein Vorrat, den jeder für sich leert, sondern ein gemeinsames System: Was der eine entnimmt, verändert die Lage für alle anderen. Wenn niemand darüber spricht, kippt die Balance eines Tages.</p>
       <p class="reveal in">Ein Planspiel macht diese Wechselwirkungen erfahrbar. Methoden des Kooperationsmanagements machen aus Einsicht Zusammenarbeit. So entsteht eine gemeinsame Plattform, die die Gruppen zusammenbringt. Das ist eine Governance-Antwort, die die technische Seite ergänzt und umsetzbar macht.</p>
-      <p class="reveal in"><a class="more" href="wasserplanspiel.html">Erproben Sie in diesem Planspiel an einem vereinfachten Beispiel die Wechselwirkungen verschiedener Wassernutzungsstrategien →</a></p>
+      <p class="reveal in">Erproben Sie an einem vereinfachten Beispiel, wie verschiedene Wassernutzungsstrategien aufeinander wirken.</p>
+      <p class="btnzeile reveal in"><a class="btn" href="wasserplanspiel.html">Zum Planspiel →</a></p>
     </div>
     <div class="diagram in" id="diagram" aria-label="Diagramm: sechs Nutzer und die Kommune um ein gemeinsames Wasser, durch Linien verbunden. Alle sieben sind gleich dargestellt.">
       <svg viewBox="0 0 300 300">
