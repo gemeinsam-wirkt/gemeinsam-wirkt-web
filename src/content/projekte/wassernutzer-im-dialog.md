@@ -8,4 +8,4 @@ dokument: /dokumente/wassernutzer-im-dialog.html
 draft: false
 ---
 
-gemeinsam wirkt ist Partner in diesem Projekt, das für den Deutschen Preis für Unternehmensengagement 2026 unter Leitung von cinco.systems nominiert ist https://unternehmensengagementpreis.de/shortlist/
+gemeinsam wirkt ist Partner in diesem Projekt, das für den Deutschen Preis für Unternehmensengagement 2026 unter Leitung von cinco.systems nominiert ist [https://unternehmensengagementpreis.de/shortlist/](https://unternehmensengagementpreis.de/shortlist/)
