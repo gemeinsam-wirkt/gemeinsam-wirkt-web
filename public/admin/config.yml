@@ -24,13 +24,15 @@ media_folder: public/uploads
 public_folder: /uploads
 
 # --- Mehrsprachigkeit: DE jetzt, EN strukturell vorbereitet ---
-# Locales sind deklariert (i18n-fähig). Die feldweise Übersetzung wird erst
-# aktiviert, wenn EN-Inhalte geschrieben werden – bis dahin bleiben die
-# Markdown-Dateien flach (CLAUDE.md, Abschnitt 7).
-i18n:
-  structure: single_file
-  locales: [de, en]
-  default_locale: de
+# Die feldweise Übersetzung wird erst aktiviert, wenn EN-Inhalte geschrieben
+# werden – bis dahin bleiben die Markdown-Dateien flach (CLAUDE.md, Abschnitt 7).
+# Neuere Sveltia-Versionen brechen mit einem Fehler ab, wenn der Block aktiv ist,
+# aber keine Collection `i18n: true` trägt. Zum Aktivieren: Block wieder
+# einkommentieren UND bei den zu übersetzenden Collections `i18n: true` setzen.
+# i18n:
+#   structure: single_file
+#   locales: [de, en]
+#   default_locale: de
 
 # --- Dateinamen (Slugs) ---
 # Ohne identifier_field sucht das CMS ein Feld namens "title" und vergibt, wenn es
