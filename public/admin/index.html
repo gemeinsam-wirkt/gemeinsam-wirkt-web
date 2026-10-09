@@ -12,7 +12,12 @@
       Sveltia CMS (Decap-/Netlify-CMS-Nachfolger).
       Konfiguration steht in ./config.yml.
       Der Login läuft über ein kleines OAuth-Backend (GitHub) – siehe config.yml.
+
+      Version bewusst fest eingetragen: Ohne Versionsnummer lädt unpkg immer
+      die neueste Version, und eine neue Version hat schon einmal das CMS
+      lahmgelegt (Oktober 2026, i18n-Prüfung). Zum Aktualisieren die Nummer
+      hier ändern und /admin danach kurz testen.
     -->
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <script src="https://unpkg.com/@sveltia/cms@0.233.0/dist/sveltia-cms.js"></script>
   </body>
 </html>
